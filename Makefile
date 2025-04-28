@@ -6,24 +6,30 @@ RED = \033[0;31m
 RESET = \033[0m
 
 CFLAGS = -Wall -Werror -Wextra
-
+FMLX = -I/usr/include -Iminilibx-linux
+LINKMLX = -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz
 SOURCES = ./main.c
 
 LIBFT = libft/libft.a
+MLX = minilibx-linux/libmlx.a
 SRCDIR = src
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/, $(SOURCES:.c=.o))
 
 all: $(NAME)
 
-$(NAME):	$(LIBFT) $(OBJS)
+$(NAME):	$(LIBFT) $(MLX) $(OBJS)
 	@echo "${YELLOW}Compiling program...${RESET}"
-	@cc ${CFLAGS} ${OBJS} -o ${NAME} $(LIBFT)
+	@cc ${CFLAGS} ${FMLX} ${OBJS} ${LINKMLX} -o ${NAME} $(LIBFT)
 	@echo "${GREEN}Compilation success !${RESET}"
 
 $(LIBFT):
 	@echo "${YELLOW}Building libft...${RESET}"
 	@make -s -C libft all
+
+$(MLX):
+	@echo "$(YELLOW)Building minilibx...$(RESET)"
+	@make -s -C minilibx-linux all
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
@@ -37,5 +43,6 @@ fclean: clean
 	@echo "$(RED)Cleaning all...$(RESET)"
 	@rm -f $(NAME) obj
 	@make -s -C libft fclean
+	@make -s -C minilibx-linux clean
 
 re: fclean all
