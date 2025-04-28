@@ -1,0 +1,6 @@
+*.o
+cub3D
+README.md
+obj
+obj/*.o
+libft/libft.a
