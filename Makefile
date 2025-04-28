@@ -18,10 +18,11 @@ all: $(NAME)
 
 $(NAME):	$(LIBFT) $(OBJS)
 	@echo "${YELLOW}Compiling program...${RESET}"
-	@cc ${CFLAGS} ${OBJS} -o ${NAME}
+	@cc ${CFLAGS} ${OBJS} -o ${NAME} $(LIBFT)
 	@echo "${GREEN}Compilation success !${RESET}"
 
 $(LIBFT):
+	@echo "${YELLOW}Building libft...${RESET}"
 	@make -s -C libft all
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c

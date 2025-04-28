@@ -7,7 +7,8 @@ LIBC	= \
 		ft_memcmp.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c \
 		ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
 		ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_strnjoin.c \
-		get_next_line_bonus.c get_next_line_utils_bonus.c \
+		get_next_line_bonus.c get_next_line_utils_bonus.c free_split.c ft_printf.c \
+		ft_len.c ft_utilities.c ft_strcmp.c ft_isspace.c \
 
 BONUS	= \
 		ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
@@ -21,8 +22,6 @@ SRCSALL = ${LIBC} ${BONUS}
 OBJS	= ${SRCS:.c=.o}
 
 OBJSALL	= ${SRCSALL:.c=.o}
-
-PRINTF = ft_printf/ft_printf.a
 
 GREEN = \033[0;32m
 RED = \033[0;31m
@@ -39,18 +38,14 @@ all:		bonus
 .c.o:
 	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 		
-${NAME}:	${OBJS} ${PRINTF}
-	@${AR} ${NAME} ${OBJS} ${PRINTF} -s
+${NAME}:	${OBJS}
+	@${AR} ${NAME} ${OBJS} -s
 
-${PRINTF}:	
-	@make -s -C ft_printf all
-
-bonus:		${OBJSALL} ${PRINTF}
-	@${AR} ${NAME} ${OBJSALL} ${PRINTF}
+bonus:		${OBJSALL}
+	@${AR} ${NAME} ${OBJSALL}
 
 clean:
 	@${RM} ${OBJSALL}
-	@make -s -C ft_printf fclean
 		
 fclean:		clean
 	@${RM} ${NAME}

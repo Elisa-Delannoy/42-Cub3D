@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/12 14:08:47 by nrontard          #+#    #+#             */
-/*   Updated: 2025/03/28 11:23:10 by edelanno         ###   ########.fr       */
+/*   Created: 2025/02/25 12:03:27 by nrontard          #+#    #+#             */
+/*   Updated: 2025/03/31 18:05:04 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+void	free_split(char **str)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (str[i])
+	{
+		free(str[i]);
 		i++;
-	return (i);
+	}
+	free(str);
 }
-
-// #include <stdio.h>
-
-// int main(void)
-// {
-// 	printf("%zu\n", ft_strlen("Test"));
-// 	printf("%zu\n", ft_strlen("Gros TeST !"));
-// 	printf("%zu\n", ft_strlen(""));
-// }

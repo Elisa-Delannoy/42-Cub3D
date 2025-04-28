@@ -2,6 +2,6 @@
 
 int main(void)
 {
-	printf("prout");
+	ft_printf("prout");
 	return (0);
 }
