@@ -8,7 +8,7 @@ RESET = \033[0m
 CFLAGS = -Wall -Werror -Wextra
 FMLX = -I/usr/include -Iminilibx-linux
 LINKMLX = -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz
-SOURCES = ./main.c
+SOURCES = ./init_free.c ./main.c ./parse.c ./utils.c 
 
 LIBFT = libft/libft.a
 MLX = minilibx-linux/libmlx.a
