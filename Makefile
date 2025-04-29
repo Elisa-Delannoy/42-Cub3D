@@ -5,10 +5,10 @@ YELLOW = \033[0;33m
 RED = \033[0;31m
 RESET = \033[0m
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 FMLX = -I/usr/include -Iminilibx-linux
 LINKMLX = -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz
-SOURCES = ./init_free.c ./main.c ./parse.c ./utils.c 
+SOURCES = ./check_first_part_file.c ./check_map.c ./init_free.c ./main.c ./parse.c ./utils.c 
 
 LIBFT = libft/libft.a
 MLX = minilibx-linux/libmlx.a

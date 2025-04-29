@@ -9,7 +9,7 @@ void	ft_print_lst(t_map *map)
 	temp = map->lst_map;
 	while (temp)
 	{
-		printf("test = %s", (char *)temp->content);
+		printf("%s", (char *)temp->content);
 		temp = temp->next;
 	}
 }
