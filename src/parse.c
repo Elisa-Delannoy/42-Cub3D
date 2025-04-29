@@ -46,10 +46,11 @@ int main(int argc, char **argv)
 		return (1);
 	ft_init_map(&map);
 	ft_read_map(&map, argv);
-	ft_print_lst(&map);
+	// ft_print_lst(&map);
 	if (ft_map_into_tab(&map) == NULL)
 		return (ft_free_all(&map), 1);
 	ft_print_tab(&map);
+	printf ("check instruc = %d", ft_check_instruct(&map));
 	ft_free_all(&map);
 	return (0);
 }

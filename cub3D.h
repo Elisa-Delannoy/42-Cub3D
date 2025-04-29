@@ -25,6 +25,12 @@ typedef struct s_map
 {
 	t_list	*lst_map;
 	char	**map;
+	int		no;
+	int		so;
+	int		we;
+	int		ea;
+	int		f;
+	int		c;
 }	t_map;
 
 
@@ -38,5 +44,9 @@ void	ft_print_tab(t_map *map); /*a supp un jour*/
 // init free
 void	ft_init_map(t_map *map);
 void	ft_free_all(t_map *map);
+
+
+// check first part
+int	ft_check_instruct(t_map *map);
 
 #endif
