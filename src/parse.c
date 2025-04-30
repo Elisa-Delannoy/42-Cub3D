@@ -53,7 +53,7 @@ t_map	*ft_parse(int argc, char **argv)
 	if (ft_map_into_tab(map) == NULL)
 		return (ft_free_all(map), NULL);
 	// ft_print_tab(map);
-	// printf ("check instruc = %d", ft_check_instruct(map));
+	printf ("check instruc = %d", ft_check_instruct(map));
 	return (map);
 }
 

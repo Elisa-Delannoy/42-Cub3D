@@ -39,5 +39,7 @@ void	ft_free_all(t_map *map)
 	ft_lstclear(&map->lst_map, free);
 	if (map->tab_map)
 		free_split(map->tab_map);
+	if (map->no)
+		free(map->no);
 	free(map);
 }

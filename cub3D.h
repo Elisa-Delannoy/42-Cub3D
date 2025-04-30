@@ -76,4 +76,8 @@ void	ft_check_ascii(t_map *map, int *i);
 // mini_map
 void	make_minimap(t_var *var);
 
+
+
+int	ft_is_coordinates(t_map *map,int i, int *j);
+
 #endif
