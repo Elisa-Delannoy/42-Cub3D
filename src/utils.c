@@ -22,7 +22,7 @@ void	ft_print_tab(t_map *map)
 	i = 0;
 	while (map->map[i])
 	{
-		printf("%s", map->map[i]);
+		printf("%s$\n", map->map[i]);
 		i++;
 	}
 }
