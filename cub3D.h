@@ -13,6 +13,13 @@ typedef struct s_player
 	double dir;
 } t_player;
 
+typedef struct s_img
+{
+	char	*data_img;
+	int 	bits_per_pixel;
+	int 	size_line;
+	int		endian;
+}	t_img;
 
 typedef struct s_map
 {
@@ -39,6 +46,7 @@ typedef struct s_var
 {
 	void	*mlx;
 	void	*win;
+	t_img		*img;
 	t_player	*player;
 	t_map		*map;
 
@@ -58,7 +66,7 @@ t_map 	*ft_parse(int argc, char **argv);
 // init free
 t_map	*ft_init_map(void);
 void	ft_free_all(t_map *map);
-
+t_img	*init_img(void);
 
 // check first part
 int		ft_check_instruct(t_map *map);

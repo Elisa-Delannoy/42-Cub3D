@@ -23,6 +23,17 @@ t_map	*ft_init_map(void)
 	return (map);
 }
 
+t_img	*init_img(void)
+{
+	t_img	*img;
+	img = malloc(sizeof(t_img));
+	img->bits_per_pixel = 0;
+	img->data_img = NULL;
+	img->endian = 0;
+	img->size_line = 0;
+	return (img);
+}
+
 void	ft_free_all(t_map *map)
 {
 	ft_lstclear(&map->lst_map, free);
