@@ -1,9 +1,12 @@
 #include "../cub3D.h"
 
-void	ft_init_map(t_map *map)
+t_map	*ft_init_map(void)
 {
+	t_map	*map;
+
+	map = malloc(sizeof(t_map));
 	map->lst_map = NULL;
-	map->map = NULL;
+	map->tab_map = NULL;
 	map->c_no = 0;
 	map->c_so = 0;
 	map->c_we = 0;
@@ -17,11 +20,13 @@ void	ft_init_map(t_map *map)
 	map->f = NULL;
 	map->c = NULL;
 	map->height = 0;
+	return (map);
 }
 
 void	ft_free_all(t_map *map)
 {
 	ft_lstclear(&map->lst_map, free);
-	if (map->map)
-		free_split(map->map);
+	if (map->tab_map)
+		free_split(map->tab_map);
+	free(map);
 }

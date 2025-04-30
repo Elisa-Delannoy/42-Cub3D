@@ -17,7 +17,7 @@ typedef struct s_player
 typedef struct s_map
 {
 	t_list	*lst_map;
-	char	**map;
+	char	**tab_map;
 	int		c_no;
 	int		c_so;
 	int		c_we;
@@ -53,15 +53,19 @@ void	ft_print_tab(t_map *map); /*a supp un jour*/
 
 
 // parse
-int 	ft_parse(t_map *map, int argc, char **argv);
+t_map 	*ft_parse(int argc, char **argv);
 
 // init free
-void	ft_init_map(t_map *map);
+t_map	*ft_init_map(void);
 void	ft_free_all(t_map *map);
 
 
 // check first part
 int		ft_check_instruct(t_map *map);
 void	ft_check_ascii(t_map *map, int *i);
+
+
+// mini_map
+void	make_minimap(t_var *var);
 
 #endif

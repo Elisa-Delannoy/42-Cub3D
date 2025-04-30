@@ -20,9 +20,9 @@ void	ft_print_tab(t_map *map)
 	int	i;
 
 	i = 0;
-	while (map->map[i])
+	while (map->tab_map[i])
 	{
-		printf("%s$\n", map->map[i]);
+		printf("%s$\n", map->tab_map[i]);
 		i++;
 	}
 }

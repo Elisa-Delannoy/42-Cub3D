@@ -15,7 +15,7 @@ int	setup_window(t_var *var)
 	var->mlx = mlx_init();
 	var->win = mlx_new_window(var->mlx, 1920, 1080, "Exit the cavern !");
 	mlx_hook(var->win, 17, 0, clear_all, var);
-
+	make_minimap(var);
 	// mlx_hook(var->win, 2, 1L << 0, key_hook, g);
 	mlx_loop(var->mlx);
 	return (0);
