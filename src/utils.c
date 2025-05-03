@@ -15,14 +15,14 @@ void	ft_print_lst(t_map *map)
 }
 
 // POUR TESTER - A SUPP QD PLUS BESOIN
-void	ft_print_tab(t_map *map)
+void	ft_print_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
-	while (map->tab_file[i])
+	while (tab[i])
 	{
-		printf("%s$\n", map->tab_file[i]);
+		printf("%s$\n", tab[i]);
 		i++;
 	}
 }

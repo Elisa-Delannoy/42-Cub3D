@@ -48,10 +48,10 @@ t_map	*ft_parse(int argc, char **argv)
 		return (NULL);
 	map = ft_init_map();
 	if (ft_read_map(map, argv) == 1)
-		return (ft_free_all(map), exit (1), NULL);
+		return (ft_free_all(map), exit(1), NULL);
 	// ft_print_lst(map);
 	if (ft_map_into_tab(map) == NULL)
-		return (ft_free_all(map), exit (1), NULL);
+		return (ft_free_all(map), exit(1), NULL);
 	// ft_print_tab(map);
 	ft_check_instruct(map);
 	return (map);
