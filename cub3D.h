@@ -24,6 +24,7 @@ typedef struct s_img
 typedef struct s_map
 {
 	t_list	*lst_map;
+	char	**tab_file;
 	char	**tab_map;
 	int		c_no;
 	int		c_so;
@@ -35,8 +36,8 @@ typedef struct s_map
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	*f;
-	char 	*c;
+	char	**f;
+	char 	**c;
 	int		height;
 	int		i_begin_map;
 
@@ -58,6 +59,7 @@ int		setup_window(t_var *var);
 // utils
 void	ft_print_lst(t_map *map); /*a supp un jour*/
 void	ft_print_tab(t_map *map); /*a supp un jour*/
+int		ft_check_space(t_map *map, int i, int j);
 
 
 // parse
@@ -71,13 +73,24 @@ t_img	*init_img(void);
 // check first part
 int		ft_check_instruct(t_map *map);
 void	ft_check_ascii(t_map *map, int *i);
+int		ft_is_coordinates(t_map *map,int i, int *j);
+char	*check_texture(t_map *map, int i, int *j);
 
 
 // mini_map
 void	make_minimap(t_var *var);
 
-
-
+// cooridnates
+// void	no(t_map *map, int i, int *j);
+// void	so(t_map *map, int i, int *j);
+// void	ea(t_map *map, int i, int *j);
+// void	we(t_map *map, int i, int *j);
 int	ft_is_coordinates(t_map *map,int i, int *j);
+
+// colors
+// void	color_f(t_map *map, int i, int *j);
+// void	color_c(t_map *map, int i, int *j);
+int	ft_is_color(t_map *map, int i, int *j);
+
 
 #endif

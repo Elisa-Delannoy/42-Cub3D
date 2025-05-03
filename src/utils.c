@@ -20,9 +20,16 @@ void	ft_print_tab(t_map *map)
 	int	i;
 
 	i = 0;
-	while (map->tab_map[i])
+	while (map->tab_file[i])
 	{
-		printf("%s$\n", map->tab_map[i]);
+		printf("%s$\n", map->tab_file[i]);
 		i++;
 	}
+}
+
+int	ft_check_space(t_map *map, int i, int j)
+{
+	if (map->tab_file[i][j] == ' ')
+		return (0);
+	return (1);
 }

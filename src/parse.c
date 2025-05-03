@@ -26,18 +26,18 @@ char	**ft_map_into_tab(t_map	*map)
 	t_list	*temp;
 
 	i = 0;
-	map->tab_map = malloc((ft_lstsize(map->lst_map) + 1) * sizeof(char *));
-	if (!map->tab_map)
+	map->tab_file = malloc((ft_lstsize(map->lst_map) + 1) * sizeof(char *));
+	if (!map->tab_file)
 		return (NULL);
 	temp = map->lst_map;
 	while (temp)
 	{
-		map->tab_map[i] = ft_strdup((char *)temp->content);
+		map->tab_file[i] = ft_strdup((char *)temp->content);
 		temp = temp->next;
 		i++;
 	}
-	map->tab_map[i] = 0;
-	return (map->tab_map);
+	map->tab_file[i] = 0;
+	return (map->tab_file);
 }
 
 t_map	*ft_parse(int argc, char **argv)
@@ -48,12 +48,12 @@ t_map	*ft_parse(int argc, char **argv)
 		return (NULL);
 	map = ft_init_map();
 	if (ft_read_map(map, argv) == 1)
-		return (NULL);
+		return (ft_free_all(map), exit (1), NULL);
 	// ft_print_lst(map);
 	if (ft_map_into_tab(map) == NULL)
-		return (ft_free_all(map), NULL);
+		return (ft_free_all(map), exit (1), NULL);
 	// ft_print_tab(map);
-	printf ("check instruc = %d", ft_check_instruct(map));
+	ft_check_instruct(map);
 	return (map);
 }
 

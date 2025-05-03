@@ -47,14 +47,14 @@ void	make_minimap(t_var *var)
 	var->img = init_img();
 	img = mlx_new_image(var->mlx, 1920, 1080);
 	var->img->data_img = mlx_get_data_addr(img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
-	while (var->map->tab_map[y])
+	while (var->map->tab_file[y])
 	{
 		i = 0;
-		while (var->map->tab_map[y][i])
+		while (var->map->tab_file[y][i])
 		{
-			if (var->map->tab_map[y][i] == '1')
+			if (var->map->tab_file[y][i] == '1')
 				draw(var->img, 255, 1920 - ((34 - i) * 20), 1080 - ((14 - y) * 20));
-			if (var->map->tab_map[y][i] == '0')
+			if (var->map->tab_file[y][i] == '0')
 				draw(var->img, 0, 1920 - ((34 - i) * 20), 1080 - ((14 - y) * 20));
 			i++;
 		}

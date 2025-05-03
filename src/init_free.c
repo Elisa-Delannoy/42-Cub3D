@@ -6,6 +6,7 @@ t_map	*ft_init_map(void)
 
 	map = malloc(sizeof(t_map));
 	map->lst_map = NULL;
+	map->tab_file = NULL;
 	map->tab_map = NULL;
 	map->c_no = 0;
 	map->c_so = 0;
@@ -37,9 +38,21 @@ t_img	*init_img(void)
 void	ft_free_all(t_map *map)
 {
 	ft_lstclear(&map->lst_map, free);
+	if (map->tab_file)
+		free_split(map->tab_file);
 	if (map->tab_map)
 		free_split(map->tab_map);
 	if (map->no)
 		free(map->no);
+	if (map->so)
+		free(map->so);
+	if (map->we)
+		free(map->we);
+	if (map->ea)
+		free(map->ea);
+	if (map->f)
+		free_split(map->f);
+	if (map->c)
+		free_split(map->c);
 	free(map);
 }
