@@ -102,7 +102,7 @@ void	check_map(t_var *var, int *i);
 
 // mini_map
 void	make_minimap(t_var *var);
-void	draw_player(t_img *img, int color, int i, int y);
+void	draw_player(t_var *var, int color, int i, int y);
 
 // cooridnates
 int	ft_is_coordinates(t_map *map,int i, int *j);

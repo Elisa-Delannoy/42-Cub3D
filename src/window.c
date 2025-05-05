@@ -18,7 +18,7 @@ int	gameplay(t_var *var)
 	{
 		var->count = 0;
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, 0, 0);
-		draw_player(var->img, 0xFF0140, 1920 - ((34 - var->player->y - 0.75) * 20), 1080 - ((14 - var->player->x - 0.75) * 20));
+		draw_player(var, 0xFF0140, 1920 - ((34 - var->player->y - 0.75) * 20), 1080 - ((14 - var->player->x - 0.75) * 20));
 	}
 	return(0);
 }

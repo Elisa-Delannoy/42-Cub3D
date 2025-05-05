@@ -1,10 +1,10 @@
 #include "../cub3D.h"
 
-void	draw_player(t_img *img, int color, int i, int y)
+void	draw_player(t_var *var, int color, int i, int y)
 {
 	int save_i;
 	int save_y;
-	char *ptr;
+	// char *ptr;
 	
 	save_i = i;
 	save_y = y;
@@ -13,8 +13,9 @@ void	draw_player(t_img *img, int color, int i, int y)
 		i = save_i;
 		while (i-- > save_i - 10)
 		{
-			ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
-			*(int *)ptr = color;
+			mlx_pixel_put(var->mlx, var->win, i, y, color);
+			// ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
+			// *(int *)ptr = color;
 		}
 		y--;
 	}
