@@ -22,6 +22,18 @@ int	gameplay(t_var *var)
 	}
 	return(0);
 }
+// noah a supp elisa a garder
+// int	check_wall(t_var *var)
+// {
+// 	float	x;		
+// 	float	y;
+// 	(void)var;
+// 	x = var->player->x + 0.1;
+// 	y = 2.1;
+// 	printf("%d", (int)x);
+// 	printf("%d", (int)var->player->x);
+// 	return (0);
+// }
 
 int	key_hook(int keycode, t_var *var)
 {
