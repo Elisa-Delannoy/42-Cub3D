@@ -28,6 +28,7 @@ t_img	*init_img(void)
 {
 	t_img	*img;
 	img = malloc(sizeof(t_img));
+	img->img = NULL;
 	img->bits_per_pixel = 0;
 	img->data_img = NULL;
 	img->endian = 0;

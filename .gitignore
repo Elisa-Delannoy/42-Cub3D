@@ -5,3 +5,4 @@ obj
 obj/*.o
 libft/libft.a
 minilibx-linux
+*.xpm

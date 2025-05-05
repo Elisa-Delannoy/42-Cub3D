@@ -40,21 +40,22 @@ char	**ft_map_into_tab(t_map	*map)
 	return (map->tab_file);
 }
 
-t_map	*ft_parse(int argc, char **argv)
+void	ft_parse(int argc, char **argv, t_var *var)
 {
 	t_map *map;
 
 	if (argc != 2)
-		return (NULL);
+		return ;
 	map = ft_init_map();
 	if (ft_read_map(map, argv) == 1)
-		return (ft_free_all(map), exit(1), NULL);
+		return (ft_free_all(map), exit(1));
 	// ft_print_lst(map);
 	if (ft_map_into_tab(map) == NULL)
-		return (ft_free_all(map), exit(1), NULL);
+		return (ft_free_all(map), exit(1));
 	// ft_print_tab(map);
-	ft_check_instruct(map);
-	return (map);
+	var->map = map;
+	ft_check_instruct(var);
+	// return (map);
 }
 
 

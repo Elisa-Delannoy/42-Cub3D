@@ -70,21 +70,22 @@ void	check_coordinate_and_color(t_map *map, int i, int *j)
 	}
 }
 
-int	ft_check_instruct(t_map *map)
+int	ft_check_instruct(t_var *var)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (map->tab_file[i])
+	while (var->map->tab_file[i])
 	{
 		j = 0;
-		check_coordinate_and_color(map, i, &j);
-		if (ft_one_instruct(map) == 1)
+		check_coordinate_and_color(var->map, i, &j);
+		if (ft_one_instruct(var->map) == 1)
 			return (ft_putstr_fd("Error : duplicate instructions\n", 2),
-				ft_free_all(map), exit(3), 3); 
-		if (ft_one_instruct(map) == 0 && check_btw_instruct_map(map, &i) == 0)
-			return (check_map(map, &i), 0);
+				ft_free_all(var->map), exit(3), 3); 
+		if (ft_one_instruct(var->map) == 0
+				&& check_btw_instruct_map(var->map, &i) == 0)
+			return (check_map(var, &i), 0);
 		i++;
 	}
 	return (1);
