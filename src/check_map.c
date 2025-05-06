@@ -33,7 +33,7 @@ void	init_player(t_var *var, int x, int y)
 		var->player->dir = radian(EAST);
 	if (var->map->tab_map[x][y] == 'W')
 		var->player->dir = radian(WEAST);
-	var->player->fov = radian(90);
+	var->player->fov = radian(45);
 }
 
 

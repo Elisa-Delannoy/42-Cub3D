@@ -20,46 +20,77 @@ void	draw_player(t_var *var, int color, int i, int y)
 	}
 }
 
-// void	find_wall_ray(t_var *var)
-// {
-// 	double ray_x = var->player->y;
-// 	double ray_y = var->player->x;
-// 	double step_size = 0.01;
+void	find_wall_ray(t_var *var, int type)
+{
+	int new_x;
+	int new_y;
+	int ya;
+	int xa;
+	int num_rays = 50;
+	float ray_step = var->player->fov / num_rays;
+	float ray_angle;
+	int i = 0;
 
-// 	while (var->map->tab_map[(int)ray_y][(int)ray_x] != '1')
-// 	{
-// 		ray_x += cos(radian(110)) * step_size;
-// 		ray_y += sin(radian(110)) * step_size;
-// 	}
-// 	draw_dir(var, ((34 - ray_x) * 20), ((14 - ray_y) * 20), 0xFF0140);
-// }
+	while (i++ < num_rays)
+	{
+		ray_angle = var->player->dir - (var->player->fov / 2) + i * ray_step;
+		printf ("%f\n", ray_angle);
+		xa = cos(ray_angle) * type;
+		ya = sin(ray_angle) * type;
+		new_x = var->player->map_x;
+		new_y = var->player->map_y;
+		// if (ya < 0)
+		// 	new_y = ((int)(var->player->map_y / type) * type) - 1;
+		// else if (ya > 0)
+		// 	new_y = ((int)(var->player->map_y / type) * type) + type;
+		// new_x = var->player->map_x + ((var->player->map_y - new_y) / tan(ray_angle));
+		while (var->map->tab_map[(new_x / type)] != 0
+			&& var->map->tab_map[(new_x / type)][(new_y / type)] != 0
+			&& var->map->tab_map[(new_x / type)][(new_y / type)] != '1')
+		{
+			new_x = new_x + xa;
+			new_y = new_y + ya;
+		}
+		if (var->map->tab_map[(int)(new_x / type)][(int)(new_y / type)] == '1')
+			draw_dir(var, new_x, new_y, 0xFFFFFF);
+	}
+}
 
-// void	draw_dir(t_var *var, int x1, int y1, int color)
-// {
-// 	int x0;
-// 	int y0;
-//     int dx;
-//     int dy;
-//     int sx = (var->player->x < x1) ? 1 : -1;
-//     int sy = (var->player->y < y1) ? 1 : -1;
-//     int err;
-//     int e2;
+void	my_put_pixel(t_img *img, int y, int i, int color)
+{
+	char	*ptr;
+	
+	ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
+	*(int *)ptr = color;
+}
 
-// 	x0 = ((34 - var->player->y - 0.5) * 20);
-// 	y0 = ((14 - var->player->x - 0.5) * 20);
-// 	dx = abs(x1 - x0);
-// 	dy = abs(y1 - y0);
-// 	err = dx - dy;
-//     while (1)
-//     {
-//        mlx_pixel_put(var->mlx, var->win, x0, y0, color);
-//  		if (x0 == x1 && y0 == y1)
-//             break;
-//         e2 = 2 * err;
-//         if (e2 > -dy) { err -= dy; x0 += sx; }
-//         if (e2 < dx)  { err += dx; y0 += sy; }
-//     }
-// }
+void	draw_dir(t_var *var, int x1, int y1, int color)
+{
+	int x0;
+	int y0;
+    int dx;
+    int dy;
+
+    int sx = (var->player->map_x < x1) ? 1 : -1;
+    int sy = (var->player->map_y < y1) ? 1 : -1;
+    int err;
+    int e2;
+
+	x0 = var->player->map_x;
+	y0 = var->player->map_y;
+	dx = abs(x1 - x0);
+	dy = abs(y1 - y0);
+	err = dx - dy;
+    while (1)
+    {
+       my_put_pixel(var->img, x0, y0, color);
+ 		if (x0 == x1 && y0 == y1)
+            break;
+        e2 = 2 * err;
+        if (e2 > -dy) { err -= dy; x0 += sx; }
+        if (e2 < dx)  { err += dx; y0 += sy; }
+    }
+}
 
 void	draw_map(t_img *img, int color, int i, int y)
 {
