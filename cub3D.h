@@ -22,15 +22,20 @@ typedef enum e_key
 	LEFT = 97,
 	UP = 119,
 	DOWN = 115,
+	TURN_L = 65361,
+	TURN_R = 65363,
 	ESC = 65307
 }				t_key;
 
 typedef struct s_player
 {
-	float		 x;
-	float		 y;
-	double dir;
-} t_player;
+	float	game_x;
+	float	game_y;
+	float	map_x;
+	float	map_y;
+	double	dir;
+	float	fov;
+}	t_player;
 
 typedef struct s_img
 {
@@ -99,10 +104,13 @@ char	*check_texture(t_map *map, int i, int *j);
 
 // check map
 void	check_map(t_var *var, int *i);
+float	radian(int degree);
 
 // mini_map
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
+void	draw_dir(t_var *var, int x1, int y1, int color);
+void	find_wall_ray(t_var *var);
 
 // cooridnates
 int	ft_is_coordinates(t_map *map,int i, int *j);

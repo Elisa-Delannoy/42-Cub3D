@@ -21,8 +21,10 @@ float	radian(int degree)
 
 void	init_player(t_var *var, int x, int y)
 {
-	var->player->x = (float)x;
-	var->player->y = (float)y;
+	var->player->game_x = (float)(x * 64);
+	var->player->game_y = (float)(y * 64);
+	var->player->map_x = (float)((x + 0.25) * 20);
+	var->player->map_y = (float)((y + 0.25) * 20);
 	if (var->map->tab_map[x][y] == 'N')
 		var->player->dir = radian(NORTH);
 	if (var->map->tab_map[x][y] == 'S')
@@ -31,6 +33,7 @@ void	init_player(t_var *var, int x, int y)
 		var->player->dir = radian(EAST);
 	if (var->map->tab_map[x][y] == 'W')
 		var->player->dir = radian(WEAST);
+	var->player->fov = radian(90);
 }
 
 
