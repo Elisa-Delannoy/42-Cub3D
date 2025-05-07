@@ -66,6 +66,7 @@ typedef struct s_map
 	char	**f;
 	char 	**c;
 	int		height;
+	int		width;
 	// int		i_begin_map;
 
 }	t_map;
@@ -88,7 +89,7 @@ int		setup_window(t_var *var);
 // utils
 void	ft_print_lst(t_map *map); /*a supp un jour*/
 void	ft_print_tab(char **tab); /*a supp un jour*/
-int		ft_check_space(t_map *map, int i, int j);
+int		ft_check_space(char c);
 
 
 // parse

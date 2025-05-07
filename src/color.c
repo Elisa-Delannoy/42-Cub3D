@@ -25,7 +25,7 @@ void	color_f(t_map *map, int i, int *j)
 	start = *j;
 	map->c_f++;
 
-	while (map->tab_file[i][*j] && (ft_check_space(map, i, *j) == 0
+	while (map->tab_file[i][*j] && (ft_check_space(map->tab_file[i][*j]) == 0
 		|| ft_isdigit(map->tab_file[i][*j]) == 1 || map->tab_file[i][*j] == ','))
 		(*j)++;
 	map->f =ft_split(map->tab_file[i] + start, ',');
@@ -42,7 +42,7 @@ void	color_c(t_map *map, int i, int *j)
 	start = *j;
 	map->c_c++;
 
-	while (map->tab_file[i][*j] && (ft_check_space(map, i, *j) == 0
+	while (map->tab_file[i][*j] && (ft_check_space(map->tab_file[i][*j]) == 0
 		|| ft_isdigit(map->tab_file[i][*j]) == 1 || map->tab_file[i][*j] == ','))
 		(*j)++;
 	map->c =ft_split(map->tab_file[i] + start, ',');

@@ -8,7 +8,7 @@ void	no(t_map *map, int i, int *j)
 	*j = *j + 2;
 	fd = 0;
 	map->c_no++;
-	while (ft_check_space (map, i, *j) == 0)
+	while (ft_check_space (map->tab_file[i][*j]) == 0)
 		(*j)++;
 	path = check_texture(map, i, j);
 	if (path)
@@ -32,7 +32,7 @@ void	so(t_map *map, int i, int *j)
 	fd = 0;
 	*j = *j + 2;
 	map->c_so++;
-	while (ft_check_space (map, i, *j) == 0)
+	while (ft_check_space (map->tab_file[i][*j]) == 0)
 		(*j)++;
 	path = check_texture(map, i, j);
 	if (path)
@@ -56,7 +56,7 @@ void	ea(t_map *map, int i, int *j)
 	fd = 0;
 	*j = *j + 2;
 	map->c_ea++;
-	while (ft_check_space (map, i, *j) == 0)
+	while (ft_check_space (map->tab_file[i][*j]) == 0)
 		(*j)++;
 	path = check_texture(map, i, j);
 	if (path)
@@ -79,7 +79,7 @@ void	we(t_map *map, int i, int *j)
 	fd = 0;
 	*j = *j + 2;
 	map->c_we++;
-	while (ft_check_space (map, i, *j) == 0)
+	while (ft_check_space (map->tab_file[i][*j]) == 0)
 		(*j)++;
 	path = check_texture(map, i, j);
 	if (path)

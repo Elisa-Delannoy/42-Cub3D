@@ -21,6 +21,7 @@ t_map	*ft_init_map(void)
 	map->f = NULL;
 	map->c = NULL;
 	map->height = 0;
+	map->width = 0;
 	return (map);
 }
 

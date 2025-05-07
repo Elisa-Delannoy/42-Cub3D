@@ -22,14 +22,14 @@ void	ft_print_tab(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		printf("%s$\n", tab[i]);
+		printf("tab =%s$\n", tab[i]);
 		i++;
 	}
 }
 
-int	ft_check_space(t_map *map, int i, int j)
+int	ft_check_space(char c)
 {
-	if (map->tab_file[i][j] == ' ')
+	if (c == ' ')
 		return (0);
 	return (1);
 }

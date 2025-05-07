@@ -5,14 +5,14 @@ char	*check_texture(t_map *map, int i, int *j)
 	int		start;
 	char	*path;
 	
-	while (ft_check_space(map, i, *j) == 0)
+	while (ft_check_space(map->tab_file[i][*j]) == 0)
 		(*j)++;
 	start = *j;
-	while (map->tab_file[i][*j] && ft_check_space(map, i, *j) != 0
+	while (map->tab_file[i][*j] && ft_check_space(map->tab_file[i][*j]) != 0
 			&& map->tab_file[i][*j] != 10)
 		(*j)++;
 	path = ft_substr(map->tab_file[i], start, *j - start);
-	while (map->tab_file[i][*j] && ft_check_space(map, i, *j) == 0)
+	while (map->tab_file[i][*j] && ft_check_space(map->tab_file[i][*j]) == 0)
 		j++;
 	if (map->tab_file[i][*j])
 		return (free(path), NULL);
@@ -39,7 +39,7 @@ int	check_btw_instruct_map(t_map *map, int *i)
 		j = 0;
 		while (map->tab_file[*i][j])
 		{
-			if (ft_check_space(map, *i, j) == 0)
+			if (ft_check_space(map->tab_file[*i][j]) == 0)
 				j++;
 			else if(map->tab_file[*i][j] == 10)
 				break;
@@ -60,7 +60,7 @@ void	check_coordinate_and_color(t_map *map, int i, int *j)
 	{
 		if (ft_is_coordinates(map, i, j) == 0 || ft_is_color(map, i, j) == 0)
 			break;
-		else if (ft_check_space(map, i, *j) == 0)
+		else if (ft_check_space(map->tab_file[i][*j]) == 0)
 			(*j)++;
 		else if (map->tab_file[i][*j] == 10)
 			break;
