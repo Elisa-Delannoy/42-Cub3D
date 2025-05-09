@@ -57,4 +57,5 @@ void	ft_free_all(t_map *map)
 	if (map->c)
 		free_split(map->c);
 	free(map);
+	// free(player);
 }
