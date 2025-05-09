@@ -10,10 +10,10 @@
 
 typedef enum e_dir
 {
-	NORTH = 0,
-	SOUTH = 180,
-	EAST = 90,
-	WEAST = 270,
+	NORTH = 90,
+	SOUTH = 270,
+	EAST = 0,
+	WEAST = 180,
 	MAP = 20,
 	GAME = 64
 }	t_dir;
@@ -118,7 +118,7 @@ float	radian(int degree);
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
 void	draw_dir(t_var *var, int x1, int y1, int color);
-void	find_wall_ray(t_var *var, int type);
+void	find_wall_ray(t_var *var, float type);
 
 // cooridnates
 int	ft_is_coordinates(t_map *map,int i, int *j);
