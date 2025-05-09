@@ -29,6 +29,11 @@ typedef enum e_key
 	ESC = 65307
 }				t_key;
 
+typedef struct s_cast
+{
+	
+}	t_cast;
+
 typedef struct s_player
 {
 	float	game_x;
