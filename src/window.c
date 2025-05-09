@@ -58,7 +58,10 @@ int	key_hook(int keycode, t_var *var)
 	if (keycode == TURN_L)
 		var->player->dir = var->player->dir - 0.1;
 	if (keycode == TURN_R)
+	{
 		var->player->dir = var->player->dir + 0.1;
+	
+	}
 	// printf("dir = %f\n", var->player->dir);
 	return (0);
 }

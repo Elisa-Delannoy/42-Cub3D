@@ -20,40 +20,80 @@ void	draw_player(t_var *var, int color, int i, int y)
 	}
 }
 
+int	distance(float x1, float y1, float x0, float y0)
+{
+	return (sqrt(((x1 - x0) * (x1 - x0)) + ((y1 - y0) * (y1 - y0))));
+}
+
 void	find_wall_ray(t_var *var, int type)
 {
-	int new_x;
-	int new_y;
-	int ya;
-	int xa;
-	int num_rays = 50;
+	float new_xv;
+	float new_yv;
+	float new_xh;
+	float new_yh;
+	float yav;
+	float xav;
+	float yah;
+	float xah;
+	float num_rays = 10000;
+	float dstv;
+	float dsth;
 	float ray_step = var->player->fov / num_rays;
 	float ray_angle;
-	int i = 0;
+	float i = 50;
 
-	while (i++ < num_rays)
-	{
-		ray_angle = var->player->dir - (var->player->fov / 2) + i * ray_step;
-		printf ("%f\n", ray_angle);
-		xa = cos(ray_angle) * type;
-		ya = sin(ray_angle) * type;
-		new_x = var->player->map_x;
-		new_y = var->player->map_y;
-		// if (ya < 0)
-		// 	new_y = ((int)(var->player->map_y / type) * type) - 1;
-		// else if (ya > 0)
-		// 	new_y = ((int)(var->player->map_y / type) * type) + type;
-		// new_x = var->player->map_x + ((var->player->map_y - new_y) / tan(ray_angle));
-		while (var->map->tab_map[(new_x / type)] != 0
-			&& var->map->tab_map[(new_x / type)][(new_y / type)] != 0
-			&& var->map->tab_map[(new_x / type)][(new_y / type)] != '1')
+	// while (i++ < num_rays)
+	// {
+		ray_angle = (var->player->dir - (var->player->fov / 2) + i * ray_step);
+		// ray_angle = (PI / 2) + 0.1;
+		printf("\n\n\n%f\n", ray_angle);
+		if (cos(ray_angle) < 0)
 		{
-			new_x = new_x + xa;
-			new_y = new_y + ya;
+			yah = type;
+			new_yh = ((int)(var->player->map_y / type) * type) + type;
 		}
-		if (var->map->tab_map[(int)(new_x / type)][(int)(new_y / type)] == '1')
-			draw_dir(var, new_x, new_y, 0xFFFFFF);
-	}
+		else
+		{
+			yah = -type;
+			new_yh = ((int)(var->player->map_y / type) * type) - 1;
+		}
+		new_xh = var->player->map_x + ((var->player->map_y - new_yh) / tan(ray_angle));
+		xah = type / tan(ray_angle);
+		while (var->map->tab_map[((int)new_xh / type)] != 0
+			&& var->map->tab_map[((int)new_xh / type)][((int)new_yh / type)] != 0
+			&& var->map->tab_map[((int)new_xh / type)][((int)new_yh / type)] != '1')
+		{
+			new_xh = new_xh + xah;
+			new_yh = new_yh + yah;
+		}
+		dsth = distance(new_xh, new_yh, var->player->map_x, var->player->map_y);
+		printf("step XH : %f\nstep YH : %f\ndistance Verticale : %f\n", xah, yah, dsth);
+
+	
+		if (sin(ray_angle) > 0)
+		{
+			xav = type;
+			new_xv = ((int)(var->player->map_x / type) * type) + type;
+		}
+		else
+		{
+			xav = -type;
+			new_xv = ((int)(var->player->map_x / type) * type) - 1;
+		}
+		new_yv = var->player->map_y + ((var->player->map_x - new_xv) * tan(ray_angle));
+		yav = type / tan(ray_angle);
+		while (var->map->tab_map[((int)new_xv / type)] != 0
+			&& var->map->tab_map[((int)new_xv / type)][((int)new_yv / type)] != 0
+			&& var->map->tab_map[((int)new_xv / type)][((int)new_yv / type)] != '1')
+		{
+			new_xv = new_xv + xav;
+			new_yv = new_yv + yav;
+		}
+		dstv = distance(new_xv, new_yv, var->player->map_x, var->player->map_y);
+		printf("\nstep XV : %f\nstep YV : %f\ndistance Horizontale : %f\n", xav, yav, dstv);
+		// draw_dir(var, new_xh, new_yh, 0xFFFFFF);
+		draw_dir(var, new_xv, new_yv, 0xFFFFFF);
+	// }
 }
 
 void	my_put_pixel(t_img *img, int y, int i, int color)
