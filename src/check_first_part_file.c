@@ -54,20 +54,20 @@ int	check_btw_instruct_map(t_map *map, int *i)
 	return (1);
 }
 
-void	check_coordinate_and_color(t_map *map, int i, int *j)
+int	check_coordinate_and_color(t_var *var, t_map *map, int i, int *j)
 {
 	while(map->tab_file[i][*j])
 	{
-		if (ft_is_coordinates(map, i, j) == 0 || ft_is_color(map, i, j) == 0)
+		if (ft_is_coordinates(var, map, i, j) == 0 || ft_is_color(var, map, i, j) == 0)
 			break;
 		else if (ft_check_space(map->tab_file[i][*j]) == 0)
 			(*j)++;
 		else if (map->tab_file[i][*j] == 10)
 			break;
 		else
-			return (ft_putstr_fd("Error : invalid instruction\n", 2),
-				ft_free_all(map), exit(2));
+			return (ft_putstr_fd("Error : invalid instruction\n", 2), 1);
 	}
+	return (0);
 }
 
 int	ft_check_instruct(t_var *var)
@@ -79,13 +79,18 @@ int	ft_check_instruct(t_var *var)
 	while (var->map->tab_file[i])
 	{
 		j = 0;
-		check_coordinate_and_color(var->map, i, &j);
+		if (check_coordinate_and_color(var, var->map, i, &j) == 1)
+			return (2);
 		if (ft_one_instruct(var->map) == 1)
-			return (ft_putstr_fd("Error : duplicate instructions\n", 2),
-				ft_free_all(var->map), exit(3), 3); 
+			return (ft_putstr_fd("Error : duplicate instructions\n", 2), 3);
 		if (ft_one_instruct(var->map) == 0
 				&& check_btw_instruct_map(var->map, &i) == 0)
-			return (check_map(var, &i), 0);
+		{
+			if (check_map(var, &i) == 0)
+				return (0);
+			else
+				return (1);
+		}
 		i++;
 	}
 	return (1);

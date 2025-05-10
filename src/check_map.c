@@ -14,41 +14,14 @@
 // 	parse_all_map(&var, x, y - 1);
 // }
 
-float	radian(int degree)
-{
-	return (degree * PI / 180);
-}
-
-t_player	*init_player(t_var *var, int x, int y)
-{
-	t_player *player;
-
-	player = malloc(sizeof(t_player));
-	player->game_x = (float)(x * 64);
-	player->game_y = (float)(y * 64);
-	player->map_x = (float)((x + 0.25) * 20);
-	player->map_y = (float)((y + 0.25) * 20);
-	if (var->map->tab_map[x][y] == 'N')
-		player->dir = radian(NORTH);
-	if (var->map->tab_map[x][y] == 'S')
-		player->dir = radian(SOUTH);
-	if (var->map->tab_map[x][y] == 'E')
-		player->dir = radian(EAST);
-	if (var->map->tab_map[x][y] == 'W')
-		player->dir = radian(WEAST);
-	player->fov = radian(45);
-	return (player);
-}
-
-
-void	stock_map_in_tab(t_map *map, int *i)
+int	stock_map_in_tab(t_map *map, int *i)
 {
 	int	k;
 
 	k = 0;
 	map->tab_map = malloc((ft_lstsize(map->lst_map) + 1 - *i) * sizeof(char*));
 	if (!map->tab_map)
-		return (ft_free_all(map), exit(1));
+		return (1);
 	while (map->tab_file[*i])
 	{
 		if (ft_strrchr(map->tab_file[*i], '1') == NULL)
@@ -59,11 +32,15 @@ void	stock_map_in_tab(t_map *map, int *i)
 		if (map->tab_file[*i])
 			map->tab_map[k] = ft_strdup(map->tab_file[*i]);
 		else
-			return ;
+		{
+			map->tab_map[k] = NULL;
+			return (0);
+		}
 		k++;
 		(*i)++;
 	}
 	map->tab_map[k] = NULL;
+	return (0);
 }
 
 int	check_space_in_map(t_map *map, int i, int j)
@@ -80,11 +57,8 @@ void	ft_check_ascii(t_var *var, t_map *map)
 {
 	int	i;
 	int	j;
-	int	check;
-	(void) var;
 
 	i = -1;
-	check = 0;
 	while (map->tab_map[++i])
 	{
 		j = 0;
@@ -96,21 +70,45 @@ void	ft_check_ascii(t_var *var, t_map *map)
 			else if (map->tab_map[i][j] == 'N' || map->tab_map[i][j] == 'S'
 				|| map->tab_map[i][j] == 'E' || map->tab_map[i][j] == 'W')
 			{
-				if (check != 0)
+				if (var->player != 0)
 					return (ft_putstr_fd("Error : should have only one "
-					"player\n", 2), ft_free_all(map), exit(2));
+					"player\n", 2), ft_free_all(var), exit(2));
 				var->player = init_player(var, i, j);
-				check = 1;
 				j++;
 			}
 			else
 				return (ft_putstr_fd("Error : invalid character\n", 2),
-					ft_free_all(map), exit(2));
+					ft_free_all(var), exit(2));
 		}
 	}
+	if (var->player == NULL)
+		return (ft_putstr_fd("Error : player is missing\n", 2), ft_free_all(var), exit(2));
 }
 
-void	delete_space(t_map *map)
+int	check_ok_delete(char *tab)
+{
+	int	i;
+
+	i = 1;
+	if (tab == NULL)
+			return (ft_putstr_fd("Error : invalid map (missing wall)", 2), 1);
+	while (tab[i])
+	{
+		if (tab[i] == ' ')
+			i++;
+		else
+		{
+			if (tab[i] == 'N' || tab[i]== 'S' || tab[i] == 'E'
+				|| tab[i] == 'W' || tab[i] == '0')
+				return (ft_putstr_fd("Error : invalid map\n", 2), 1);
+			else
+				return (ft_putstr_fd("Error : invalid character\n", 2), 1);
+		}
+	}
+	return (0);
+}
+
+int	delete_space(t_map *map)
 {
 	char	*line;
 	char	*temp;
@@ -121,9 +119,10 @@ void	delete_space(t_map *map)
 	while (map->tab_map[i])
 	{
 		line = ft_strrchr(map->tab_map[i], '1');
-		if (line == NULL)
-			return (ft_putstr_fd("Error : invalid map (missing wall)", 2),
-				ft_free_all(map), exit(1));
+		if (check_ok_delete(line) == 1)
+			return (1);
+		// if (line == NULL)
+		// 	return (ft_putstr_fd("Error : invalid map (missing wall)", 2), 1);
 		if (ft_strlen(line) > 1 && map->tab_map[i] != NULL)
 		{
 			temp = ft_strdup(map->tab_map[i]);
@@ -137,33 +136,37 @@ void	delete_space(t_map *map)
 		i++;
 	}
 	map->height = i;
+	return (0);
 }
 
-int	check_horizontal(char *tab)
+int	check_horizontal(char *tab, char c, char d)
 {
 	int	j;
 
 	j = 0;
-	// while (ft_check_space(tab[j] == 0))
-	// 	j++;
-	while (tab[j] && tab[j] == '1')
+	while (tab[j] && (tab[j] == c || tab[j] == d))
 		j++;
 	if (tab[j])
 		return (1);
 	return (0);
 }
 
-int	check_vertical(t_map *map)
+int	check_vertical(t_map *map, int j, char c)
 {
 	int	i;
-	
+
 	i = 1;
 	while (i < map->height)
 	{
-		if (map->tab_map[i][0] != '1' 
-			|| map->tab_map[i][ft_strlen(map->tab_map[i] - 1)] != '1')
-			return (ft_putstr_fd("Error : invalid map (missing wall)", 2),
-				ft_free_all(map), exit(1), 1);
+		j = 0;
+		if (c == ' ')
+		{
+			while (map->tab_map[i][j] == ' ')
+				j++;
+		}
+		if (map->tab_map[i][j] != '1' 
+			|| map->tab_map[i][ft_strlen(map->tab_map[i]) - 1] != '1')
+			return (1);
 		i++;
 	}
 	return (0);
@@ -193,7 +196,7 @@ int	count_empty(char **tab)
 
 void	floodfill_space(t_map *map, char **temp, int x, int y)
 {
-	if ((x < 0 || x > map->height) || (y < 0 || !map->tab_map[x][y]))
+	if ((x < 0 || x >= map->height) || (y < 0 || y >= map->width))
 		return ;
 	if (temp[x][y] != '1')
 		temp[x][y] = '1';
@@ -206,7 +209,21 @@ void	floodfill_space(t_map *map, char **temp, int x, int y)
 }
 
 
-void	check_wall(t_map *map)
+int	check_wall_min_max(t_var *var)
+{
+	if (check_horizontal(var->map->tab_map[0], '1', '1') == 0 
+		&& check_horizontal(var->map->tab_map[var->map->height -1], '1', '1') == 0
+		&& check_vertical(var->map, 0, '1') == 0)
+		return (0);
+	if (check_horizontal(var->map->tab_map[0], '1', ' ') != 0
+		|| check_horizontal(var->map->tab_map[var->map->height - 1], '1', ' ') != 0
+		|| check_vertical(var->map, 0, ' ') != 0)
+			return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), ft_free_all(var), exit(1), 1);
+	return (2);
+}
+
+
+int	check_wall(t_map *map)
 {
 	int		count;
 	int		i;
@@ -214,11 +231,13 @@ void	check_wall(t_map *map)
 	char	**temp;
 
 	temp = map->tab_map;
-	if (check_horizontal(map->tab_map[0]) == 0 
-		&& check_horizontal(map->tab_map[map->height -1]) == 0 && check_vertical(map) == 0)
-		return ;
-	else
-	{
+	// if (check_horizontal(map->tab_map[0], '1', '1') == 0 
+	// 	&& check_horizontal(map->tab_map[map->height -1], '1', '1') == 0 && check_vertical(map, 0, '1') == 0)
+	// 	return (0);
+	// else
+	// {
+		// if (check_horizontal(map->tab_map[0], '1', ' ') != 0 || check_vertical(map, 0, ' ') != 0)
+		// 	return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), 1);
 		i = 0;
 		count = count_empty(map->tab_map);
 		while (temp[i])
@@ -227,18 +246,15 @@ void	check_wall(t_map *map)
 			while (temp[i][j])
 			{
 				if (ft_check_space(temp[i][j]) == 0)
-					floodfill_space(map, temp, 0, 0);
+					floodfill_space(map, temp, i, j);
 				j++;
 			}
-			ft_print_tab(temp);
 			i++;
-			printf("\nnext\n");
 		}
 		if (count != count_empty(temp))
-			return (ft_putstr_fd("Error : invalid map (missing wall)", 2),
-			ft_free_all(map), exit(1));
-	}
-	printf("map ok\n");
+			return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), 1);
+	// }
+	return (0);
 }
 
 void	add_space_end(t_map *map)
@@ -257,27 +273,37 @@ void	add_space_end(t_map *map)
 			j = 0;
 			while (map->tab_map[i][j])
 				j++;
-			space = malloc(map->width - j + 1 * sizeof (char));
+			space = malloc((map->width - j + 1) * sizeof (char));
 			ft_memset(space, ' ', map->width - j);
+			space[map->width - j] = '\0';
 			temp = map->tab_map[i];
 			map->tab_map[i] = ft_strjoin(temp, space);
-			free (temp);
-			free (space);
+			free(temp);
+			free(space);
 		}
 		i++;
 	}
 }
 
-void	check_map(t_var *var, int *i)
+int	check_map(t_var *var, int *i)
 {
-	stock_map_in_tab(var->map, i);
-	delete_space(var->map);
+	if (stock_map_in_tab(var->map, i) == 1)
+		return (1);
+	if (delete_space(var->map) == 1)
+		return (1);
+	// ft_print_tab(var->map->tab_map);
 	ft_check_ascii(var, var->map);
-	// add_space_end(var->map);
-	// check_wall(var->map);
-	ft_print_tab(var->map->tab_map);
+	if (check_wall_min_max(var) != 0)
+	{
+		add_space_end(var->map);
+		// ft_print_tab(var->map->tab_map);
+		if (check_wall(var->map) == 1)
+			return (1);
+	}
+	printf("map ok\n");
 	// parse_all_map(var, var->player->x,var->player->y);
 //  et toute la map
+	return (0);
 }
 
 // map->height = ft_lstsize(map->lst_map) - *i;

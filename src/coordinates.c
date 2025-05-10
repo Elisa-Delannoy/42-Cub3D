@@ -1,6 +1,6 @@
 #include "../cub3D.h"
 
-void	no(t_map *map, int i, int *j)
+void	no(t_var *var, t_map *map, int i, int *j)
 {
 	int		fd;
 	char	*path;
@@ -19,12 +19,12 @@ void	no(t_map *map, int i, int *j)
 		fd = open(map->no, O_RDONLY);
 	}
 	if (fd == -1 || map->no == NULL)
-		return (ft_putstr_fd("Error : invalid NO texture\n", 2), ft_free_all(map),
+		return (ft_putstr_fd("Error : invalid NO texture\n", 2), ft_free_all(var),
 			exit(1));
 
 }
 
-void	so(t_map *map, int i, int *j)
+void	so(t_var *var, t_map *map, int i, int *j)
 {
 	int		fd;
 	char	*path;
@@ -43,12 +43,12 @@ void	so(t_map *map, int i, int *j)
 		fd = open(map->so, O_RDONLY);
 	}
 	if (fd == -1 || map->so == NULL)
-		return (ft_putstr_fd("Error : invalid SO texture\n", 2), ft_free_all(map),
+		return (ft_putstr_fd("Error : invalid SO texture\n", 2), ft_free_all(var),
 			exit(1));
 
 }
 
-void	ea(t_map *map, int i, int *j)
+void	ea(t_var *var, t_map *map, int i, int *j)
 {
 	int		fd;
 	char	*path;
@@ -67,11 +67,11 @@ void	ea(t_map *map, int i, int *j)
 		fd = open(map->ea, O_RDONLY);
 	}
 	if (fd == -1 || map->ea == NULL)
-		return (ft_putstr_fd("Error : invalid EA texture\n", 2), ft_free_all(map),
+		return (ft_putstr_fd("Error : invalid EA texture\n", 2), ft_free_all(var),
 			exit(1));
 }
 
-void	we(t_map *map, int i, int *j)
+void	we(t_var *var, t_map *map, int i, int *j)
 {
 	int		fd;
 	char	*path;
@@ -90,23 +90,23 @@ void	we(t_map *map, int i, int *j)
 		fd = open(map->we, O_RDONLY);
 	}
 	if (fd == -1 || map->we == NULL)
-		return (ft_putstr_fd("Error : invalid WE texture\n", 2), ft_free_all(map),
+		return (ft_putstr_fd("Error : invalid WE texture\n", 2), ft_free_all(var),
 			exit(1));
 }
 
-int	ft_is_coordinates(t_map *map,int i, int *j)
+int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j)
 {
 	if (map->tab_file[i][*j] && map->tab_file[i][*j + 1]
 		&& map->tab_file[i][*j + 2] == ' ')
 	{
 		if (map->tab_file[i][*j] == 'N' && map->tab_file[i][*j + 1] == 'O')
-			no(map, i, j);
+			no(var, map, i, j);
 		else if (map->tab_file[i][*j] == 'S' && map->tab_file[i][*j + 1] == 'O')
-			so(map, i, j);
+			so(var, map, i, j);
 		else if (map->tab_file[i][*j] == 'W' && map->tab_file[i][*j + 1] == 'E')
-			we(map, i, j);
+			we(var, map, i, j);
 		else if (map->tab_file[i][*j] == 'E' && map->tab_file[i][*j + 1] == 'A')
-			ea(map, i, j);
+			ea(var, map, i, j);
 		else
 			return (1);
 		return (0);

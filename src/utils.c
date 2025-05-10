@@ -33,3 +33,8 @@ int	ft_check_space(char c)
 		return (0);
 	return (1);
 }
+
+float	radian(int degree)
+{
+	return (degree * PI / 180);
+}

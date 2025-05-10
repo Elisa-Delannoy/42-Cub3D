@@ -25,6 +25,27 @@ t_map	*ft_init_map(void)
 	return (map);
 }
 
+t_player	*init_player(t_var *var, int x, int y)
+{
+	t_player *player;
+
+	player = malloc(sizeof(t_player));
+	player->game_x = (float)(x * 64);
+	player->game_y = (float)(y * 64);
+	player->map_x = (float)((x + 0.25) * 20);
+	player->map_y = (float)((y + 0.25) * 20);
+	if (var->map->tab_map[x][y] == 'N')
+		player->dir = radian(NORTH);
+	if (var->map->tab_map[x][y] == 'S')
+		player->dir = radian(SOUTH);
+	if (var->map->tab_map[x][y] == 'E')
+		player->dir = radian(EAST);
+	if (var->map->tab_map[x][y] == 'W')
+		player->dir = radian(WEAST);
+	player->fov = radian(45);
+	return (player);
+}
+
 t_img	*init_img(void)
 {
 	t_img	*img;
@@ -37,25 +58,30 @@ t_img	*init_img(void)
 	return (img);
 }
 
-void	ft_free_all(t_map *map)
+void	ft_free_all(t_var *var)
 {
-	ft_lstclear(&map->lst_map, free);
-	if (map->tab_file)
-		free_split(map->tab_file);
-	if (map->tab_map)
-		free_split(map->tab_map);
-	if (map->no)
-		free(map->no);
-	if (map->so)
-		free(map->so);
-	if (map->we)
-		free(map->we);
-	if (map->ea)
-		free(map->ea);
-	if (map->f)
-		free_split(map->f);
-	if (map->c)
-		free_split(map->c);
-	free(map);
-	// free(player);
+	if (var->map)
+	{
+		if (var->map->lst_map)
+			ft_lstclear(&var->map->lst_map, free);
+		if (var->map->tab_file)
+			free_split(var->map->tab_file);
+		if (var->map->tab_map)
+			free_split(var->map->tab_map);
+		if (var->map->no)
+			free(var->map->no);
+		if (var->map->so)
+			free(var->map->so);
+		if (var->map->we)
+			free(var->map->we);
+		if (var->map->ea)
+			free(var->map->ea);
+		if (var->map->f)
+			free_split(var->map->f);
+		if (var->map->c)
+			free_split(var->map->c);
+		free(var->map);
+	}
+	if (var->player != NULL)
+		free(var->player);
 }

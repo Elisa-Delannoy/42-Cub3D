@@ -17,7 +17,7 @@ int	check_color(char **color)
 	return (0);
 }
 
-void	color_f(t_map *map, int i, int *j)
+void	color_f(t_var *var, t_map *map, int i, int *j)
 {
 	int		start;
 
@@ -30,11 +30,11 @@ void	color_f(t_map *map, int i, int *j)
 		(*j)++;
 	map->f =ft_split(map->tab_file[i] + start, ',');
 	if (map->tab_file[i][*j] || check_color(map->f) == 1)
-		return (ft_putstr_fd("Error : invalid F color\n", 2), ft_free_all(map),
+		return (ft_putstr_fd("Error : invalid F color\n", 2), ft_free_all(var),
 			exit(1));
 }
 
-void	color_c(t_map *map, int i, int *j)
+void	color_c(t_var *var, t_map *map, int i, int *j)
 {
 	int		start;
 
@@ -46,20 +46,20 @@ void	color_c(t_map *map, int i, int *j)
 		|| ft_isdigit(map->tab_file[i][*j]) == 1 || map->tab_file[i][*j] == ','))
 		(*j)++;
 	map->c =ft_split(map->tab_file[i] + start, ',');
-	if (map->tab_file[i][*j] || check_color(map->f) == 1)
-		return (ft_putstr_fd("Error : invalid C color\n", 2), ft_free_all(map),
+	if (map->tab_file[i][*j] || check_color(map->c) == 1)
+		return (ft_putstr_fd("Error : invalid C color\n", 2), ft_free_all(var),
 			exit(1));
 }
 
-int	ft_is_color(t_map *map, int i, int *j)
+int	ft_is_color(t_var *var, t_map *map, int i, int *j)
 {
 
 	if (map->tab_file[i][*j] && map->tab_file[i][*j + 1] == ' ')
 	{
 		if (map->tab_file[i][*j] == 'F')
-			color_f(map, i, j);
+			color_f(var, map, i, j);
 		else if (map->tab_file[i][*j] == 'C')
-			color_c(map, i ,j);
+			color_c(var, map, i ,j);
 		else
 			return (1);
 		return (0);

@@ -36,7 +36,7 @@ char	**ft_map_into_tab(t_map	*map)
 		temp = temp->next;
 		i++;
 	}
-	map->tab_file[i] = 0;
+	map->tab_file[i] = NULL;
 	return (map->tab_file);
 }
 
@@ -60,13 +60,13 @@ void	ft_parse(int argc, char **argv, t_var *var)
 		return (exit(1));
 	map = ft_init_map();
 	if (ft_read_map(map, argv) == 1)
-		return (ft_free_all(map), exit(1));
+		return (free(map), exit(1));
 	// ft_print_lst(map);
 	if (ft_map_into_tab(map) == NULL)
-		return (ft_free_all(map), exit(1));
-	// ft_print_tab(map);
+		return (ft_free_all(var), exit(1));
 	var->map = map;
-	ft_check_instruct(var);
+	if (ft_check_instruct(var) != 0)
+		return (ft_free_all(var), exit(1));
 	// return (map);
 }
 

@@ -95,23 +95,24 @@ int		setup_window(t_var *var);
 void	ft_print_lst(t_map *map); /*a supp un jour*/
 void	ft_print_tab(char **tab); /*a supp un jour*/
 int		ft_check_space(char c);
+float	radian(int degree);
 
 
 // parse
 void 	ft_parse(int argc, char **argv, t_var *var);
 
 // init free
-t_map	*ft_init_map(void);
-void	ft_free_all(t_map *map);
-t_img	*init_img(void);
+t_map		*ft_init_map(void);
+void		ft_free_all(t_var *var);
+t_img		*init_img(void);
+t_player	*init_player(t_var *var, int x, int y);
 
 // check first part
 int		ft_check_instruct(t_var *var);
-int		ft_is_coordinates(t_map *map,int i, int *j);
 char	*check_texture(t_map *map, int i, int *j);
 
 // check map
-void	check_map(t_var *var, int *i);
+int	check_map(t_var *var, int *i);
 float	radian(int degree);
 
 // mini_map
@@ -121,12 +122,12 @@ void	draw_dir(t_var *var, int x1, int y1, int color);
 void	find_wall_ray(t_var *var, int type);
 
 // cooridnates
-int	ft_is_coordinates(t_map *map,int i, int *j);
+int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
 
 // colors
 // void	color_f(t_map *map, int i, int *j);
 // void	color_c(t_map *map, int i, int *j);
-int	ft_is_color(t_map *map, int i, int *j);
+int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
 
 #endif
