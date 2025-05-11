@@ -1,4 +1,4 @@
-#include "../cub3D.h"
+#include "cub3D.h"
 
 t_map	*ft_init_map(void)
 {
@@ -27,7 +27,7 @@ t_map	*ft_init_map(void)
 
 t_player	*init_player(t_var *var, int x, int y)
 {
-	t_player *player;
+	t_player	*player;
 
 	player = malloc(sizeof(t_player));
 	player->game_x = (float)(x * 64);
@@ -49,6 +49,7 @@ t_player	*init_player(t_var *var, int x, int y)
 t_img	*init_img(void)
 {
 	t_img	*img;
+	
 	img = malloc(sizeof(t_img));
 	img->img = NULL;
 	img->bits_per_pixel = 0;

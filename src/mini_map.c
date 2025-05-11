@@ -1,4 +1,4 @@
-#include "../cub3D.h"
+#include "cub3D.h"
 
 void	draw_player(t_var *var, int color, int i, int y)
 {

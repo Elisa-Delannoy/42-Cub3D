@@ -1,5 +1,4 @@
-
-# include "../cub3D.h"
+#include "cub3D.h"
 
 // POUR TESTER - A SUPP QD PLUS BESOIN
 void	ft_print_lst(t_map *map)
@@ -37,4 +36,20 @@ int	ft_check_space(char c)
 float	radian(int degree)
 {
 	return (degree * PI / 180);
+}
+
+char	**tab_cpy(char **tab, int size)
+{
+	int		i;
+	char	**new_tab;
+
+	i = 0;
+	new_tab = malloc((size + 1) * sizeof(char *));
+	while (tab[i])
+	{
+		new_tab[i] = ft_strdup(tab[i]);
+		i++;
+	}
+	new_tab[i] = NULL;
+	return (new_tab);
 }

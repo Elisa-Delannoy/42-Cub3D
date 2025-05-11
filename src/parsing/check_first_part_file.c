@@ -1,10 +1,10 @@
-#include "../cub3D.h"
+#include "cub3D.h"
 
 char	*check_texture(t_map *map, int i, int *j)
 {
 	int		start;
 	char	*path;
-	
+
 	while (ft_check_space(map->tab_file[i][*j]) == 0)
 		(*j)++;
 	start = *j;
@@ -41,29 +41,30 @@ int	check_btw_instruct_map(t_map *map, int *i)
 		{
 			if (ft_check_space(map->tab_file[*i][j]) == 0)
 				j++;
-			else if(map->tab_file[*i][j] == 10)
-				break;
+			else if (map->tab_file[*i][j] == 10)
+				break ;
 			if (map->tab_file[*i][j] == '1')
 				return (0);
 			else if (map->tab_file[*i][j] && map->tab_file[*i][j] != ' '
 					&& map->tab_file[*i][j] != 10)
 				return (1);
 		}
-		*(i)+=1;
+		*(i) += 1;
 	}
 	return (1);
 }
 
 int	check_coordinate_and_color(t_var *var, t_map *map, int i, int *j)
 {
-	while(map->tab_file[i][*j])
+	while (map->tab_file[i][*j])
 	{
-		if (ft_is_coordinates(var, map, i, j) == 0 || ft_is_color(var, map, i, j) == 0)
-			break;
+		if (ft_is_coordinates(var, map, i, j) == 0
+			|| ft_is_color(var, map, i, j) == 0)
+			break ;
 		else if (ft_check_space(map->tab_file[i][*j]) == 0)
 			(*j)++;
 		else if (map->tab_file[i][*j] == 10)
-			break;
+			break ;
 		else
 			return (ft_putstr_fd("Error : invalid instruction\n", 2), 1);
 	}
@@ -84,7 +85,7 @@ int	ft_check_instruct(t_var *var)
 		if (ft_one_instruct(var->map) == 1)
 			return (ft_putstr_fd("Error : duplicate instructions\n", 2), 3);
 		if (ft_one_instruct(var->map) == 0
-				&& check_btw_instruct_map(var->map, &i) == 0)
+			&& check_btw_instruct_map(var->map, &i) == 0)
 		{
 			if (check_map(var, &i) == 0)
 				return (0);
@@ -95,16 +96,3 @@ int	ft_check_instruct(t_var *var)
 	}
 	return (1);
 }
-/*GDB
-display map->tab_file[i]
-display map->tab_map[i][j]
-display i
-display j
-
-
-display map->tab_file[*i]
-display map->tab_file[*i][j]
-display *i
-display j
-*/
-
