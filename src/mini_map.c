@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-void	draw_player(t_var *var, int color, int i, int y)
+void	draw_player(t_var *var, int color, int y, int i)
 {
 	int save_i;
 	int save_y;
@@ -27,6 +27,10 @@ int	distance(float x1, float y1, float x0, float y0)
 
 int check_raycasting(float new_y, float new_x, int type, t_var *var)
 {
+	printf(" newy/type =%d\n", (int)new_y / type);
+	printf("newx/type =%d\n", (int)new_x / type);
+	if (new_y < 0  || new_x < 0 || new_x > 660 || new_y > 280)
+		return (0);
 	if (var->map->tab_map[((int)new_y / type)] != 0
 		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] != 0
 		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] == '1')
@@ -46,15 +50,15 @@ void	find_wall_ray(t_var *var, int type)
 	float xav;
 	float yah;
 	float xah;
-	float num_rays = 100;
+	float num_rays = 30;
 	float dstv;
 	float dsth;
 	float ray_step = var->player->fov / num_rays;
 	float ray_angle;
 	float i = 0;
 	// if (fabs(data.v_hit.x - data.start.x) < fabs(data.h_hit.x - data.start.x))
-	// while (i++ < num_rays)
-	// {
+	while (i++ < num_rays)
+	{
 		ray_angle = (var->player->dir - (var->player->fov / 2) + (i * ray_step));
 		printf("\nJoueur: %f %f\n", var->player->map_x, var->player->map_y);
 		printf("\n\n\n%f\n", ray_angle);
@@ -73,16 +77,16 @@ void	find_wall_ray(t_var *var, int type)
 		if ((xah > 0 && cos(ray_angle) < 0) || (xah < 0 && cos(ray_angle) > 0))
 			xah *= -1;
 		printf("\nHITH: %f %f\n", new_xh, new_yh);
-		while (new_xh < 660 && new_yh < 280)
+		while (1)
 		{
-			new_xh = new_xh + xah;
-			new_yh = new_yh + yah;
 			if (check_raycasting(new_yh, new_xh, type, var) == 0)
 				break ;
+			new_xh = new_xh + xah;
+			new_yh = new_yh + yah;
 		}
 		dsth = distance(new_xh, new_yh, var->player->map_x, var->player->map_y);
 		printf("step XH : %f\nstep YH : %f\ndistance horizonale : %f\n", xah, yah, dsth);
-		draw_dir(var, new_yh, new_xh, 0xFFFFFF);
+
 
 
 		if (cos(ray_angle) > 0)
@@ -99,20 +103,32 @@ void	find_wall_ray(t_var *var, int type)
 		yav = (float)type * tan(ray_angle);
 		if ((yav > 0 && sin(ray_angle) > 0) || (yav < 0 && sin(ray_angle) < 0))
 			yav *= -1;
-		while (check_raycasting(new_yv, new_xv, type, var) == 0)
+		while (1)
 		{
+			if (check_raycasting(new_yv, new_xv, type, var) == 0)
+				break ;
 			new_xv = new_xv + xav;
 			new_yv = new_yv + yav;
-			if (new_xv > 660 || new_yv > 280)
-				break ;
 		}
+		printf("\nyav, rayangle: %f, %f\n", yav, ray_angle);
 		printf("\nHITV: %f %f\n", new_xv, new_yv);
 		dstv = distance(new_xv, new_yv, var->player->map_x, var->player->map_y);
 		printf("\nstep XV : %f\nstep YV : %f\ndistance verticale : %f\n", xav, yav, dstv);
 		
-		draw_dir(var, new_yv, new_xv, 0xFFFFFF);
-	// }
-	// exit(0);
+
+
+		
+		if (dsth < dstv)
+		{
+			if ((new_yh > 0  && new_xh > 0) && new_xh < 660 && new_yh < 280)
+				draw_dir(var, new_yh, new_xh, 0xFF0000);
+		}
+		else if (dstv < dsth)
+		{
+			if ((new_yv > 0  && new_xv > 0) && new_xv < 660 && new_yv < 280)
+				draw_dir(var, new_yv, new_xv, 0xFFFFFF);
+		}
+	}
 }
 
 void	my_put_pixel(t_img *img, int y, int x, int color)

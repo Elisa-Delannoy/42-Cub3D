@@ -48,18 +48,18 @@ int	key_hook(int keycode, t_var *var)
 	if (keycode == ESC)
 		clear_all(var);
 	if (keycode == UP)
-		update_player(var, -1, 0);
-	if (keycode == DOWN)
-		update_player(var, 1, 0);
-	if (keycode == LEFT)
 		update_player(var, 0, -1);
-	if (keycode == RIGHT)
+	if (keycode == DOWN)
 		update_player(var, 0, 1);
+	if (keycode == LEFT)
+		update_player(var, -1, 0);
+	if (keycode == RIGHT)
+		update_player(var, 1, 0);
 	if (keycode == TURN_L)
-		var->player->dir = var->player->dir - 0.1;
+		var->player->dir = var->player->dir + 0.1;
 	if (keycode == TURN_R)
 	{
-		var->player->dir = var->player->dir + 0.1;
+		var->player->dir = var->player->dir - 0.1;
 	
 	}
 	// printf("dir = %f\n", var->player->dir);
