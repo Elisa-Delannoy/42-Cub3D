@@ -37,7 +37,10 @@ int	check_ok_delete(char *tab)
 		return (ft_putstr_fd("Error : invalid map (missing wall)", 2), 1);
 	while (tab[i])
 	{
-		if (tab[i] == ' ')
+		if (tab[i] == 'N' || tab[i] == 'S' || tab[i] == 'E'
+			|| tab[i] == 'W' || tab[i] == '0')
+			return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), 1);
+		else if (tab[i] == ' ')
 			i++;
 		else
 		{
@@ -80,29 +83,46 @@ int	delete_space(t_map *map)
 	return (0);
 }
 
-int	check_space_in_map(t_var *var, int i, int *j)
+void	floodfill_space_wall(t_map *map, int x, int y, int c)
 {
-	int		count;
-	char	**temp;
+	if ((x < 0 || x >= map->height) || (y < 0 || y >= map->width))
+		return ;
+	if ((c == '1' && map->temp[x][y] != '1')
+		|| (c == ' ' && map->temp[x][y] == ' '))
+		map->temp[x][y] = '1';
+	else
+		return ;
+	floodfill_space_wall(map, x + 1, y, c);
+	floodfill_space_wall(map, x - 1, y, c);
+	floodfill_space_wall(map, x, y + 1, c);
+	floodfill_space_wall(map, x, y - 1, c);
+}
 
-	if (var->map->tab_map[i][*j] != ' ')
-		return (0);
-	if (*j == 0 && var->map->tab_map[i][*j] == ' ')
+void	check_space_in_map(t_var *var, int i, int j)
+{
+	var->map->temp = tab_cpy(var->map->tab_map, var->map->height);
+	while (var->map->temp[i])
 	{
-		while (var->map->tab_map[i][*j] == ' '
-			&& (var->map->tab_map[i][*j + 1] == ' '
-			|| var->map->tab_map[i][*j + 1] == '1'))
-			(*j)++;
+		j = 0;
+		if (i == 0 || i == var->map->height - 1)
+		{
+			while (var->map->temp[i][j])
+			{
+				if (var->map->temp[i][j] && var->map->temp[i][j] == ' ')
+					floodfill_space_wall(var->map, i, j, ' ');
+				else
+					j++;
+			}
+		}
+		else if (j == 0 && var->map->temp[i][j] == ' ')
+			floodfill_space_wall(var->map, i, j, ' ');
+		i++;
 	}
-	else if (var->map->tab_map[i][*j] == ' ')
+	while (i > 0 &&var->map->temp[--i])
 	{
-		temp = tab_cpy(var->map->tab_map, var->map->height);
-		count = count_empty(var->map->tab_map);
-		floodfill_space(var->map, temp, i, *j);
-		if (count != count_empty(temp))
+		if (ft_strrchr(var->map->temp[i], ' ') != NULL)
 			return (ft_putstr_fd("Error : invalid character\n", 2),
-				ft_free_all(var), free_split(temp), exit(1), 1);
-		free_split(temp);
+				ft_free_all(var), exit(1));
 	}
-	return (*j);
+	free_split(var->map->temp);
 }

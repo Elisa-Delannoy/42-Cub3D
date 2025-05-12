@@ -58,6 +58,7 @@ typedef struct s_map
 	t_list	*lst_map;
 	char	**tab_file;
 	char	**tab_map;
+	char	**temp;
 	int		c_no;
 	int		c_so;
 	int		c_we;
@@ -72,8 +73,6 @@ typedef struct s_map
 	char 	**c;
 	int		height;
 	int		width;
-	// int		i_begin_map;
-
 }	t_map;
 
 typedef struct s_var
@@ -117,10 +116,10 @@ int		check_map(t_var *var, int *i);
 int		count_empty(char **tab);
 
 // check map space
-int		check_space_in_map(t_var *var, int i, int *j);
+void		check_space_in_map(t_var *var, int i, int j);
 int		delete_space(t_map *map);
 void	add_space_end(t_map *map);
-void	floodfill_space(t_map *map, char **temp, int x, int y);
+void	floodfill_space_wall(t_map *map, int x, int y, int c);
 
 // check map wall
 int		check_wall_min_max(t_var *var);

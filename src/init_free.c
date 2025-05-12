@@ -8,6 +8,7 @@ t_map	*ft_init_map(void)
 	map->lst_map = NULL;
 	map->tab_file = NULL;
 	map->tab_map = NULL;
+	map->temp = NULL;
 	map->c_no = 0;
 	map->c_so = 0;
 	map->c_we = 0;
@@ -69,6 +70,8 @@ void	ft_free_all(t_var *var)
 			free_split(var->map->tab_file);
 		if (var->map->tab_map)
 			free_split(var->map->tab_map);
+		if (var->map->temp)
+			free_split(var->map->temp);
 		if (var->map->no)
 			free(var->map->no);
 		if (var->map->so)

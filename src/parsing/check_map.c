@@ -34,10 +34,8 @@ void	ft_check_ascii(t_var *var, t_map *map, int i, int j)
 	while (map->tab_map[++i])
 	{
 		j = 0;
-		// printf("i = %d j = %d\n", i, j);
 		while (map->tab_map[i][j])
 		{
-			// check_space_in_map(var, i, &j);
 			if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1' || map->tab_map[i][j] == '0')
 				j++;
 			else if (map->tab_map[i][j] == 'N' || map->tab_map[i][j] == 'S'
@@ -89,6 +87,7 @@ int	check_map(t_var *var, int *i)
 		return (1);
 	// ft_print_tab(var->map->tab_map);
 	ft_check_ascii(var, var->map, -1, 0);
+	check_space_in_map(var, 0, 0);
 	if (check_wall_min_max(var) != 0)
 	{
 		add_space_end(var->map);
