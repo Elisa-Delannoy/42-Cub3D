@@ -56,7 +56,6 @@ void	find_wall_ray(t_var *var, int type)
 	// while (i++ < num_rays)
 	// {
 		ray_angle = (var->player->dir - (var->player->fov / 2) + (i * ray_step));
-		// ray_angle = (PI / 2) + 0.1;
 		printf("\nJoueur: %f %f\n", var->player->map_x, var->player->map_y);
 		printf("\n\n\n%f\n", ray_angle);
 		if (sin(ray_angle) < 0)
@@ -71,6 +70,8 @@ void	find_wall_ray(t_var *var, int type)
 		}
 		new_xh = var->player->map_x + ((var->player->map_y - new_yh) / tan(ray_angle));
 		xah = (float)type / tan(ray_angle);
+		if ((xah > 0 && cos(ray_angle) < 0) || (xah < 0 && cos(ray_angle) > 0))
+			xah *= -1;
 		printf("\nHITH: %f %f\n", new_xh, new_yh);
 		while (new_xh < 660 && new_yh < 280)
 		{
@@ -82,7 +83,6 @@ void	find_wall_ray(t_var *var, int type)
 		dsth = distance(new_xh, new_yh, var->player->map_x, var->player->map_y);
 		printf("step XH : %f\nstep YH : %f\ndistance horizonale : %f\n", xah, yah, dsth);
 		draw_dir(var, new_yh, new_xh, 0xFFFFFF);
-		// printf("%f\n", ray_angle);
 
 
 		if (cos(ray_angle) > 0)
@@ -95,20 +95,22 @@ void	find_wall_ray(t_var *var, int type)
 			xav = -type;
 			new_xv = (round(var->player->map_x / (float)type) * (float)type) - 1;
 		}
-		new_yv = var->player->map_y + ((var->player->map_x - new_xv) * tan(ray_angle));
+		new_yv = fabs(var->player->map_y + ((var->player->map_x - new_xv) * tan(ray_angle)));
 		yav = (float)type * tan(ray_angle);
-		printf("\nHITV: %f %f\n", new_xv, new_yv);
-		while (var->map->tab_map[((int)new_yv / type)] != 0
-			&& var->map->tab_map[((int)new_yv / type)][((int)new_xv / type)] != 0
-			&& var->map->tab_map[((int)new_yv / type)][((int)new_xv / type)] != '1')
+		if ((yav > 0 && sin(ray_angle) > 0) || (yav < 0 && sin(ray_angle) < 0))
+			yav *= -1;
+		while (check_raycasting(new_yv, new_xv, type, var) == 0)
 		{
 			new_xv = new_xv + xav;
 			new_yv = new_yv + yav;
+			if (new_xv > 660 || new_yv > 0)
+				break ;
 		}
+		printf("\nHITV: %f %f\n", new_xv, new_yv);
 		dstv = distance(new_xv, new_yv, var->player->map_x, var->player->map_y);
 		printf("\nstep XV : %f\nstep YV : %f\ndistance verticale : %f\n", xav, yav, dstv);
 		
-		// draw_dir(var, new_yv, new_xv, 0xFFFFFF);
+		draw_dir(var, new_yv, new_xv, 0xFFFFFF);
 	// }
 	// exit(0);
 }
