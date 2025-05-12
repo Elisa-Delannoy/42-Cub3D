@@ -10,10 +10,10 @@
 
 typedef enum e_dir
 {
-	NORTH = 0,
-	SOUTH = 180,
-	EAST = 90,
-	WEAST = 270,
+	NORTH = 90,
+	SOUTH = 270,
+	EAST = 0,
+	WEAST = 180,
 	MAP = 20,
 	GAME = 64
 }	t_dir;

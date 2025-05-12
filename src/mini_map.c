@@ -103,7 +103,7 @@ void	find_wall_ray(t_var *var, int type)
 		{
 			new_xv = new_xv + xav;
 			new_yv = new_yv + yav;
-			if (new_xv > 660 || new_yv > 0)
+			if (new_xv > 660 || new_yv > 280)
 				break ;
 		}
 		printf("\nHITV: %f %f\n", new_xv, new_yv);

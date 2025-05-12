@@ -9,6 +9,6 @@ int main(int argc, char **argv)
 	var.time = 3000;
 	var.count = 0;
 	setup_window(&var);
-	ft_free_all(var.map);
+	ft_free_all(&var);
 	return (0);
 }
