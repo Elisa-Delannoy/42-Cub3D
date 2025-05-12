@@ -60,6 +60,19 @@ t_img	*init_img(void)
 	return (img);
 }
 
+t_img	*init_img_g(void)
+{
+	t_img	*img_g;
+	
+	img_g = malloc(sizeof(t_img));
+	img_g->img = NULL;
+	img_g->bits_per_pixel = 0;
+	img_g->data_img = NULL;
+	img_g->endian = 0;
+	img_g->size_line = 0;
+	return (img_g);
+}
+
 void	ft_free_all(t_var *var)
 {
 	if (var->map)

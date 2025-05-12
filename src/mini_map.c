@@ -27,9 +27,7 @@ int	distance(float x1, float y1, float x0, float y0)
 
 int check_raycasting(float new_y, float new_x, int type, t_var *var)
 {
-	printf(" newy/type =%d\n", (int)new_y / type);
-	printf("newx/type =%d\n", (int)new_x / type);
-	if (new_y < 0  || new_x < 0 || new_x > 660 || new_y > 280)
+	if (new_y < 0  || new_x < 0 || new_x > var->map->width * type	|| new_y > var->map->height * type)
 		return (0);
 	if (var->map->tab_map[((int)new_y / type)] != 0
 		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] != 0
@@ -87,8 +85,6 @@ void	find_wall_ray(t_var *var, int type)
 		dsth = distance(new_xh, new_yh, var->player->map_x, var->player->map_y);
 		printf("step XH : %f\nstep YH : %f\ndistance horizonale : %f\n", xah, yah, dsth);
 
-
-
 		if (cos(ray_angle) > 0)
 		{
 			xav = type;
@@ -116,16 +112,14 @@ void	find_wall_ray(t_var *var, int type)
 		printf("\nstep XV : %f\nstep YV : %f\ndistance verticale : %f\n", xav, yav, dstv);
 		
 
-
-		
 		if (dsth < dstv)
 		{
-			if ((new_yh > 0  && new_xh > 0) && new_xh < 660 && new_yh < 280)
+			if ((new_yh > 0  && new_xh > 0) && new_xh < var->map->width * type && new_yh < var->map->height * type)
 				draw_dir(var, new_yh, new_xh, 0xFF0000);
 		}
 		else if (dstv < dsth)
 		{
-			if ((new_yv > 0  && new_xv > 0) && new_xv < 660 && new_yv < 280)
+			if ((new_yv > 0  && new_xv > 0) && new_xv < var->map->width * type && new_yv < var->map->height * type)
 				draw_dir(var, new_yv, new_xv, 0xFFFFFF);
 		}
 	}
@@ -187,6 +181,15 @@ void	draw_map(t_img *img, int color, int i, int y)
 	}
 }
 
+void	make_game(t_var *var)
+{
+	var->img_g = init_img();
+	// var->img_g->img = mlx_new_image(var->mlx, var->map->width * 64, var->map->height * 64);
+	var->img_g->img = mlx_new_image(var->mlx, 1900, 1200);
+	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->bits_per_pixel, &var->img_g->size_line, &var->img_g->endian);
+	draw_map(var->img_g, 255, (1 * 20), (1 * 20));
+}
+
 void	make_minimap(t_var *var)
 {
 	int i;
@@ -194,7 +197,8 @@ void	make_minimap(t_var *var)
 
 	y = 0;
 	var->img = init_img();
-	var->img->img = mlx_new_image(var->mlx, 34*20, 14*20);
+	// printf("%d\n, ")
+	var->img->img = mlx_new_image(var->mlx, var->map->width * 20, var->map->height * 20);
 	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
 	while (var->map->tab_map[y])
 	{
@@ -211,5 +215,4 @@ void	make_minimap(t_var *var)
 		}
 		y++;
 	}
-	
 }
