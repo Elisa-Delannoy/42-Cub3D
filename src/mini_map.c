@@ -25,13 +25,15 @@ int	distance(float x1, float y1, float x0, float y0)
 	return (sqrt(((x1 - x0) * (x1 - x0)) + ((y1 - y0) * (y1 - y0))));
 }
 
-int a(float new_yh, float new_xh)
+int check_raycasting(float new_y, float new_x, int type, t_var *var)
 {
-	int type = 20;
-	
-		while (var->map->tab_map[((int)new_yh / type)] != 0
-			&& var->map->tab_map[((int)new_yh / type)][((int)new_xh / type)] != 0
-			&& var->map->tab_map[((int)new_yh / type)][((int)new_xh / type)] != '1')
+	if (var->map->tab_map[((int)new_y / type)] != 0
+		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] != 0
+		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] == '1')
+		return (0);
+	else
+		return (1);
+	return (1);
 }
 
 void	find_wall_ray(t_var *var, int type)
@@ -49,13 +51,12 @@ void	find_wall_ray(t_var *var, int type)
 	float dsth;
 	float ray_step = var->player->fov / num_rays;
 	float ray_angle;
-	float i = 50;
+	float i = 0;
 	// if (fabs(data.v_hit.x - data.start.x) < fabs(data.h_hit.x - data.start.x))
 	// while (i++ < num_rays)
 	// {
 		ray_angle = (var->player->dir - (var->player->fov / 2) + (i * ray_step));
 		// ray_angle = (PI / 2) + 0.1;
-		ray_angle = (0);
 		printf("\nJoueur: %f %f\n", var->player->map_x, var->player->map_y);
 		printf("\n\n\n%f\n", ray_angle);
 		if (sin(ray_angle) < 0)
@@ -71,17 +72,19 @@ void	find_wall_ray(t_var *var, int type)
 		new_xh = var->player->map_x + ((var->player->map_y - new_yh) / tan(ray_angle));
 		xah = (float)type / tan(ray_angle);
 		printf("\nHITH: %f %f\n", new_xh, new_yh);
-		while (var->map->tab_map[((int)new_yh / type)] != 0
-			&& var->map->tab_map[((int)new_yh / type)][((int)new_xh / type)] != 0
-			&& var->map->tab_map[((int)new_yh / type)][((int)new_xh / type)] != '1')
+		while (new_xh < 660 && new_yh < 280)
 		{
 			new_xh = new_xh + xah;
 			new_yh = new_yh + yah;
+			if (check_raycasting(new_yh, new_xh, type, var) == 0)
+				break ;
 		}
 		dsth = distance(new_xh, new_yh, var->player->map_x, var->player->map_y);
 		printf("step XH : %f\nstep YH : %f\ndistance horizonale : %f\n", xah, yah, dsth);
 		draw_dir(var, new_yh, new_xh, 0xFFFFFF);
 		// printf("%f\n", ray_angle);
+
+
 		if (cos(ray_angle) > 0)
 		{
 			xav = type;
@@ -105,7 +108,7 @@ void	find_wall_ray(t_var *var, int type)
 		dstv = distance(new_xv, new_yv, var->player->map_x, var->player->map_y);
 		printf("\nstep XV : %f\nstep YV : %f\ndistance verticale : %f\n", xav, yav, dstv);
 		
-		draw_dir(var, new_yv, new_xv, 0xFFFFFF);
+		// draw_dir(var, new_yv, new_xv, 0xFFFFFF);
 	// }
 	// exit(0);
 }
