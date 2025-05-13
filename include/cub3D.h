@@ -145,6 +145,7 @@ void	draw_player(t_var *var, int color, int i, int y);
 void	draw_dir(t_var *var, t_point cell, int color);
 void	find_wall_ray(t_var *var, int type);
 void	my_put_pixel(t_img *img, int y, int x, int color);
+void	draw_minimap(t_var *var);
 
 // raycasting
 void	raycasting(t_var *var, int type);

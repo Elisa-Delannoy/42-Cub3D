@@ -16,7 +16,7 @@ int	gameplay(t_var *var)
 	if (var->count >= var->time)
 	{
 		var->count = 0;
-		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img,  0, 0);
+		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, (1900 - (20 * var->map->width)), 1200 - (20 * var->map->height));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
@@ -63,6 +63,7 @@ int	key_hook(int keycode, t_var *var)
 	if (keycode == TURN_R)
 		var->player->dir = var->player->dir - 0.1;
 	draw_game(var->img_g, 1200, 1900);
+	// draw_minimap(var);
 	// printf("dir = %f\n", var->player->dir);
 	return (0);
 }

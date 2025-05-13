@@ -76,16 +76,12 @@ void	draw_map(t_img *img, int color, int i, int y)
 	}
 }
 
-void	make_minimap(t_var *var)
+void	draw_minimap(t_var *var)
 {
-	int i;
-	int y;
+	int	i;
+	int	y;
 
 	y = 0;
-	var->img = init_img();
-	// printf("%d\n, ")
-	var->img->img = mlx_new_image(var->mlx, var->map->width * 20, var->map->height * 20);
-	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
 	while (var->map->tab_map[y])
 	{
 		i = 0;
@@ -101,4 +97,13 @@ void	make_minimap(t_var *var)
 		}
 		y++;
 	}
+}
+
+void	make_minimap(t_var *var)
+{
+	var->img = init_img();
+	// printf("%d\n, ")
+	var->img->img = mlx_new_image(var->mlx, var->map->width * 20, var->map->height * 20);
+	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
+	draw_minimap(var);
 }

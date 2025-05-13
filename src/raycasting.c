@@ -44,7 +44,7 @@ t_point	raycating_vertical(t_var *var, t_cast *cast, float type)
 	}
 	cell.y = fabs(var->player->map_y + ((var->player->map_x - cell.x) * tan(cast->ray)));
 	cast->step_y = (float)type * tan(cast->ray);
-	if ((cast->step_y > 0 && sin(cast->ray) > 0) || (cast->step_y < 0 && sin(cast->ray) < 0))
+	if ((cast->step_y >= 0 && sin(cast->ray) >= 0) || (cast->step_y <= 0 && sin(cast->ray) <= 0))
 		cast->step_y *= -1;
 	while (1)
 	{
@@ -61,7 +61,7 @@ void	raycasting(t_var *var, int type)
 	int i;
 	float	ray_step;
 
-	ray_step = var->player->fov / 1900;
+	ray_step = var->player->fov /1900;
 	i = 0;
 	while (i++ < 1900)
 	{
@@ -72,9 +72,17 @@ void	raycasting(t_var *var, int type)
 		var->cast->distv = distance(var->cast->v, var->player->map_x, var->player->map_y);
 		if (type == MAP && var->cast->disth < var->cast->distv
 			&& valid_point(var, var->cast->h, type) == 0)
-				draw_dir(var, var->cast->h, 0xFFFFFF);
+				{
+					draw_dir(var, var->cast->h, 0xFFFFFF);
+					wall_height(var, var->cast->disth, i);
+				}
 		else if (type == MAP && var->cast->distv <= var->cast->disth
 			&& valid_point(var, var->cast->v, type) == 0)
-				draw_dir(var, var->cast->v, 0xFF0000);
+				{
+					draw_dir(var, var->cast->v, 0xFF0000);
+					wall_height(var, var->cast->distv, i);
+				}
+		// if (type == MAP
+		// 	&& valid_point(var, var->cast->v, type) == 0)
 	}
 }
