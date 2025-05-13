@@ -153,6 +153,8 @@ int		distance(t_point cell, float x0, float y0);
 int		valid_point(t_var *var, t_point cell, int type);
 // game
 void	make_game(t_var *var);
+void	wall_height(t_var *var, int dist, int i);
+void	draw_game(t_img *img_g, int height, int width);
 
 // cooridnates
 int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
