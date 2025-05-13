@@ -150,6 +150,7 @@ void	my_put_pixel(t_img *img, int y, int x, int color);
 void	raycasting(t_var *var, int type);
 int		check_raycasting(float new_y, float new_x, int type, t_var *var);
 int		distance(t_point cell, float x0, float y0);
+int		valid_point(t_var *var, t_point cell, int type);
 // game
 void	make_game(t_var *var);
 
