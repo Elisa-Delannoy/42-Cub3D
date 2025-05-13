@@ -181,15 +181,6 @@ void	draw_map(t_img *img, int color, int i, int y)
 	}
 }
 
-void	make_game(t_var *var)
-{
-	var->img_g = init_img();
-	// var->img_g->img = mlx_new_image(var->mlx, var->map->width * 64, var->map->height * 64);
-	var->img_g->img = mlx_new_image(var->mlx, 1900, 1200);
-	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->bits_per_pixel, &var->img_g->size_line, &var->img_g->endian);
-	draw_map(var->img_g, 255, (1 * 20), (1 * 20));
-}
-
 void	make_minimap(t_var *var)
 {
 	int i;

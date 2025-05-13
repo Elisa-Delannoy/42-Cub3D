@@ -88,6 +88,7 @@ int	check_map(t_var *var, int *i)
 	// ft_print_tab(var->map->tab_map);
 	ft_check_ascii(var, var->map, -1, 0);
 	check_space_in_map(var, 0, 0);
+	var->map->temp = NULL;
 	if (check_wall_min_max(var) != 0)
 	{
 		add_space_end(var->map);
