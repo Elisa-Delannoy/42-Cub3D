@@ -136,6 +136,8 @@ void	my_put_pixel(t_img *img, int y, int x, int color);
 
 // game
 void	make_game(t_var *var);
+void	wall_height(t_var *var, int dist, int i);
+void	draw_game(t_img *img_g, int height, int width);
 
 // cooridnates
 int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
