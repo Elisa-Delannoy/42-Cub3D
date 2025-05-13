@@ -19,7 +19,8 @@ int	gameplay(t_var *var)
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img,  0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, (1900 - (20 * var->map->width)), 1200 - (20 * var->map->height));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
-		find_wall_ray(var, MAP);
+		// find_wall_ray(var, MAP);
+		raycasting(var, MAP);
 		// find_wall_ray(var, GAME);
 	}
 	return(0);
@@ -68,10 +69,19 @@ int	key_hook(int keycode, t_var *var)
 	return (0);
 }
 
+t_cast	*init_cast(void)
+{
+	t_cast	*cast;
+
+	cast = malloc(sizeof(t_cast));
+	return (cast);
+}
+
 int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
 	var->win = mlx_new_window(var->mlx, 1900, 1200, "Exit the cavern !");
+	var->cast = init_cast();
 	make_minimap(var);
 	make_game(var);
 	printf("x =%f\n", var->player->map_x);

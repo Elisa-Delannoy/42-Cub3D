@@ -1,42 +1,91 @@
 #include "cub3D.h"
 
-void	draw_player(t_var *var, int color, int y, int i)
+t_point	raycating_horizontal(t_var *var, t_cast *cast, float type)
 {
-	int save_i;
-	int save_y;
-	char *ptr;
+	t_point cell;
 	
-	save_i = i;
-	save_y = y;
-	while (y < save_y + 10)
+	if (sin(cast->ray) < 0)
 	{
-		i = save_i;
-		while (i++ < save_i + 10)
-		{
-			ptr = var->img->data_img + ((y * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
-			*(int *)ptr = color;
-		}
-		y++;
+		cast->step_y = type;
+		cell.y = (floor(var->player->map_y / (float)type) * (float)type) + type;
 	}
-}
-
-int	distance(t_point cell, float x0, float y0)
-{
-	return (sqrt(((cell.x - x0) * (cell.x - x0))
-			+ ((cell.y - y0) * (cell.y - y0))));
-}
-
-int check_raycasting(float new_y, float new_x, int type, t_var *var)
-{
-	if (new_y < 0  || new_x < 0 || new_x > var->map->width * type || new_y > var->map->height * type)
-		return (0);
-	if (var->map->tab_map[((int)new_y / type)] != 0
-		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] != 0
-		&& var->map->tab_map[((int)new_y / type)][((int)new_x / type)] == '1')
-		return (0);
 	else
-		return (1);
+	{
+		cast->step_y = -type;
+		cell.y = (floor(var->player->map_y / (float)type) * (float)type) - 1;
+	}
+	cell.x = var->player->map_x + ((var->player->map_y - cell.y) / tan(cast->ray));
+	cast->step_x = (float)type / tan(cast->ray);
+	if ((cast->step_x > 0 && cos(cast->ray) < 0) || (cast->step_x < 0 && cos(cast->ray) > 0))
+		cast->step_x *= -1;
+	while (1)
+	{
+		if (check_raycasting(cell.y, cell.x, type, var) == 0)
+			break ;
+		cell.x += cast->step_x;
+		cell.y += cast->step_y;
+	}
+	return (cell);
+}
+
+t_point	raycating_vertical(t_var *var, t_cast *cast, float type)
+{
+	t_point cell;
+
+	if (cos(cast->ray) > 0)
+	{
+		cast->step_x = type;
+		cell.x = (round(var->player->map_x / (float)type) * (float)type) + type;
+	}
+	else
+	{
+		cast->step_x = -type;
+		cell.x = (round(var->player->map_x / (float)type) * (float)type) - 1;
+	}
+	cell.y = fabs(var->player->map_y + ((var->player->map_x - cell.x) * tan(cast->ray)));
+	cast->step_y = (float)type * tan(cast->ray);
+	if ((cast->step_y > 0 && sin(cast->ray) > 0) || (cast->step_y < 0 && sin(cast->ray) < 0))
+		cast->step_y *= -1;
+	while (1)
+	{
+		if (check_raycasting(cell.y, cell.x, type, var) == 0)
+			break ;
+		cell.x += cast->step_x;
+		cell.y += cast->step_y;
+	}
+	return(cell);
+}
+
+int	valid_point(t_var *var, t_point cell, int type)
+{
+	if ((cell.y > 0  && cell.x > 0)
+		&& (cell.x < var->map->width * type
+		&& cell.y < var->map->height * type))
+		return (0);
 	return (1);
+}
+
+void	raycasting(t_var *var, int type)
+{
+	int i;
+	float	ray_step;
+
+	ray_step = var->player->fov / 1900;
+	i = 0;
+	while (i++ < 1900)
+	{
+		var->cast->ray = (var->player->dir - (var->player->fov / 2) + (i * ray_step));
+		var->cast->h = raycating_horizontal(var, var->cast, type);
+		var->cast->v = raycating_vertical(var, var->cast, type);
+		var->cast->disth = distance(var->cast->h, var->player->map_x, var->player->map_y);
+		var->cast->distv = distance(var->cast->v, var->player->map_x, var->player->map_y);
+		if (type == MAP && var->cast->disth < var->cast->distv
+			&& valid_point(var, var->cast->h, type) == 0)
+				draw_dir(var, var->cast->h, 0xFFFFFF);
+		else if (type == MAP && var->cast->distv <= var->cast->disth
+			&& valid_point(var, var->cast->v, type) == 0)
+				draw_dir(var, var->cast->v, 0xFF0000);
+	}
 }
 
 // void	find_wall_ray(t_var *var, int type)
@@ -125,86 +174,3 @@ int check_raycasting(float new_y, float new_x, int type, t_var *var)
 // 		}
 // 	}
 // }
-
-void	my_put_pixel(t_img *img, int y, int x, int color)
-{
-	char	*ptr;
-	
-	ptr = img->data_img + ((y * img->size_line) + (x * (img->bits_per_pixel / 8)));
-	*(int *)ptr = color;
-}
-
-void	draw_dir(t_var *var, t_point cell, int color)
-{
-	int x0;
-	int y0;
-    int dx;
-    int dy;
-
-    int sy = (var->player->map_y < (int)cell.y) ? 1 : -1;
-    int sx = (var->player->map_x < (int)cell.x) ? 1 : -1;
-    int err;
-    int e2;
-
-	y0 = var->player->map_y;
-	x0 = var->player->map_x;
-	dx = abs((int)cell.x - x0);
-	dy = abs((int)cell.y - y0);
-	err = dx - dy;
-    while (1)
-    {
-       my_put_pixel(var->img, y0, x0, color);
- 		if (x0 == (int)cell.x && y0 == (int)cell.y)
-            break;
-        e2 = 2 * err;
-        if (e2 > -dy) { err -= dy; x0 += sx; }
-        if (e2 < dx)  { err += dx; y0 += sy; }
-    }
-}
-
-void	draw_map(t_img *img, int color, int i, int y)
-{
-	int save_i;
-	int save_y;
-	char *ptr;
-
-	save_i = i;
-	save_y = y;
-	while (y < save_y + 20)
-	{
-		i = save_i;
-		while (i++ < save_i + 20) /*largeur map*/
-		{
-			ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
-			*(int *)ptr = color;
-		}
-		y++;
-	}
-}
-
-void	make_minimap(t_var *var)
-{
-	int i;
-	int y;
-
-	y = 0;
-	var->img = init_img();
-	// printf("%d\n, ")
-	var->img->img = mlx_new_image(var->mlx, var->map->width * 20, var->map->height * 20);
-	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
-	while (var->map->tab_map[y])
-	{
-		i = 0;
-		while (var->map->tab_map[y][i])
-		{
-			if (var->map->tab_map[y][i] == '1')
-				draw_map(var->img, 255, (i * 20), (y * 20));
-			else if (var->map->tab_map[y][i] == '0')
-				draw_map(var->img, 125, (i * 20), (y * 20));
-			else if (var->map->tab_map[y][i] != ' ')
-				draw_map(var->img, 125, (i * 20), (y * 20));
-			i++;
-		}
-		y++;
-	}
-}

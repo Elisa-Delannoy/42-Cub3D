@@ -27,12 +27,7 @@ typedef enum e_key
 	TURN_L = 65361,
 	TURN_R = 65363,
 	ESC = 65307
-}				t_key;
-
-typedef struct s_cast
-{
-	
-}	t_cast;
+}	t_key;
 
 typedef struct s_player
 {
@@ -48,8 +43,8 @@ typedef struct s_img
 {
 	void	*img;
 	char	*data_img;
-	int 	bits_per_pixel;
-	int 	size_line;
+	int		bits_per_pixel;
+	int		size_line;
 	int		endian;
 }	t_img;
 
@@ -70,17 +65,35 @@ typedef struct s_map
 	char	*we;
 	char	*ea;
 	char	**f;
-	char 	**c;
+	char	**c;
 	int		height;
 	int		width;
 }	t_map;
 
+typedef struct s_point
+{
+	float	y;
+	float	x;
+}	t_point;
+
+typedef struct s_cast
+{
+	t_point	h;
+	t_point	v;
+	float	disth;
+	float	distv;
+	float	step_y;
+	float	step_x;
+	float	ray;
+}	t_cast;
+
 typedef struct s_var
 {
-	void	*mlx;
-	void	*win;
-	int		time;
-	int		count;
+	void		*mlx;
+	void		*win;
+	int			time;
+	int			count;
+	t_cast		*cast;
 	t_img		*img;
 	t_img		*img_g;
 	t_player	*player;
@@ -129,11 +142,14 @@ int		check_wall(t_map *map);
 // mini_map
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
-void	draw_dir(t_var *var, int x1, int y1, int color);
+void	draw_dir(t_var *var, t_point cell, int color);
 void	find_wall_ray(t_var *var, int type);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 
-
+// raycasting
+void	raycasting(t_var *var, int type);
+int		check_raycasting(float new_y, float new_x, int type, t_var *var);
+int		distance(t_point cell, float x0, float y0);
 // game
 void	make_game(t_var *var);
 
