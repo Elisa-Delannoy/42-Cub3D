@@ -20,7 +20,10 @@ int	gameplay(t_var *var)
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, (1900 - (20 * var->map->width)), 1200 - (20 * var->map->height));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
-		raycasting(var, MAP);
+		draw_game(var->img_g, 1200, 1900);
+		draw_minimap(var);
+		draw_player(var, 0xFF0140, var->player->map_y, var->player->map_x);
+		raycasting(var, 20.0f);
 		// find_wall_ray(var, GAME);
 	}
 	return(0);
@@ -48,23 +51,33 @@ void	update_player(t_var *var, int dx, int dy)
 
 int	key_hook(int keycode, t_var *var)
 {
+	draw_player(var, 0xFF0140, var->player->map_y, var->player->map_x);
 	if (keycode == ESC)
 		clear_all(var);
 	if (keycode == UP)
-		update_player(var, 0, -1);
+	{
+		var->player->map_x += cos(var->player->dir) * 0.1;
+		var->player->map_y -= sin(var->player->dir) * 0.1;
+	}
 	if (keycode == DOWN)
-		update_player(var, 0, 1);
+	{
+		var->player->map_x += cos(var->player->dir) * 0.1;
+		var->player->map_y += sin(var->player->dir) * 0.1;
+	}
 	if (keycode == LEFT)
-		update_player(var, -1, 0);
+	{
+		var->player->map_x += cos(var->player->dir + (PI/2)) * 0.1;
+		var->player->map_y += sin(var->player->dir - (PI/2)) * 0.1;
+	}	
 	if (keycode == RIGHT)
-		update_player(var, 1, 0);
+	{
+		var->player->map_x += cos(var->player->dir - (PI/2)) * 0.1;
+		var->player->map_y += sin(var->player->dir + (PI/2)) * 0.1;
+	}
 	if (keycode == TURN_L)
 		var->player->dir = var->player->dir + 0.1;
 	if (keycode == TURN_R)
 		var->player->dir = var->player->dir - 0.1;
-	draw_game(var->img_g, 1200, 1900);
-	draw_minimap(var);
-	// printf("dir = %f\n", var->player->dir);
 	return (0);
 }
 

@@ -85,6 +85,7 @@ typedef struct s_cast
 	float	step_y;
 	float	step_x;
 	float	ray;
+	float	tan;
 }	t_cast;
 
 typedef struct s_var
@@ -148,7 +149,7 @@ void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
 
 // raycasting
-void	raycasting(t_var *var, int type);
+void	raycasting(t_var *var, float type);
 int		check_raycasting(float new_y, float new_x, int type, t_var *var);
 int		distance(t_point cell, float x0, float y0);
 int		valid_point(t_var *var, t_point cell, int type);

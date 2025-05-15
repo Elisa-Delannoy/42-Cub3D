@@ -31,8 +31,8 @@ t_player	*init_player(t_var *var, int x, int y)
 	t_player	*player;
 
 	player = malloc(sizeof(t_player));
-	player->game_x = (float)(x * 64);
-	player->game_y = (float)(y * 64);
+	player->game_x = (float)(y * 64);
+	player->game_y = (float)(x * 64);
 	player->map_x = (float)((y + 0.25) * 20);
 	player->map_y = (float)((x + 0.25) * 20);
 	if (var->map->tab_map[x][y] == 'N')
