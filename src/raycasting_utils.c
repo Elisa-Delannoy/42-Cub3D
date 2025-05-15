@@ -2,6 +2,10 @@
 
 int	distance(t_point cell, float x0, float y0)
 {
+	// printf("x0 =%f\n", x0/20);
+	// printf("cell x=%f\n", cell.x/20);
+	// printf("cell y=%f\n", cell.y/20);
+	// printf("y0 =%f\n", y0/20);
 	return (sqrt(((cell.x - x0) * (cell.x - x0))
 			+ ((cell.y - y0) * (cell.y - y0))));
 }
@@ -9,8 +13,8 @@ int	distance(t_point cell, float x0, float y0)
 int	valid_point(t_var *var, t_point cell, int type)
 {
 	if ((cell.y > 0  && cell.x > 0)
-		&& (cell.x < var->map->width * type
-		&& cell.y < var->map->height * type))
+		&& (cell.x < var->map->width * (float)type
+		&& cell.y < var->map->height * (float)type))
 		return (0);
 	return (1);
 }

@@ -25,38 +25,40 @@ void	draw_wall(t_var *var, int wall, int i)
 {
 	int y;
 	int	y_end;
-	int	j;
 
 	y = (1200 - wall) / 2 ;
 	y_end = y + wall;
 	printf("y = %d\n", y);
-	printf("wall = %d\n", wall);
+	
 	printf("i = %d\n", i);
 
 	while (y < y_end)
 	{
-		if (y >= 0 && y < 1200) 
-		{
-			j = 0;
-			while (j < 64)
-			{
-				my_put_pixel(var->img_g, y + j, i, 0x404040);
-				j++;
-			}
-			y++;
-		}
+		my_put_pixel(var->img_g, y, i, 0xFF0000);
+		y++;
 	}
-
 }
 
-void	wall_height(t_var *var, int dist, int i)
+void	wall_height(t_var *var, float dist, int i)
 {
-	int	height_w;
+	float	height_w;
+	float	correc_dist;
 
 	(void) dist;
+	// var->cast->ray = fmod(var->play->angle
+				// - (var->player->fov / 2), 360.0)); - (double)var->play->dir, 360.0);
+	// height_w =  fabs((64 * 1200) / (dist / 20 * 64) * cos(var->cast->ray)screen_width / 2) / tan(fov / 2););
+	// height_w =  64 / dist;
 
-printf("dist = %d\n", dist);
-	height_w = 1200 / dist;
+	correc_dist = (float)dist * cos(var->cast->ray - var->player->dir);
+
+
+	height_w = ((64.0f / (correc_dist)) * ((1200 / 2) / tan(var->player->fov / 2)));
+	printf("angle%f\n", var->cast->ray);
+	if (height_w > 1200)
+		height_w = 1200;
+	if (height_w < 0)
+		height_w = 0;
 	// printf("dist = %d\n", height_w);
 
 	// printf("x = %d", new_x);

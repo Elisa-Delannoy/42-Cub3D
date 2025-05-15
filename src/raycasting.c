@@ -7,7 +7,7 @@ t_point	raycating_horizontal(t_var *var, t_cast *cast, float type)
 	if (sin(cast->ray) < 0)
 	{
 		cast->step_y = type;
-		cell.y = (floor(var->player->map_y / (float)type) * (float)type) + type;
+		cell.y = (floor(var->player->map_y / type) * type) + type;
 	}
 	else
 	{
@@ -35,12 +35,12 @@ t_point	raycating_vertical(t_var *var, t_cast *cast, float type)
 	if (cos(cast->ray) > 0)
 	{
 		cast->step_x = type;
-		cell.x = (round(var->player->map_x / (float)type) * (float)type) + type;
+		cell.x = (floor(var->player->map_x / (float)type) * (float)type) + type;
 	}
 	else
 	{
 		cast->step_x = -type;
-		cell.x = (round(var->player->map_x / (float)type) * (float)type) - 1;
+		cell.x = (floor(var->player->map_x / (float)type) * (float)type) - 1;
 	}
 	cell.y = fabs(var->player->map_y + ((var->player->map_x - cell.x) * tan(cast->ray)));
 	cast->step_y = (float)type * tan(cast->ray);
@@ -56,12 +56,46 @@ t_point	raycating_vertical(t_var *var, t_cast *cast, float type)
 	return(cell);
 }
 
+// void	game_print(t_var *var, t_cast *cast, float type, float i)
+// {
+// 	if (cast->disth < cast->distv
+// 			&& valid_point(var, cast->h, type) == 0)
+// 	{
+// 		printf("dans if game disth\n ");
+// 		wall_height(var, cast->disth, i);
+// 	}
+// 	else if (cast->distv <= cast->disth
+// 		&& valid_point(var, cast->v, type) == 0)
+// 	{
+// 		printf("dans if game distv\n ");
+// 		wall_height(var, cast->distv, i);
+// 	}
+// }
+
+void	map_print(t_var *var, t_cast *cast, float type, float i)
+{
+	if (type == MAP && cast->disth < cast->distv
+			&& valid_point(var, cast->h, type) == 0)
+	{
+		printf("dans if map disth\n ");
+		draw_dir(var, cast->h, 0xFFFFFF);
+		wall_height(var, cast->disth * 3.2, i);
+	}
+	else if (type == MAP && cast->distv <= cast->disth
+		&& valid_point(var, cast->v, type) == 0)
+	{
+		printf("dans if map distv\n");
+		draw_dir(var, cast->v, 0xFF0000);
+		wall_height(var, cast->distv * 3.2, i);
+	}
+}
+
 void	raycasting(t_var *var, int type)
 {
 	int i;
 	float	ray_step;
 
-	ray_step = var->player->fov /1900;
+	ray_step = var->player->fov / 1900.0f;
 	i = 0;
 	while (i++ < 1900)
 	{
@@ -69,19 +103,11 @@ void	raycasting(t_var *var, int type)
 		var->cast->h = raycating_horizontal(var, var->cast, type);
 		var->cast->v = raycating_vertical(var, var->cast, type);
 		var->cast->disth = distance(var->cast->h, var->player->map_x, var->player->map_y);
-		var->cast->distv = distance(var->cast->v, var->player->map_x, var->player->map_y);
-		if (type == MAP && var->cast->disth < var->cast->distv
-			&& valid_point(var, var->cast->h, type) == 0)
-				{
-					draw_dir(var, var->cast->h, 0xFFFFFF);
-					wall_height(var, var->cast->disth, i);
-				}
-		else if (type == MAP && var->cast->distv <= var->cast->disth
-			&& valid_point(var, var->cast->v, type) == 0)
-				{
-					draw_dir(var, var->cast->v, 0xFF0000);
-					wall_height(var, var->cast->distv, i);
-				}
+		var->cast->distv = distance(var->cast->v, var->player->map_x, var->player->map_y);		
+		if (type == MAP)
+			map_print(var, var->cast, type, 1900 - i);
+		// if (type == GAME)
+		// 	game_print(var, var->cast, type, i);
 		// if (type == MAP
 		// 	&& valid_point(var, var->cast->v, type) == 0)
 	}

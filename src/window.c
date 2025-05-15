@@ -63,7 +63,7 @@ int	key_hook(int keycode, t_var *var)
 	if (keycode == TURN_R)
 		var->player->dir = var->player->dir - 0.1;
 	draw_game(var->img_g, 1200, 1900);
-	// draw_minimap(var);
+	draw_minimap(var);
 	// printf("dir = %f\n", var->player->dir);
 	return (0);
 }

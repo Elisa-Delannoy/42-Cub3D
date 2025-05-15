@@ -1,5 +1,24 @@
 #include "cub3D.h"
 
+int	end_map(t_map *map, int i)
+{
+	int	j;
+
+	while (map->tab_file[i])
+	{
+		j = 0;
+		while (map->tab_file[i][j])
+		{
+			if (map->tab_file[i][j] == ' ')
+				j++;
+			else
+				return (ft_putstr_fd("Error : invalid map\n", 2), 1);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	stock_map_in_tab(t_map *map, int *i)
 {
 	int	k;
@@ -13,15 +32,10 @@ int	stock_map_in_tab(t_map *map, int *i)
 		if (ft_strrchr(map->tab_file[*i], '1') == NULL)
 		{
 			map->tab_map[k] = NULL;
-			break ;
+			return (end_map(map, *i));
 		}
 		if (map->tab_file[*i])
 			map->tab_map[k] = ft_strdup(map->tab_file[*i]);
-		else
-		{
-			map->tab_map[k] = NULL;
-			return (0);
-		}
 		k++;
 		(*i)++;
 	}
