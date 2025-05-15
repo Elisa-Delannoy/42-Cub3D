@@ -21,17 +21,13 @@ void	draw_game(t_img *img_g, int height, int width)
 	}
 }
 
-void	draw_wall(t_var *var, int wall, int i)
+void	draw_wall(t_var *var, float wall, int i)
 {
-	int y;
-	int	y_end;
+	float	y;
+	float	y_end;
 
-	y = (1200 - wall) / 2 ;
+	y = (var->height - wall) / 2.0f ;
 	y_end = y + wall;
-	printf("y = %d\n", y);
-	
-	printf("i = %d\n", i);
-
 	while (y < y_end)
 	{
 		my_put_pixel(var->img_g, y, i, 0xFF0000);
@@ -44,21 +40,12 @@ void	wall_height(t_var *var, float dist, int i)
 	float	height_w;
 	float	correc_dist;
 
-	(void) dist;
-	// var->cast->ray = fmod(var->play->angle
-				// - (var->player->fov / 2), 360.0)); - (double)var->play->dir, 360.0);
-	// height_w =  fabs((64 * 1200) / (dist / 20 * 64) * cos(var->cast->ray)screen_width / 2) / tan(fov / 2););
-	// height_w =  64 / dist;
-
-	printf("var ray %f\n", var->cast->ray * 180 / PI);
-	correc_dist = (float)dist * cos(var->cast->ray - var->player->dir);
+	correc_dist = dist * cos(var->cast->ray - var->player->dir);
 	if (correc_dist < 0.0001f)
 		correc_dist = 0.0001f;
-
-	// height_w = ((64.0f / (correc_dist)) * ((1200.0f / 2.0f) / tan(var->player->fov / 2.0f)));
-	height_w = (64.0f * 1200.0f) / correc_dist;
-	if (height_w > 1200)
-		height_w = 1200;
+	height_w = (64.0f * var->height) / correc_dist;
+	if (height_w > var->height)
+		height_w = var->height;
 	if (height_w < 0)
 		height_w = 0;
 	// printf("dist = %d\n", height_w);
@@ -75,13 +62,8 @@ void	wall_height(t_var *var, float dist, int i)
 
 void	make_game(t_var *var)
 {
-	int	height;
-	int	width;
-
-	height = 1200;
-	width = 1900;
 	var->img_g = init_img();
-	var->img_g->img = mlx_new_image(var->mlx, width, height);
+	var->img_g->img = mlx_new_image(var->mlx, (int)var->width, (int)var->height);
 	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->bits_per_pixel, &var->img_g->size_line, &var->img_g->endian);
-	draw_game(var->img_g, height, width);
+	draw_game(var->img_g, var->height, var->width);
 }

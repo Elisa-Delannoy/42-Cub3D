@@ -33,8 +33,8 @@ t_player	*init_player(t_var *var, int x, int y)
 	player = malloc(sizeof(t_player));
 	player->game_x = (float)(y * 64);
 	player->game_y = (float)(x * 64);
-	player->map_x = (float)((y + 0.25) * 20);
-	player->map_y = (float)((x + 0.25) * 20);
+	player->map_x = (float)((y) * 20);
+	player->map_y = (float)((x) * 20);
 	if (var->map->tab_map[x][y] == 'N')
 		player->dir = radian(NORTH);
 	if (var->map->tab_map[x][y] == 'S')
@@ -43,7 +43,7 @@ t_player	*init_player(t_var *var, int x, int y)
 		player->dir = radian(EAST);
 	if (var->map->tab_map[x][y] == 'W')
 		player->dir = radian(WEAST);
-	player->fov = radian(80);
+	player->fov = radian(60);
 	return (player);
 }
 

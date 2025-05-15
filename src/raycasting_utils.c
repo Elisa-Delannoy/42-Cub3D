@@ -1,11 +1,7 @@
 #include "cub3D.h"
 
-int	distance(t_point cell, float x0, float y0)
+float	distance(t_point cell, float x0, float y0)
 {
-	// printf("x0 =%f\n", x0/20);
-	// printf("cell x=%f\n", cell.x/20);
-	// printf("cell y=%f\n", cell.y/20);
-	// printf("y0 =%f\n", y0/20);
 	return (sqrt(((cell.x - x0) * (cell.x - x0))
 			+ ((cell.y - y0) * (cell.y - y0))));
 }

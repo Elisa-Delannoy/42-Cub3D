@@ -35,6 +35,9 @@ void	draw_dir(t_var *var, t_point cell, int color)
     int dx;
     int dy;
 
+	cell.y = cell.y / 3.2f;
+	cell.x = cell.x / 3.2f;
+
     int sy = (var->player->map_y < (int)cell.y) ? 1 : -1;
     int sx = (var->player->map_x < (int)cell.x) ? 1 : -1;
     int err;
@@ -48,7 +51,7 @@ void	draw_dir(t_var *var, t_point cell, int color)
     while (1)
     {
        my_put_pixel(var->img, y0, x0, color);
- 		if (x0 == (int)cell.x && y0 == (int)cell.y)
+		if (x0 == (int)cell.x && y0 == (int)cell.y)
             break;
         e2 = 2 * err;
         if (e2 > -dy) { err -= dy; x0 += sx; }

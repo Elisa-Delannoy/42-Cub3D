@@ -17,62 +17,50 @@ int	gameplay(t_var *var)
 	{
 		var->count = 0;
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-		mlx_put_image_to_window(var->mlx, var->win, var->img->img, (1900 - (20 * var->map->width)), 1200 - (20 * var->map->height));
+		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (20 * var->map->width))), (int)(var->height - (20 * var->map->height)));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
-		draw_game(var->img_g, 1200, 1900);
+		draw_game(var->img_g, var->height, var->width);
 		draw_minimap(var);
-		draw_player(var, 0xFF0140, var->player->map_y, var->player->map_x);
-		raycasting(var, 20.0f);
+		draw_player(var, 0xFF0140, var->player->map_y - 5, var->player->map_x - 5);
+		raycasting(var, 64.0f);
 		// find_wall_ray(var, GAME);
 	}
 	return(0);
 }
-// noah a supp elisa a garder
-// int	check_wall(t_var *var)
-// {
-// 	float	x;		
-// 	float	y;
-// 	(void)var;
-// 	x = var->player->map_x + 0.1;
-// 	y = 2.1;
-// 	printf("%d", (int)x);
-// 	printf("%d", (int)var->player->map_x);
-// 	return (0);
-// }
 
 void	update_player(t_var *var, int dx, int dy)
 {
-	draw_player(var, 125, var->player->map_y, var->player->map_x);
+	draw_player(var, 125, var->player->map_y -5, var->player->map_x - 5);
 	var->player->map_x = var->player->map_x + dx;
 	var->player->map_y = var->player->map_y + dy;
-	draw_player(var, 0xFF0140, var->player->map_y, var->player->map_x);
+	draw_player(var, 0xFF0140, var->player->map_y - 5, var->player->map_x - 5);
 }
 
 int	key_hook(int keycode, t_var *var)
 {
-	draw_player(var, 0xFF0140, var->player->map_y, var->player->map_x);
+	draw_player(var, 0xFF0140, var->player->map_y - 5, var->player->map_x - 5);
 	if (keycode == ESC)
 		clear_all(var);
 	if (keycode == UP)
 	{
-		var->player->map_x += cos(var->player->dir) * 0.1;
-		var->player->map_y -= sin(var->player->dir) * 0.1;
+		var->player->game_x += cos(var->player->dir) * 1;
+		var->player->game_y -= sin(var->player->dir) * 1;
 	}
 	if (keycode == DOWN)
 	{
-		var->player->map_x += cos(var->player->dir) * 0.1;
-		var->player->map_y += sin(var->player->dir) * 0.1;
+		var->player->game_x += cos(var->player->dir) * 1;
+		var->player->game_y += sin(var->player->dir) * 1;
 	}
 	if (keycode == LEFT)
 	{
-		var->player->map_x += cos(var->player->dir + (PI/2)) * 0.1;
-		var->player->map_y += sin(var->player->dir - (PI/2)) * 0.1;
+		var->player->game_x += cos(var->player->dir + (PI/2)) * 1;
+		var->player->game_y += sin(var->player->dir - (PI/2)) * 1;
 	}	
 	if (keycode == RIGHT)
 	{
-		var->player->map_x += cos(var->player->dir - (PI/2)) * 0.1;
-		var->player->map_y += sin(var->player->dir + (PI/2)) * 0.1;
+		var->player->game_x += cos(var->player->dir - (PI/2)) * 1;
+		var->player->game_y += sin(var->player->dir + (PI/2)) * 1;
 	}
 	if (keycode == TURN_L)
 		var->player->dir = var->player->dir + 0.1;
@@ -92,7 +80,7 @@ t_cast	*init_cast(void)
 int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
-	var->win = mlx_new_window(var->mlx, 1900, 1200, "Exit the cavern !");
+	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height, "Exit the cavern !");
 	var->cast = init_cast();
 	make_minimap(var);
 	make_game(var);

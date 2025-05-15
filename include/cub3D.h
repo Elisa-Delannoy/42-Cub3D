@@ -94,6 +94,8 @@ typedef struct s_var
 	void		*win;
 	int			time;
 	int			count;
+	float		height;
+	float		width;
 	t_cast		*cast;
 	t_img		*img;
 	t_img		*img_g;
@@ -151,7 +153,7 @@ void	draw_minimap(t_var *var);
 // raycasting
 void	raycasting(t_var *var, float type);
 int		check_raycasting(float new_y, float new_x, int type, t_var *var);
-int		distance(t_point cell, float x0, float y0);
+float		distance(t_point cell, float x0, float y0);
 int		valid_point(t_var *var, t_point cell, int type);
 // game
 void	make_game(t_var *var);

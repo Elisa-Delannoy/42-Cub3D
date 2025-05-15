@@ -6,6 +6,8 @@ int main(int argc, char **argv)
 
 	var.player = NULL;
 	ft_parse(argc, argv, &var);
+	var.height = 1200;
+	var.width = 1900;
 	var.time = 3000;
 	var.count = 0;
 	setup_window(&var);
