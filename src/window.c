@@ -20,7 +20,7 @@ int	gameplay(t_var *var)
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, (1900 - (20 * var->map->width)), 1200 - (20 * var->map->height));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
-		raycasting(var, MAP);
+		raycasting(var, GAME);
 		// find_wall_ray(var, GAME);
 	}
 	return(0);

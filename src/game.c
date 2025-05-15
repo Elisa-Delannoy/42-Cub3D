@@ -50,11 +50,13 @@ void	wall_height(t_var *var, float dist, int i)
 	// height_w =  fabs((64 * 1200) / (dist / 20 * 64) * cos(var->cast->ray)screen_width / 2) / tan(fov / 2););
 	// height_w =  64 / dist;
 
+	printf("var ray %f\n", var->cast->ray * 180 / PI);
 	correc_dist = (float)dist * cos(var->cast->ray - var->player->dir);
+	if (correc_dist < 0.0001f)
+		correc_dist = 0.0001f;
 
-
-	height_w = ((64.0f / (correc_dist)) * ((1200 / 2) / tan(var->player->fov / 2)));
-	printf("angle%f\n", var->cast->ray);
+	// height_w = ((64.0f / (correc_dist)) * ((1200.0f / 2.0f) / tan(var->player->fov / 2.0f)));
+	height_w = (64.0f * 1200.0f) / correc_dist;
 	if (height_w > 1200)
 		height_w = 1200;
 	if (height_w < 0)
