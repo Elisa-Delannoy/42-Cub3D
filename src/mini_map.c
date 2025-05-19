@@ -8,10 +8,10 @@ void	draw_player(t_var *var, int color, int y, int i)
 	
 	save_i = i;
 	save_y = y;
-	while (y < save_y + 10)
+	while (y < save_y + MAP_sz / 2)
 	{
 		i = save_i;
-		while (i++ < save_i + 10)
+		while (i++ < save_i + MAP_sz / 2)
 		{
 			ptr = var->img->data_img + ((y * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
 			*(int *)ptr = color;
@@ -35,16 +35,16 @@ void	draw_dir(t_var *var, t_point cell, int color)
     int dx;
     int dy;
 
-	cell.y = cell.y / 3.2f;
-	cell.x = cell.x / 3.2f;
+	cell.y = cell.y / var->map->g_to_m;
+	cell.x = cell.x / var->map->g_to_m;
 
-    int sy = (var->player->map_y < (int)cell.y) ? 1 : -1;
-    int sx = (var->player->map_x < (int)cell.x) ? 1 : -1;
+    int sy = (var->player->pos_y / var->map->g_to_m < (int)cell.y) ? 1 : -1;
+    int sx = (var->player->pos_x / var->map->g_to_m < (int)cell.x) ? 1 : -1;
     int err;
     int e2;
 
-	y0 = var->player->map_y;
-	x0 = var->player->map_x;
+	y0 = var->player->pos_y / var->map->g_to_m;
+	x0 = var->player->pos_x / var->map->g_to_m;
 	dx = abs((int)cell.x - x0);
 	dy = abs((int)cell.y - y0);
 	err = dx - dy;
@@ -67,10 +67,10 @@ void	draw_map(t_img *img, int color, int i, int y)
 
 	save_i = i;
 	save_y = y;
-	while (y < save_y + 20)
+	while (y < save_y + MAP_sz)
 	{
 		i = save_i;
-		while (i++ < save_i + 20) /*largeur map*/
+		while (i++ < save_i + MAP_sz) /*largeur map*/
 		{
 			ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
 			*(int *)ptr = color;
@@ -91,11 +91,11 @@ void	draw_minimap(t_var *var)
 		while (var->map->tab_map[y][i])
 		{
 			if (var->map->tab_map[y][i] == '1')
-				draw_map(var->img, 255, (i * 20), (y * 20));
+				draw_map(var->img, 255, (i * MAP_sz), (y * MAP_sz));
 			else if (var->map->tab_map[y][i] == '0')
-				draw_map(var->img, 125, (i * 20), (y * 20));
+				draw_map(var->img, 125, (i * MAP_sz), (y * MAP_sz));
 			else if (var->map->tab_map[y][i] != ' ')
-				draw_map(var->img, 125, (i * 20), (y * 20));
+				draw_map(var->img, 125, (i * MAP_sz), (y * MAP_sz));
 			i++;
 		}
 		y++;
@@ -106,7 +106,7 @@ void	make_minimap(t_var *var)
 {
 	var->img = init_img();
 	// printf("%d\n, ")
-	var->img->img = mlx_new_image(var->mlx, var->map->width * 20, var->map->height * 20);
+	var->img->img = mlx_new_image(var->mlx, var->map->width * MAP_sz, var->map->height * MAP_sz);
 	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
 	draw_minimap(var);
 }

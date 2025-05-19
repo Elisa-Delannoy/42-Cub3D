@@ -23,6 +23,7 @@ t_map	*ft_init_map(void)
 	map->c = NULL;
 	map->height = 0;
 	map->width = 0;
+	map->g_to_m = (float)(GAME_sz / MAP_sz);
 	return (map);
 }
 
@@ -31,10 +32,12 @@ t_player	*init_player(t_var *var, int x, int y)
 	t_player	*player;
 
 	player = malloc(sizeof(t_player));
-	player->game_x = (float)(y * 64);
-	player->game_y = (float)(x * 64);
-	player->map_x = (float)((y) * 20);
-	player->map_y = (float)((x) * 20);
+	// player->game_x = (float)(y * 64);
+	// player->game_y = (float)(x * 64);
+	// player->map_x = (float)((y) * 20);
+	// player->map_y = (float)((x) * 20);
+	player->pos_x = y * GAME_sz;
+	player->pos_y = x * GAME_sz;
 	if (var->map->tab_map[x][y] == 'N')
 		player->dir = radian(NORTH);
 	if (var->map->tab_map[x][y] == 'S')

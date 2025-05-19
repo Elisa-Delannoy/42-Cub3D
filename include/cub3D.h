@@ -7,6 +7,8 @@
 # include <math.h>
 
 # define PI 3.14159265358979323846
+# define GAME_sz 64.0f
+# define MAP_sz 20.0f
 
 typedef enum e_dir
 {
@@ -31,10 +33,12 @@ typedef enum e_key
 
 typedef struct s_player
 {
-	float	game_x;
-	float	game_y;
-	float	map_x;
-	float	map_y;
+	// float	game_x;
+	// float	game_y;
+	// float	map_x;
+	// float	map_y;
+	float	pos_x;
+	float	pos_y;
 	double	dir;
 	float	fov;
 }	t_player;
@@ -68,6 +72,7 @@ typedef struct s_map
 	char	**c;
 	int		height;
 	int		width;
+	float	g_to_m;
 }	t_map;
 
 typedef struct s_point

@@ -43,7 +43,7 @@ void	wall_height(t_var *var, float dist, int i)
 	correc_dist = dist * cos(var->cast->ray - var->player->dir);
 	if (correc_dist < 0.0001f)
 		correc_dist = 0.0001f;
-	height_w = (64.0f * var->height) / correc_dist;
+	height_w = (GAME_sz * var->height) / correc_dist;
 	if (height_w > var->height)
 		height_w = var->height;
 	if (height_w < 0)
