@@ -36,8 +36,8 @@ t_player	*init_player(t_var *var, int x, int y)
 	// player->game_y = (float)(x * 64);
 	// player->map_x = (float)((y) * 20);
 	// player->map_y = (float)((x) * 20);
-	player->pos_x = y * GAME_sz;
-	player->pos_y = x * GAME_sz;
+	player->pos_x = y * GAME_sz + GAME_sz / 2;
+	player->pos_y = x * GAME_sz + GAME_sz / 2;
 	if (var->map->tab_map[x][y] == 'N')
 		player->dir = radian(NORTH);
 	if (var->map->tab_map[x][y] == 'S')

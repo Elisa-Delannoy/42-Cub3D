@@ -6,14 +6,14 @@ void	draw_player(t_var *var, int color, int y, int i)
 	int save_y;
 	char *ptr;
 	
-	save_i = i + MAP_sz / 4;
+	save_i = i - MAP_sz / 4;
 	save_y = y;
 	while (y < save_y + MAP_sz / 2)
 	{
 		i = save_i;
 		while (i++ < save_i + MAP_sz / 2)
 		{
-			ptr = var->img->data_img + (((int)(y + MAP_sz / 4) * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
+			ptr = var->img->data_img + (((int)(y - MAP_sz / 4) * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
 			*(int *)ptr = color;
 		}
 		y++;
@@ -28,31 +28,62 @@ void	my_put_pixel(t_img *img, int y, int x, int color)
 	*(int *)ptr = color;
 }
 
-void	draw_dir(t_var *var, t_point cell, int color)
-{
-	int x0;
-	int y0;
-	int dx;
-	int dy;
+// void	draw_dir(t_var *var, t_point cell, int color)
+// {
+// 	int x0;
+// 	int y0;
+// 	int dx;
+// 	int dy;
 
-	cell.y = cell.y / var->map->g_to_m;
-	cell.x = cell.x / var->map->g_to_m;
+// 	cell.y = floor(cell.y / var->map->g_to_m);
+// 	cell.x = floor(cell.x / var->map->g_to_m);
 	
-    int sy = (var->player->pos_y / var->map->g_to_m < (int)cell.y) ? 1 : -1;
-    int sx = (var->player->pos_x / var->map->g_to_m < (int)cell.x) ? 1 : -1;
-    int err;
-    int e2;
+//     int sy = (floor(var->player->pos_y / var->map->g_to_m) < (int)cell.y) ? 1 : -1;
+//     int sx = (floor(var->player->pos_x / var->map->g_to_m) < (int)cell.x) ? 1 : -1;
+//     int err;
+//     int e2;
 
-	y0 = var->player->pos_y / var->map->g_to_m;
-	x0 = var->player->pos_x / var->map->g_to_m;
-	dx = abs((int)cell.x - x0);
-	dy = abs((int)cell.y - y0);
-	err = dx - dy;
+// 	y0 = var->player->pos_y / var->map->g_to_m;
+// 	x0 = var->player->pos_x / var->map->g_to_m;
+// 	dx = abs((int)cell.x - x0);
+// 	dy = abs((int)cell.y - y0);
+// 	err = dx - dy;
+//     while (1)
+//     {
+//        my_put_pixel(var->img, y0, x0, color);
+// 		if (x0 == (int)cell.x && y0 == (int)cell.y)
+//             break;
+//         e2 = 2 * err;
+//         if (e2 > -dy) { err -= dy; x0 += sx; }
+//         if (e2 < dx)  { err += dx; y0 += sy; }
+//     }
+// }
+
+void draw_dir(t_var *var, t_point cell, int color)
+{
+    int x0, y0, dx, dy;
+    int sx, sy, err, e2;
+
+    cell.y = cell.y / var->map->g_to_m;
+    cell.x = cell.x / var->map->g_to_m;
+
+    y0 = var->player->pos_y / var->map->g_to_m;
+    x0 = var->player->pos_x / var->map->g_to_m;
+
+    dx = abs((int)cell.x - x0);
+    dy = abs((int)cell.y - y0);
+
+    sx = (x0 < (int)cell.x) ? 1 : -1;
+    sy = (y0 < (int)cell.y) ? 1 : -1;
+
+    err = dx - dy;
+
     while (1)
     {
-       my_put_pixel(var->img, y0, x0, color);
-		if (x0 == (int)cell.x && y0 == (int)cell.y)
+        my_put_pixel(var->img, y0, x0, color);
+        if (x0 == (int)cell.x && y0 == (int)cell.y)
             break;
+
         e2 = 2 * err;
         if (e2 > -dy) { err -= dy; x0 += sx; }
         if (e2 < dx)  { err += dx; y0 += sy; }
@@ -70,10 +101,11 @@ void	draw_map(t_img *img, int color, int i, int y)
 	while (y < save_y + MAP_sz)
 	{
 		i = save_i;
-		while (i++ < save_i + MAP_sz) /*largeur map*/
+		while (i < save_i + MAP_sz) /*largeur map*/
 		{
 			ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
 			*(int *)ptr = color;
+			i++;
 		}
 		y++;
 	}

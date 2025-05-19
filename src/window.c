@@ -41,7 +41,7 @@ int	key_hook(int keycode, t_var *var)
 	}
 	if (keycode == DOWN)
 	{
-		var->player->pos_x += cos(var->player->dir) * 1;
+		var->player->pos_x -= cos(var->player->dir) * 1;
 		var->player->pos_y += sin(var->player->dir) * 1;
 	}
 	if (keycode == LEFT)
