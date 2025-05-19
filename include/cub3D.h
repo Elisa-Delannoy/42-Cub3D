@@ -41,6 +41,10 @@ typedef struct s_player
 	float	pos_y;
 	double	dir;
 	float	fov;
+	int		m_up;
+	int		m_down;
+	int		m_left;
+	int		m_right;
 }	t_player;
 
 typedef struct s_img
@@ -154,6 +158,12 @@ void	draw_dir(t_var *var, t_point cell, int color);
 void	find_wall_ray(t_var *var);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
+
+//movement
+void	move_up(t_player *player);
+void	move_down(t_player *player);
+void	move_left(t_player *player);
+void	move_right(t_player *player);
 
 // raycasting
 void	raycasting(t_var *var);

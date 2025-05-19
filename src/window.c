@@ -10,6 +10,18 @@ int clear_all(t_var *var)
 	return (0);
 }
 
+void	movement(t_player *player)
+{
+	if (player->m_up == 1)
+		move_up(player);
+	if (player->m_down == 1)
+		move_down(player);
+	if (player->m_left == 1)
+		move_left(player);
+	if (player->m_right == 1)
+		move_right(player);
+}
+
 int	gameplay(t_var *var)
 {
 	var->count++;
@@ -20,6 +32,7 @@ int	gameplay(t_var *var)
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * var->map->width))), (int)(var->height - (MAP_sz * var->map->height)));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
+		movement(var->player);
 		draw_game(var->img_g, var->height, var->width);
 		draw_minimap(var);
 		draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
@@ -29,35 +42,36 @@ int	gameplay(t_var *var)
 	return(0);
 }
 
-int	key_hook(int keycode, t_var *var)
+int	key_press(int keycode, t_var *var)
 {
-	draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
+	// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
 	if (keycode == ESC)
 		clear_all(var);
 	if (keycode == UP)
-	{
-		var->player->pos_x += cos(var->player->dir) * 1;
-		var->player->pos_y -= sin(var->player->dir) * 1;
-	}
+		var->player->m_up = 1;
 	if (keycode == DOWN)
-	{
-		var->player->pos_x += cos(var->player->dir) * 1;
-		var->player->pos_y += sin(var->player->dir) * 1;
-	}
+		var->player->m_down = 1;
 	if (keycode == LEFT)
-	{
-		var->player->pos_x += cos(var->player->dir + (PI/2)) * 1;
-		var->player->pos_y += sin(var->player->dir - (PI/2)) * 1;
-	}	
+		var->player->m_left = 1;
 	if (keycode == RIGHT)
-	{
-		var->player->pos_x += cos(var->player->dir - (PI/2)) * 1;
-		var->player->pos_y += sin(var->player->dir + (PI/2)) * 1;
-	}
+		var->player->m_right = 1;
 	if (keycode == TURN_L)
-		var->player->dir = var->player->dir + 0.1;
+		var->player->dir = var->player->dir + 0.025;
 	if (keycode == TURN_R)
-		var->player->dir = var->player->dir - 0.1;
+		var->player->dir = var->player->dir - 0.025;
+	return (0);
+}
+
+int	key_release(int keycode, t_var *var)
+{
+	if (keycode == UP)
+		var->player->m_up = 0;
+	if (keycode == DOWN)
+		var->player->m_down = 0;
+	if (keycode == LEFT)
+		var->player->m_left = 0;
+	if (keycode == RIGHT)
+		var->player->m_right = 0;
 	return (0);
 }
 
@@ -79,7 +93,8 @@ int	setup_window(t_var *var)
 	// printf("x =%f\n", var->player->map_x);
 	// printf("y =%f\n", var->player->map_y);
 	mlx_hook(var->win, 17, 0, clear_all, var);
-	mlx_hook(var->win, 2, 1L << 0, key_hook, var);
+	mlx_hook(var->win, 2, 1L << 0, key_press, var);
+	mlx_hook(var->win, 3, 1L << 1, key_release, var);
 	mlx_loop_hook(var->mlx, gameplay, var);
 	// mlx_hook(var->win, 2, 1L << 0, key_hook, g);
 	mlx_loop(var->mlx);
