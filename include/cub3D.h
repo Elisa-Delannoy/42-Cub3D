@@ -28,7 +28,8 @@ typedef enum e_key
 	DOWN = 115,
 	TURN_L = 65361,
 	TURN_R = 65363,
-	ESC = 65307
+	ESC = 65307,
+	SPRINT = 65505
 }	t_key;
 
 typedef struct s_player
@@ -45,6 +46,8 @@ typedef struct s_player
 	int		m_down;
 	int		m_left;
 	int		m_right;
+	float	vitesse;
+	float	sprint;
 }	t_player;
 
 typedef struct s_img
@@ -160,10 +163,10 @@ void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
 
 //movement
-void	move_up(t_player *player);
-void	move_down(t_player *player);
-void	move_left(t_player *player);
-void	move_right(t_player *player);
+void	move_up(t_player *player, float vitesse);
+void	move_down(t_player *player, float vitesse);
+void	move_left(t_player *player, float vitesse);
+void	move_right(t_player *player, float vitesse);
 
 // raycasting
 void	raycasting(t_var *var);

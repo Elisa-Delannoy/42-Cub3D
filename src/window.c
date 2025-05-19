@@ -12,14 +12,19 @@ int clear_all(t_var *var)
 
 void	movement(t_player *player)
 {
+	float	vitesse;
+
+	vitesse = player->vitesse;
+	if (player->sprint == 1)
+		vitesse *= 2;
 	if (player->m_up == 1)
-		move_up(player);
+		move_up(player, vitesse);
 	if (player->m_down == 1)
-		move_down(player);
+		move_down(player, vitesse);
 	if (player->m_left == 1)
-		move_left(player);
+		move_left(player, vitesse);
 	if (player->m_right == 1)
-		move_right(player);
+		move_right(player, vitesse);
 }
 
 int	gameplay(t_var *var)
@@ -55,6 +60,8 @@ int	key_press(int keycode, t_var *var)
 		var->player->m_left = 1;
 	if (keycode == RIGHT)
 		var->player->m_right = 1;
+	if (keycode == SPRINT)
+		var->player->sprint = 1;
 	if (keycode == TURN_L)
 		var->player->dir = var->player->dir + 0.025;
 	if (keycode == TURN_R)
@@ -72,6 +79,8 @@ int	key_release(int keycode, t_var *var)
 		var->player->m_left = 0;
 	if (keycode == RIGHT)
 		var->player->m_right = 0;
+	if (keycode == SPRINT)
+		var->player->sprint = 0;
 	return (0);
 }
 
