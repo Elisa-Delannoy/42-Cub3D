@@ -1,24 +1,24 @@
 #include "cub3D.h"
 
-t_point	raycating_horizontal(t_var *var, t_cast *cast, float type)
+t_point	raycating_horizontal(t_var *var, t_cast *cast)
 {
 	t_point cell;
 	
 	if (sin(cast->ray) < 0)
-		cast->step_y = type;
+		cast->step_y = GAME_sz;
 	else
-		cast->step_y = -type;
+		cast->step_y = -GAME_sz;
 	if (sin(cast->ray) < 0)
-		cell.y = (floor(var->player->pos_y / type) * type) + type;
+		cell.y = (floor(var->player->pos_y / GAME_sz) * GAME_sz) + GAME_sz;
 	else
-		cell.y = (floor(var->player->pos_y / type) * type) - 1.0f;
+		cell.y = (floor(var->player->pos_y / GAME_sz) * GAME_sz) - 1.0f;
 	cell.x = var->player->pos_x + ((var->player->pos_y - cell.y) / cast->tan);
-	cast->step_x = (float)type / cast->tan;
+	cast->step_x = (float)GAME_sz / cast->tan;
 	if ((cast->step_x > 0 && cos(cast->ray) < 0) || (cast->step_x < 0 && cos(cast->ray) > 0))
 		cast->step_x *= -1.0f;
 	while (1)
 	{
-		if (check_raycasting(cell.y, cell.x, type, var) == 0)
+		if (check_raycasting(cell.y, cell.x, var) == 0)
 			break ;
 		cell.x += cast->step_x;
 		cell.y += cast->step_y;
@@ -26,25 +26,25 @@ t_point	raycating_horizontal(t_var *var, t_cast *cast, float type)
 	return (cell);
 }
 
-t_point	raycating_vertical(t_var *var, t_cast *cast, float type)
+t_point	raycating_vertical(t_var *var, t_cast *cast)
 {
 	t_point cell;
 
 	if (cos(cast->ray) > 0)
-		cast->step_x = type;
+		cast->step_x = GAME_sz;
 	else
-		cast->step_x = -type;
+		cast->step_x = -GAME_sz;
 	if (cos(cast->ray) > 0)
-		cell.x = (floor(var->player->pos_x / type) * type) + type;
+		cell.x = (floor(var->player->pos_x / GAME_sz) * GAME_sz) + GAME_sz;
 	else
-		cell.x = (floor(var->player->pos_x / type) * type) - 1.0f;
+		cell.x = (floor(var->player->pos_x / GAME_sz) * GAME_sz) - 1.0f;
 	cell.y = var->player->pos_y + ((var->player->pos_x - cell.x) * cast->tan);
-	cast->step_y = (float)type * cast->tan;
+	cast->step_y = (float)GAME_sz * cast->tan;
 	if ((cast->step_y >= 0 && sin(cast->ray) >= 0) || (cast->step_y <= 0 && sin(cast->ray) <= 0))
 		cast->step_y *= -1.0f;
 	while (1)
 	{
-		if (check_raycasting(cell.y, cell.x, type, var) == 0)
+		if (check_raycasting(cell.y, cell.x, var) == 0)
 			break ;
 		cell.x += cast->step_x;
 		cell.y += cast->step_y;
@@ -52,15 +52,15 @@ t_point	raycating_vertical(t_var *var, t_cast *cast, float type)
 	return(cell);
 }
 
-void	map_print(t_var *var, t_cast *cast, float type, float i)
+void	map_print(t_var *var, t_cast *cast, float i)
 {
 	if (fabs(cast->h.x - var->player->pos_x) < fabs(cast->v.x - var->player->pos_x)
-			&& valid_point(var, cast->h, type) == 0)
+			&& valid_point(var, cast->h) == 0)
 	{
 		draw_dir(var, cast->h, 0xFFFFFF);
 		wall_height(var, cast->disth, i);
 	}
-	else if (valid_point(var, cast->v, type) == 0)
+	else if (valid_point(var, cast->v) == 0)
 	{
 		// printf("hx %f\n", cast->h.x);
 		// printf("hy %f\n", cast->h.y);
@@ -74,7 +74,7 @@ void	map_print(t_var *var, t_cast *cast, float type, float i)
 	}
 }
 
-void	raycasting(t_var *var, float type)
+void	raycasting(t_var *var)
 {
 	int i;
 	float	ray_step;
@@ -85,11 +85,11 @@ void	raycasting(t_var *var, float type)
 	{
 		var->cast->ray = (var->player->dir - (var->player->fov / 2) + (i * ray_step));
 		var->cast->tan = tan(var->cast->ray);
-		var->cast->h = raycating_horizontal(var, var->cast, type);
-		var->cast->v = raycating_vertical(var, var->cast, type);
+		var->cast->h = raycating_horizontal(var, var->cast);
+		var->cast->v = raycating_vertical(var, var->cast);
 		var->cast->disth = distance(var->cast->h, var->player->pos_x, var->player->pos_y);
 		var->cast->distv = distance(var->cast->v, var->player->pos_x, var->player->pos_y);		
-		map_print(var, var->cast, type, var->width - i);
+		map_print(var, var->cast, var->width - i);
 		i++;
 	}
 }

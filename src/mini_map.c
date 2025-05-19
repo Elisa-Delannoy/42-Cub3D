@@ -6,14 +6,14 @@ void	draw_player(t_var *var, int color, int y, int i)
 	int save_y;
 	char *ptr;
 	
-	save_i = i;
+	save_i = i + MAP_sz / 4;
 	save_y = y;
 	while (y < save_y + MAP_sz / 2)
 	{
 		i = save_i;
 		while (i++ < save_i + MAP_sz / 2)
 		{
-			ptr = var->img->data_img + ((y * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
+			ptr = var->img->data_img + (((int)(y + MAP_sz / 4) * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
 			*(int *)ptr = color;
 		}
 		y++;
@@ -32,12 +32,12 @@ void	draw_dir(t_var *var, t_point cell, int color)
 {
 	int x0;
 	int y0;
-    int dx;
-    int dy;
+	int dx;
+	int dy;
 
 	cell.y = cell.y / var->map->g_to_m;
 	cell.x = cell.x / var->map->g_to_m;
-
+	
     int sy = (var->player->pos_y / var->map->g_to_m < (int)cell.y) ? 1 : -1;
     int sx = (var->player->pos_x / var->map->g_to_m < (int)cell.x) ? 1 : -1;
     int err;

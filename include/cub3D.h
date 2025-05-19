@@ -151,15 +151,15 @@ int		check_wall(t_map *map);
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
 void	draw_dir(t_var *var, t_point cell, int color);
-void	find_wall_ray(t_var *var, int type);
+void	find_wall_ray(t_var *var);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
 
 // raycasting
-void	raycasting(t_var *var, float type);
-int		check_raycasting(float new_y, float new_x, int type, t_var *var);
-float		distance(t_point cell, float x0, float y0);
-int		valid_point(t_var *var, t_point cell, int type);
+void	raycasting(t_var *var);
+int		check_raycasting(float new_y, float new_x, t_var *var);
+float	distance(t_point cell, float x0, float y0);
+int		valid_point(t_var *var, t_point cell);
 // game
 void	make_game(t_var *var);
 void	wall_height(t_var *var, float dist, int i);

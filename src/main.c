@@ -6,7 +6,7 @@ int main(int argc, char **argv)
 
 	var.player = NULL;
 	ft_parse(argc, argv, &var);
-	printf("g to m %f\n", var.map->g_to_m);
+	// printf("g to m %f\n", var.map->g_to_m);
 	var.height = 1200;
 	var.width = 1900;
 	var.time = 3000;
