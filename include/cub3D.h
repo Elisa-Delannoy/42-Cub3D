@@ -101,6 +101,7 @@ typedef struct s_cast
 	int		wall_dir;
 	int		wall_dir_h;
 	int		wall_dir_v;
+	int		stock_dir;
 }	t_cast;
 
 typedef struct s_var
