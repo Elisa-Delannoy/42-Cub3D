@@ -98,6 +98,9 @@ typedef struct s_cast
 	float	step_x;
 	float	ray;
 	float	tan;
+	int		wall_dir;
+	int		wall_dir_h;
+	int		wall_dir_v;
 }	t_cast;
 
 typedef struct s_var
@@ -153,6 +156,7 @@ void	floodfill_space_wall(t_map *map, int x, int y, int c);
 // check map wall
 int		check_wall_min_max(t_var *var);
 int		check_wall(t_map *map);
+void	empty_for_window(t_map *map);
 
 // mini_map
 void	make_minimap(t_var *var);
@@ -161,6 +165,7 @@ void	draw_dir(t_var *var, t_point cell, int color);
 void	find_wall_ray(t_var *var);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
+void 	clear_image(t_var *var);
 
 //movement
 void	move_up(t_player *player, float vitesse);

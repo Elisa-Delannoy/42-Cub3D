@@ -30,10 +30,19 @@ void	draw_wall(t_var *var, float wall, int i)
 	y_end = y + wall;
 	while (y < y_end)
 	{
-		my_put_pixel(var->img_g, y, i, 0xFF0000);
+		if (var->cast->wall_dir == 'N')
+			my_put_pixel(var->img_g, y, i, 0x00FF00);
+		else if (var->cast->wall_dir == 'S')
+			my_put_pixel(var->img_g, y, i, 0xFF0000);
+		else if (var->cast->wall_dir == 'E')
+			my_put_pixel(var->img_g, y, i, 0xFFFF00);
+		else if (var->cast->wall_dir == 'W')
+			my_put_pixel(var->img_g, y, i, 0xFFFFFF);
 		y++;
 	}
 }
+
+
 
 void	wall_height(t_var *var, float dist, int i)
 {

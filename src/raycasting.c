@@ -5,9 +5,15 @@ t_point	raycating_horizontal(t_var *var, t_cast *cast)
 	t_point cell;
 	
 	if (sin(cast->ray) < 0)
+	{
 		cast->step_y = GAME_sz;
+		cast->wall_dir_h = 'S';
+	}
 	else
+	{
 		cast->step_y = -GAME_sz;
+		cast->wall_dir_h = 'N';
+	}
 	if (sin(cast->ray) < 0)
 		cell.y = (floor(var->player->pos_y / GAME_sz) * GAME_sz) + GAME_sz;
 	else
@@ -31,9 +37,15 @@ t_point	raycating_vertical(t_var *var, t_cast *cast)
 	t_point cell;
 
 	if (cos(cast->ray) > 0)
+	{
 		cast->step_x = GAME_sz;
+		cast->wall_dir_v = 'E';
+	}
 	else
+	{
 		cast->step_x = -GAME_sz;
+		cast->wall_dir_v = 'W';
+	}
 	if (cos(cast->ray) > 0)
 		cell.x = (floor(var->player->pos_x / GAME_sz) * GAME_sz) + GAME_sz;
 	else
@@ -57,25 +69,17 @@ void	map_print(t_var *var, t_cast *cast, float i)
 	if (fabs(cast->h.x - var->player->pos_x) < fabs(cast->v.x - var->player->pos_x)
 			&& valid_point(var, cast->h) == 0)
 	{
+		printf("H\n\n");
+		cast->wall_dir = cast->wall_dir_h;
 		draw_dir(var, cast->h, 0xFFFFFF);
 		wall_height(var, cast->disth, i);
 	}
 	else if (valid_point(var, cast->v) == 0)
 	{
-		// if (cos(cast->ray) <= 0)
-		// {
-		// 	while (var->map->tab_map[(int)(cast->v.y / GAME_sz)][(int)(((cast->v.x) / GAME_sz))] == '1')
-		// 	{
-		// 		cast->v.x++;
-				printf("v.x map %f v.x case %d, -1 %d\n", cast->v.x, (int)(cast->v.x / 64), (int)(cast->v.x - 1)/64) ;
-			// }
-			// cast->v.x--;
-		// }
-		if (valid_point(var, cast->v) == 0)
-		{
-			draw_dir(var, cast->v, 0xFFFFFF);
-			wall_height(var, cast->distv, i);
-		}
+		printf("V\n\n");
+		cast->wall_dir = cast->wall_dir_v;
+		draw_dir(var, cast->v, 0xFFFFFF);
+		wall_height(var, cast->distv, i);
 	}
 }
 
@@ -93,7 +97,9 @@ void	raycasting(t_var *var)
 		var->cast->tan = tan(var->cast->ray);
 		var->cast->h = raycating_horizontal(var, var->cast);
 		var->cast->v = raycating_vertical(var, var->cast);
+		printf("h.x = %f, h.y = %f, pos.x = %f, pos.y = %f\n", var->cast->h.x, var->cast->h.y, var->player->pos_x, var->player->pos_y);
 		var->cast->disth = distance(var->cast->h, var->player->pos_x, var->player->pos_y);
+		printf("v. = %f, v.y = %f, pos.x = %f, pos.y = %f\n", var->cast->v.x, var->cast->v.y, var->player->pos_x, var->player->pos_y);
 		var->cast->distv = distance(var->cast->v, var->player->pos_x, var->player->pos_y);	
 		map_print(var, var->cast, var->width - i);
 		i++;

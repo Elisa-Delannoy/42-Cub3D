@@ -109,5 +109,6 @@ int	check_map(t_var *var, int *i)
 		if (check_wall(var->map) == 1)
 			return (1);
 	}
+	empty_for_window(var->map);
 	return (0);
 }

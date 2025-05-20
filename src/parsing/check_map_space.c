@@ -90,6 +90,8 @@ void	floodfill_space_wall(t_map *map, int x, int y, int c)
 	if ((c == '1' && map->temp[x][y] != '1')
 		|| (c == ' ' && map->temp[x][y] == ' '))
 		map->temp[x][y] = '1';
+	else if (c == '2' && map->temp[x][y] == ' ')
+		map->temp[x][y] = '2';
 	else
 		return ;
 	floodfill_space_wall(map, x + 1, y, c);
