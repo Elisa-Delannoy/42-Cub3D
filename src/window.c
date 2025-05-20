@@ -10,7 +10,7 @@ int clear_all(t_var *var)
 	return (0);
 }
 
-void	movement(t_player *player)
+void	movement(t_map *map, t_player *player)
 {
 	float	vitesse;
 
@@ -18,17 +18,17 @@ void	movement(t_player *player)
 	if (player->sprint == 1)
 		vitesse *= 2;
 	if (player->m_up == 1)
-		move_up(player, vitesse);
+		move_up(map, player, vitesse);
 	if (player->m_down == 1)
-		move_down(player, vitesse);
+		move_down(map, player, vitesse);
 	if (player->m_left == 1)
-		move_left(player, vitesse);
+		move_left(map, player, vitesse);
 	if (player->m_right == 1)
-		move_right(player, vitesse);
+		move_right(map, player, vitesse);
 	if (player->t_left == 1)
-		player->dir += 0.025;
+		player->dir += 0.05;
 	if (player->t_right == 1)
-		player->dir -= 0.025;
+		player->dir -= 0.05;
 }
 
 int	gameplay(t_var *var)
@@ -41,7 +41,7 @@ int	gameplay(t_var *var)
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * var->map->width))), (int)(var->height - (MAP_sz * var->map->height)));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
-		movement(var->player);
+		movement(var->map, var->player);
 		draw_game(var->img_g, var->height, var->width);
 		draw_minimap(var);
 		draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);

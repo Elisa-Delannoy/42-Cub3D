@@ -170,10 +170,10 @@ void	draw_minimap(t_var *var);
 void 	clear_image(t_var *var);
 
 //movement
-void	move_up(t_player *player, float vitesse);
-void	move_down(t_player *player, float vitesse);
-void	move_left(t_player *player, float vitesse);
-void	move_right(t_player *player, float vitesse);
+void	move_up(t_map *map, t_player *player, float vitesse);
+void	move_down(t_map *map, t_player *player, float vitesse);
+void	move_left(t_map *map, t_player *player, float vitesse);
+void	move_right(t_map *map, t_player *player, float vitesse);
 
 // raycasting
 void	raycasting(t_var *var);

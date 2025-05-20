@@ -1,25 +1,62 @@
 #include "cub3D.h"
 
-void	move_up(t_player *player, float vitesse)
+void	move_up(t_map *map, t_player *player, float vitesse)
 {
-	player->pos_x += cos(player->dir) * vitesse;
-	player->pos_y -= sin(player->dir) * vitesse;
+	float anticip_x;
+	float anticip_y;
+
+	anticip_y = player->pos_y - sin(player->dir) * (vitesse * 5);
+	anticip_x = player->pos_x + cos(player->dir) * (vitesse * 5);
+	if (map->tab_map[(int)(anticip_y / GAME_sz)]
+		[(int)(anticip_x / GAME_sz)] != '1')
+	{
+		player->pos_x += cos(player->dir) * vitesse;
+		player->pos_y -= sin(player->dir) * vitesse;
+	}
 }
 
-void	move_down(t_player *player, float vitesse)
+void	move_down(t_map *map, t_player *player, float vitesse)
 {
-	player->pos_x -= cos(player->dir) * vitesse;
-	player->pos_y += sin(player->dir) * vitesse;
+	float anticip_x;
+	float anticip_y;
+
+	anticip_y = player->pos_y + sin(player->dir) * (vitesse * 5);
+	anticip_x = player->pos_x - cos(player->dir) * (vitesse * 5);
+	if (map->tab_map[(int)(anticip_y / GAME_sz)]
+		[(int)(anticip_x / GAME_sz)] != '1')
+	{
+		player->pos_x -= cos(player->dir) * vitesse;
+		player->pos_y += sin(player->dir) * vitesse;
+	}
 }
 
-void	move_left(t_player *player, float vitesse)
+void	move_left(t_map *map, t_player *player, float vitesse)
 {
-	player->pos_x += cos(player->dir + (PI/2)) * vitesse;
-	player->pos_y += sin(player->dir - (PI/2)) * vitesse;
+	float anticip_x;
+	float anticip_y;
+
+	anticip_y = player->pos_y + sin(player->dir - (PI/2)) * (vitesse * 5);
+	anticip_x = player->pos_x + cos(player->dir + (PI/2)) * (vitesse * 5);
+	if (map->tab_map[(int)(anticip_y / GAME_sz)]
+		[(int)(anticip_x / GAME_sz)] != '1')
+	{
+		player->pos_x += cos(player->dir + (PI/2)) * vitesse;
+		player->pos_y += sin(player->dir - (PI/2)) * vitesse;
+	}
 }
 
-void	move_right(t_player *player, float vitesse)
+void	move_right(t_map *map, t_player *player, float vitesse)
 {
-	player->pos_x += cos(player->dir - (PI/2)) * vitesse;
-	player->pos_y += sin(player->dir + (PI/2)) * vitesse;
+	
+	float anticip_x;
+	float anticip_y;
+
+	anticip_y = player->pos_y + sin(player->dir + (PI/2)) * (vitesse * 5);
+	anticip_x = player->pos_x + cos(player->dir - (PI/2)) * (vitesse * 5);
+	if (map->tab_map[(int)(anticip_y / GAME_sz)]
+		[(int)(anticip_x / GAME_sz)] != '1')
+	{
+		player->pos_x += cos(player->dir - (PI/2)) * vitesse;
+		player->pos_y += sin(player->dir + (PI/2)) * vitesse;
+	}
 }
