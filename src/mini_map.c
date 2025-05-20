@@ -54,7 +54,8 @@ void draw_dir(t_var *var, t_point cell, int color)
     while (1)
     {
         my_put_pixel(var->img, y0, x0, color);
-        if ((x0 == (int)cell.x && y0 == (int)cell.y) || (count > (3 * MAP_sz)))
+        // if ((x0 == (int)cell.x && y0 == (int)cell.y) || (count > (3 * MAP_sz)))
+		if ((x0 == (int)cell.x && y0 == (int)cell.y))
             break;
 
         e2 = 2 * err;

@@ -18,6 +18,9 @@ int	valid_point(t_var *var, t_point cell)
 
 int	check_aroud(t_map *map, float new_y, float new_x)
 {
+	printf("new y %d new x %d\n", (int)(new_y / GAME_sz), (int)(new_x / GAME_sz));
+	if ((new_y + 0.1) / GAME_sz > map->height || (new_y - 0.1) / GAME_sz < 0 || (new_x - 0.1) / GAME_sz < 0 || (new_x + 0.1) / GAME_sz > map->width)
+		return (0);
 	if (map->tab_map[(int)((new_y + 0.1) / GAME_sz)][(int)(new_x / GAME_sz)] == '1')
 		return (1);
 	if (map->tab_map[(int)((new_y - 0.1) / GAME_sz)][(int)(new_x / GAME_sz)] == '1')
@@ -38,7 +41,7 @@ int check_raycasting(float new_y, float new_x, t_var *var)
 	// 	new_x = new_x - 1;
 	// if (sin(var->cast->ray) < 0)
 	// 	new_y = new_y - 1;
-	if (new_y < 0  || new_x < 0 || new_x > var->map->width * GAME_sz|| new_y > var->map->height  * GAME_sz)
+	if (new_y < 0  || new_x < 0 || new_x > var->map->width * GAME_sz || new_y > var->map->height  * GAME_sz)
 		return (0);
 	if (var->map->tab_map[(int)(new_y / GAME_sz)] != 0
 		&& var->map->tab_map[(int)(new_y / GAME_sz)][(int)(new_x / GAME_sz)] != 0
