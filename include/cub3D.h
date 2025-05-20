@@ -48,6 +48,8 @@ typedef struct s_player
 	int		m_right;
 	float	vitesse;
 	float	sprint;
+	int		t_left;
+	int		t_right;
 }	t_player;
 
 typedef struct s_img
