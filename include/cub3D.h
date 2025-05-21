@@ -95,10 +95,20 @@ typedef struct s_cast
 {
 	t_point	h;
 	t_point	v;
+	t_point	w;
+
 	float	disth;
 	float	distv;
+
+	float	dist;
+
 	float	step_y;
 	float	step_x;
+	
+	float	step_hy;
+	float	step_hx;
+	float	step_vy;
+	float	step_vx;
 	float	ray;
 	float	tan;
 	int		wall_dir;

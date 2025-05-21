@@ -30,13 +30,13 @@ void	draw_wall(t_var *var, float wall, int i)
 	y_end = y + wall;
 	while (y < y_end)
 	{
-		if (var->cast->wall_dir == 'N')
+		if (var->cast->wall_dir == NORTH)
 			my_put_pixel(var->img_g, y, i, 0x00FF00);
-		else if (var->cast->wall_dir == 'S')
+		else if (var->cast->wall_dir == SOUTH)
 			my_put_pixel(var->img_g, y, i, 0xFF0000);
-		else if (var->cast->wall_dir == 'E')
+		else if (var->cast->wall_dir == EAST)
 			my_put_pixel(var->img_g, y, i, 0xFFFF00);
-		else if (var->cast->wall_dir == 'W')
+		else if (var->cast->wall_dir == WEST)
 			my_put_pixel(var->img_g, y, i, 0xFFFFFF);
 		y++;
 	}
