@@ -44,7 +44,7 @@ int	gameplay(t_var *var)
 		movement(var->map, var->player);
 		draw_game(var->img_g, var->height, var->width);
 		draw_minimap(var);
-		draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
+		// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
 		raycasting(var);
 		// find_wall_ray(var, GAME);
 	}

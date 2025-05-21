@@ -38,11 +38,11 @@ void draw_dir(t_var *var, t_point cell, int color)
     int sx, sy, err, e2;
 
 	int	count = 0; 
-	cell.y = cell.y / var->map->g_to_m;
-	cell.x = cell.x / var->map->g_to_m;
+    y0 = 100;
+    x0 = 100;
 
-    y0 = var->player->pos_y / var->map->g_to_m;
-    x0 = var->player->pos_x / var->map->g_to_m;
+	cell.y = y0 + (int)((cell.y - var->player->pos_y) * (MAP_sz / GAME_sz));
+	cell.x = x0 + (int)((cell.x - var->player->pos_x) * (MAP_sz / GAME_sz));
 
     dx = abs((int)cell.x - x0);
     dy = abs((int)cell.y - y0);
@@ -53,7 +53,8 @@ void draw_dir(t_var *var, t_point cell, int color)
     err = dx - dy;
     while (1)
     {
-        my_put_pixel(var->img, y0, x0, color);
+        if (y0 > 0 && x0 > 0 && y0 < 200 && x0 < 200)
+			my_put_pixel(var->img, y0, x0, color);
         // if ((x0 == (int)cell.x && y0 == (int)cell.y) || (count > (3 * MAP_sz)))
 		if ((x0 == (int)cell.x && y0 == (int)cell.y))
             break;
@@ -97,33 +98,119 @@ void	draw_map(t_img *img, int color, int i, int y)
 	}
 }
 
-void	draw_minimap(t_var *var)
+void	map_border(t_var *var)
 {
-	int	i;
-	int	y;
+	int x;
+	int y;
 
 	y = 0;
-	while (var->map->temp[y])
+	while (y < 10)
 	{
-		i = 0;
-		while (var->map->temp[y][i])
+		x = -1;
+		if (y == 0 || y == 9)
 		{
-			if (var->map->temp[y][i] == '1')
-				draw_map(var->img, 255, (i * MAP_sz), (y * MAP_sz));
-			else if (var->map->temp[y][i] == '0' || var->map->temp[y][i] != '2')
-				draw_map(var->img, 125, (i * MAP_sz), (y * MAP_sz));
-			else if (var->map->temp[y][i] == '2')
-				;
-			i++;
+			while (++x < 10)
+			{
+				draw_map(var->img, 0x654321, x * MAP_sz, y * MAP_sz);
+			}	
+		}
+		else if (y < 10 && y > 0)
+		{
+			while (x < 10)
+			{
+				if (x == 0 || x == 9)
+					draw_map(var->img, 0x654321, x * MAP_sz, y * MAP_sz);
+				x++;
+			}
 		}
 		y++;
 	}
 }
 
+void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
+{
+	int i;
+	int j;
+	int px;
+	int py;
+	
+	i = -1;
+	while (++i < MAP_sz)
+	{
+		j = -1;
+		while (++j < MAP_sz)
+		{
+			px = mini_x + j;
+			py = mini_y + i;
+			if (px >= 0 && py >= 0 && px < 200 && py < 200)
+				my_put_pixel(var->img, py, px, color);
+		}
+	}
+}
+
+void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, float scale)
+{
+	int		color;
+	// float	world_x;
+	// float	world_y;
+	float	rel_x;
+	float	rel_y;
+	int		mini_x;
+	int		mini_y;
+
+	if (cell_x < 0 || cell_y < 0 || cell_x >= var->map->width
+		|| cell_y >= var->map->height)
+		return ;
+	color = (var->map->tab_map[cell_y][cell_x] == '1') ? 0x3a3c3d : 0x9e9c9a;
+	// world_x = cell_x * GAME_sz;
+	// world_y = cell_y * GAME_sz;
+	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
+	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
+	mini_x = 100 + (int)(rel_x * scale);
+	mini_y = 100 + (int)(rel_y * scale);
+	draw_minimap_pixel(var, mini_x, mini_y, color);
+}
+
+void	top_minimap(t_var *var)
+{
+	int		px;
+	int		py;
+	int		dx;
+	int		dy;
+	float	scale;
+
+	px = (int)(var->player->pos_x / GAME_sz);
+	py = (int)(var->player->pos_y / GAME_sz);
+	scale = (float)MAP_sz / (float)GAME_sz;
+	dy = -5;
+	while (dy <= 5)
+	{
+		dx = -5;
+		while (dx <= 5)
+		{
+			draw_minimap_cell(var, px + dx, py + dy, scale);
+			dx++;
+		}
+		dy++;
+	}
+}
+
+void	draw_minimap(t_var *var)
+{
+	float map_x;
+	float map_y;
+	
+	map_x = 9;
+	map_y = 9;
+	top_minimap(var);
+	// map_border(var);
+	draw_map(var->img, 0x000000, 4.5 * MAP_sz, 4.5 * MAP_sz);
+}
+
 void	make_minimap(t_var *var)
 {
 	var->img = init_img();
-	var->img->img = mlx_new_image(var->mlx, var->map->width * MAP_sz, var->map->height * MAP_sz);
+	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
 	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
 	draw_minimap(var);
 }

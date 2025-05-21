@@ -64,68 +64,71 @@ t_point	raycating_vertical(t_var *var, t_cast *cast)
 	return(cell);
 }
 
-
-// int	previous_i(t_var *var, t_cast *cast, float i)
-// {
-// 	printf("\ni = %f h.x = %f, h.y = %f, pos.x = %f, pos.y = %f\n", i, var->cast->h.x, var->cast->h.y, var->player->pos_x, var->player->pos_y);
-// 	while (i > 0 && fabs(cast->disth - cast->distv) < 3)
-// 	{
-// 		i--;
-// 		printf("i = %f h.x = %f, h.y = %f, pos.x = %f, pos.y = %f\n", i, var->cast->h.x, var->cast->h.y, var->player->pos_x, var->player->pos_y);
-// 	}
-	
-// 	if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x)
-// 			&& valid_point(var, cast->h) == 0)
-// 	{
-// 		cast->wall_dir = cast->wall_dir_h;
-// 		return (1);
-// 	}
-// 	else if (valid_point(var, cast->v) == 0)
-// 	{
-// 		cast->wall_dir = cast->wall_dir_v;
-// 		return (2);
-// 	}
-// 	return (0);
-// }
-
 void	map_print(t_var *var, t_cast *cast, float i)
 {
 	int	check;
 
 	check = 0;
-   	if (fabs(cast->disth - cast->distv) <= 5)
+   	// if (fabs(cast->disth - cast->distv) <= 5)
+	// {
+	// 	// printf("i = %f diff dist = %f , wall dir = %c\n", i, cast->disth - cast->distv, cast->wall_dir);
+	// 	check = 1;
+	// 	cast->wall_dir = cast->wall_dir;
+	// }
+	// if (check == 1 && (cast->wall_dir == 'N' || cast->wall_dir == 'S'))
+	// {
+	// 	cast->wall_dir = cast->wall_dir_h;
+	// 	draw_dir(var, cast->h, 0xf7f2a6);
+	// 	wall_height(var, cast->disth, i);
+	// }
+	// else if ((check == 1 && (cast->wall_dir == 'E' || cast->wall_dir == 'W')))
+	// {
+	// 	cast->wall_dir = cast->wall_dir_v;
+	// 	draw_dir(var, cast->v, 0xf7f2a6);
+	// 	wall_height(var, cast->distv, i);
+	// }
+	// else if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x)
+	// 		&& valid_point(var, cast->h) == 0)
+	// {
+	// 	// printf("i DANS H = %f diff dist = %f , wall dir = %c\n", i, cast->disth - cast->distv, cast->wall_dir);
+	// 	cast->wall_dir = cast->wall_dir_h;
+	// 	draw_dir(var, cast->h, 0xf7f2a6);
+	// 	wall_height(var, cast->disth, i);
+	// }
+	// else if (valid_point(var, cast->v) == 0)
+	// {
+	// 	cast->wall_dir = cast->wall_dir_v;
+	// 	draw_dir(var, cast->v, 0xf7f2a6);
+	// 	wall_height(var, cast->distv, i);
+	// }
+	if (cast->disth < cast->distv)
 	{
-		// printf("i = %f diff dist = %f , wall dir = %c\n", i, cast->disth - cast->distv, cast->wall_dir);
-		check = 1;
-		cast->wall_dir = cast->wall_dir;
-	}
-	if (check == 1 && (cast->wall_dir == 'N' || cast->wall_dir == 'S'))
-	{
-		cast->wall_dir = cast->wall_dir_h;
-		draw_dir(var, cast->h, 0xFFFFFF);
-		wall_height(var, cast->disth, i);
-	}
-	else if ((check == 1 && (cast->wall_dir == 'E' || cast->wall_dir == 'W')))
-	{
-		cast->wall_dir = cast->wall_dir_v;
-		draw_dir(var, cast->v, 0xFFFFFF);
-		wall_height(var, cast->distv, i);
-	}
-	else if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x)
-			&& valid_point(var, cast->h) == 0)
-	{
-		// printf("i DANS H = %f diff dist = %f , wall dir = %c\n", i, cast->disth - cast->distv, cast->wall_dir);
-		cast->wall_dir = cast->wall_dir_h;
-		draw_dir(var, cast->h, 0xFFFFFF);
-		wall_height(var, cast->disth, i);
-	}
-	else if (valid_point(var, cast->v) == 0)
-	{
-		cast->wall_dir = cast->wall_dir_v;
-		draw_dir(var, cast->v, 0xFFFFFF);
-		wall_height(var, cast->distv, i);
-	}
+		if (1 ||valid_point(var, cast->h))
+		{
+			cast->wall_dir = cast->wall_dir_h;
+			if(var->cast->wall_dir == 'N')
+			{
+				printf("P %.4f %.4f\n", var->player->pos_x, var->player->pos_y);
+				printf("H %.4f P %.4f %.4f\n", cast->disth, cast->h.x, cast->h.y);
+				printf("V %.4f P %.4f %.4f\n", cast->distv, cast->v.x, cast->v.y);
+			}
+			draw_dir(var, cast->h, 0xf7f2a6);
+			wall_height(var, cast->disth, i);
+		}else
+			printf("INVALID\n");
 
+	}
+	else
+	{
+		if (1 ||valid_point(var, cast->v))
+		{
+			cast->wall_dir = cast->wall_dir_v;
+			draw_dir(var, cast->v, 0xf7f2a6);
+			wall_height(var, cast->distv, i);
+		}
+		else
+			printf("INVALID\n");
+	}
 }
 
 void	raycasting(t_var *var)
