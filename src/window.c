@@ -12,19 +12,19 @@ int clear_all(t_var *var)
 
 void	movement(t_map *map, t_player *player)
 {
-	float	vitesse;
+	float	speed;
 
-	vitesse = player->vitesse;
+	speed = player->speed;
 	if (player->sprint == 1)
-		vitesse *= 2;
+		speed *= 2;
 	if (player->m_up == 1)
-		move_up(map, player, vitesse);
+		move_up(map, player, speed);
 	if (player->m_down == 1)
-		move_down(map, player, vitesse);
+		move_down(map, player, speed);
 	if (player->m_left == 1)
-		move_left(map, player, vitesse);
+		move_left(map, player, speed);
 	if (player->m_right == 1)
-		move_right(map, player, vitesse);
+		move_right(map, player, speed);
 	if (player->t_left == 1)
 		player->dir += 0.05;
 	if (player->t_right == 1)

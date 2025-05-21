@@ -46,7 +46,7 @@ typedef struct s_player
 	int		m_down;
 	int		m_left;
 	int		m_right;
-	float	vitesse;
+	float	speed;
 	float	sprint;
 	int		t_left;
 	int		t_right;
