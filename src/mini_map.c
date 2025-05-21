@@ -151,8 +151,6 @@ void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
 void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, float scale)
 {
 	int		color;
-	// float	world_x;
-	// float	world_y;
 	float	rel_x;
 	float	rel_y;
 	int		mini_x;
@@ -162,8 +160,6 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, float scale)
 		|| cell_y >= var->map->height)
 		return ;
 	color = (var->map->tab_map[cell_y][cell_x] == '1') ? 0x3a3c3d : 0x9e9c9a;
-	// world_x = cell_x * GAME_sz;
-	// world_y = cell_y * GAME_sz;
 	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
 	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
 	mini_x = 100 + (int)(rel_x * scale);
