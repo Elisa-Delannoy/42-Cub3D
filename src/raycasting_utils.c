@@ -53,3 +53,8 @@ int check_raycasting(float new_y, float new_x, t_var *var)
 		return (1);
 	return (1);
 }
+
+int	rgb_to_int(char **tab)
+{
+	return ((ft_atoi(tab[0]) << 16) + (ft_atoi(tab[1]) << 8) + ft_atoi(tab[2]));
+}

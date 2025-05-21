@@ -1,20 +1,20 @@
 #include "cub3D.h"
 
-void	draw_game(t_img *img_g, int height, int width)
+void	draw_game(t_img *img_g, t_var *var)
 {
 	int x;
 	int	i;
 
 	i = 0;
-	while (i < height)
+	while (i < var->height)
 	{
 		x = 0;
-		while (x < width)
+		while (x < var->width)
 		{
-			if (i < height / 2)
-				my_put_pixel(img_g, i, x, 0x000050);
+			if (i < var->height / 2)
+				my_put_pixel(img_g, i, x, rgb_to_int(var->map->f));
 			else
-				my_put_pixel(img_g, i, x, 0x505050);
+				my_put_pixel(img_g, i, x, rgb_to_int(var->map->c));
 			x++;
 		}
 		i++;
@@ -74,5 +74,5 @@ void	make_game(t_var *var)
 	var->img_g = init_img();
 	var->img_g->img = mlx_new_image(var->mlx, (int)var->width, (int)var->height);
 	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->bits_per_pixel, &var->img_g->size_line, &var->img_g->endian);
-	draw_game(var->img_g, var->height, var->width);
+	draw_game(var->img_g, var);
 }

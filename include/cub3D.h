@@ -15,7 +15,7 @@ typedef enum e_dir
 	NORTH = 90,
 	SOUTH = 270,
 	EAST = 0,
-	WEAST = 180,
+	WEST = 180,
 	MAP = 20,
 	GAME = 64
 }	t_dir;
@@ -180,12 +180,15 @@ void	move_right(t_map *map, t_player *player, float vitesse);
 // raycasting
 void	raycasting(t_var *var);
 int		check_raycasting(float new_y, float new_x, t_var *var);
+
+// utils
 float	distance(t_point cell, float x0, float y0);
 int		valid_point(t_var *var, t_point cell);
+int		rgb_to_int(char **tab);
 // game
 void	make_game(t_var *var);
 void	wall_height(t_var *var, float dist, int i);
-void	draw_game(t_img *img_g, int height, int width);
+void	draw_game(t_img *img_g, t_var *var);
 
 // cooridnates
 int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);

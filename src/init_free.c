@@ -32,10 +32,6 @@ t_player	*init_player(t_var *var, int x, int y)
 	t_player	*player;
 
 	player = malloc(sizeof(t_player));
-	// player->game_x = (float)(y * 64);
-	// player->game_y = (float)(x * 64);
-	// player->map_x = (float)((y) * 20);
-	// player->map_y = (float)((x) * 20);
 	player->pos_x = y * GAME_sz + GAME_sz / 2;
 	player->pos_y = x * GAME_sz + GAME_sz / 2;
 	if (var->map->tab_map[x][y] == 'N')
@@ -45,9 +41,9 @@ t_player	*init_player(t_var *var, int x, int y)
 	if (var->map->tab_map[x][y] == 'E')
 		player->dir = radian(EAST);
 	if (var->map->tab_map[x][y] == 'W')
-		player->dir = radian(WEAST);
+		player->dir = radian(WEST);
 	player->fov = radian(60);
-	player->vitesse = 3;
+	player->speed = 3;
 	player->m_up = 0;
 	player->m_down = 0;
 	player->m_left = 0;
