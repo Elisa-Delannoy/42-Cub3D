@@ -38,8 +38,8 @@ void draw_dir(t_var *var, t_point cell, int color)
     int sx, sy, err, e2;
 
 	int	count = 0; 
-    y0 = 100;
-    x0 = 100;
+    y0 = 200;
+    x0 = 200;
 
 	cell.y = y0 + (int)((cell.y - var->player->pos_y) * (MAP_sz / GAME_sz));
 	cell.x = x0 + (int)((cell.x - var->player->pos_x) * (MAP_sz / GAME_sz));
@@ -53,7 +53,7 @@ void draw_dir(t_var *var, t_point cell, int color)
     err = dx - dy;
     while (1)
     {
-        if (y0 > 0 && x0 > 0 && y0 < 200 && x0 < 200)
+        if (y0 > 0 && x0 > 0 && y0 < 400 && x0 < 400)
 			my_put_pixel(var->img, y0, x0, color);
         // if ((x0 == (int)cell.x && y0 == (int)cell.y) || (count > (3 * MAP_sz)))
 		if ((x0 == (int)cell.x && y0 == (int)cell.y))
@@ -142,7 +142,7 @@ void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
 		{
 			px = mini_x + j;
 			py = mini_y + i;
-			if (px >= 0 && py >= 0 && px < 200 && py < 200)
+			if (px >= 0 && py >= 0 && px < 400 && py < 400)
 				my_put_pixel(var->img, py, px, color);
 		}
 	}
@@ -162,8 +162,8 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, float scale)
 	color = (var->map->tab_map[cell_y][cell_x] == '1') ? 0x3a3c3d : 0x9e9c9a;
 	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
 	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
-	mini_x = 100 + (int)(rel_x * scale);
-	mini_y = 100 + (int)(rel_y * scale);
+	mini_x = 200 + (int)(rel_x * scale);
+	mini_y = 200 + (int)(rel_y * scale);
 	draw_minimap_pixel(var, mini_x, mini_y, color);
 }
 
@@ -193,11 +193,6 @@ void	top_minimap(t_var *var)
 
 void	draw_minimap(t_var *var)
 {
-	float map_x;
-	float map_y;
-	
-	map_x = 9;
-	map_y = 9;
 	top_minimap(var);
 	// map_border(var);
 	draw_map(var->img, 0x000000, 4.5 * MAP_sz, 4.5 * MAP_sz);

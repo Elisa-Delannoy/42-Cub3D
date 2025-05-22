@@ -8,7 +8,7 @@
 
 # define PI 3.14159265358979323846
 # define GAME_sz 64.0f
-# define MAP_sz 20.0f
+# define MAP_sz 40.0f
 
 typedef enum e_dir
 {

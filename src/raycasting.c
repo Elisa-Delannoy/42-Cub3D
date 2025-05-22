@@ -108,15 +108,13 @@ void	map_print(t_var *var, t_cast *cast, float i)
 			cast->wall_dir = cast->wall_dir_h;
 			if(var->cast->wall_dir == 'N')
 			{
-				printf("P %.4f %.4f\n", var->player->pos_x, var->player->pos_y);
-				printf("H %.4f P %.4f %.4f\n", cast->disth, cast->h.x, cast->h.y);
-				printf("V %.4f P %.4f %.4f\n", cast->distv, cast->v.x, cast->v.y);
+				// printf("P %.4f %.4f\n", var->player->pos_x, var->player->pos_y);
+				// printf("H %.4f P %.4f %.4f\n", cast->disth, cast->h.x, cast->h.y);
+				// printf("V %.4f P %.4f %.4f\n", cast->distv, cast->v.x, cast->v.y);
 			}
 			draw_dir(var, cast->h, 0xf7f2a6);
 			wall_height(var, cast->disth, i);
-		}else
-			printf("INVALID\n");
-
+		}
 	}
 	else
 	{
@@ -126,8 +124,6 @@ void	map_print(t_var *var, t_cast *cast, float i)
 			draw_dir(var, cast->v, 0xf7f2a6);
 			wall_height(var, cast->distv, i);
 		}
-		else
-			printf("INVALID\n");
 	}
 }
 
