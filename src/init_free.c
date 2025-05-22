@@ -19,11 +19,11 @@ t_map	*ft_init_map(void)
 	map->so = NULL;
 	map->we = NULL;
 	map->ea = NULL;
-	map->f = NULL;
-	map->c = NULL;
+	map->color_c = 0;
+	map->color_f = 0;
 	map->height = 0;
 	map->width = 0;
-	map->g_to_m = (float)(GAME_sz / MAP_sz);
+	map->g_to_m = (GAME_sz / MAP_sz);
 	return (map);
 }
 
@@ -32,10 +32,6 @@ t_player	*init_player(t_var *var, int x, int y)
 	t_player	*player;
 
 	player = malloc(sizeof(t_player));
-	// player->game_x = (float)(y * 64);
-	// player->game_y = (float)(x * 64);
-	// player->map_x = (float)((y) * 20);
-	// player->map_y = (float)((x) * 20);
 	player->pos_x = y * GAME_sz + GAME_sz / 2;
 	player->pos_y = x * GAME_sz + GAME_sz / 2;
 	if (var->map->tab_map[x][y] == 'N')
@@ -102,10 +98,6 @@ void	ft_free_all(t_var *var)
 			free(var->map->we);
 		if (var->map->ea)
 			free(var->map->ea);
-		if (var->map->f)
-			free_split(var->map->f);
-		if (var->map->c)
-			free_split(var->map->c);
 		free(var->map);
 	}
 	if (var->player != NULL)

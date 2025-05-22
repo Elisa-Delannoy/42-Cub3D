@@ -9,8 +9,8 @@ float	distance(t_point cell, float x0, float y0)
 int	valid_point(t_var *var, t_point cell)
 {
 	if ((cell.y > 0  && cell.x > 0)
-		&& (cell.x < var->map->width * (float)GAME_sz
-		&& cell.y < var->map->height * (float)GAME_sz))
+		&& (cell.x < (float)var->map->width * GAME_sz
+		&& cell.y < (float)var->map->height * GAME_sz))
 		return (0);
 	return (1);
 }

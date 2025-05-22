@@ -77,8 +77,8 @@ typedef struct s_map
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	**f;
-	char	**c;
+	int		color_f;
+	int		color_c;
 
 	int		height;
 	int		width;
@@ -132,7 +132,7 @@ void	ft_print_tab(char **tab); /*a supp un jour*/
 int		ft_check_space(char c);
 float	radian(int degree);
 char	**tab_cpy(char **tab, int size);
-
+int		rgb_to_int(char **tab);
 
 // parse
 void 	ft_parse(int argc, char **argv, t_var *var);
@@ -166,10 +166,9 @@ void	empty_for_window(t_map *map);
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
 void	draw_dir(t_var *var, t_point cell, int color);
-void	find_wall_ray(t_var *var);
+// void	find_wall_ray(t_var *var);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
-void 	clear_image(t_var *var);
 
 //movement
 void	move_up(t_map *map, t_player *player, float vitesse);
@@ -185,7 +184,7 @@ int		valid_point(t_var *var, t_point cell);
 // game
 void	make_game(t_var *var);
 void	wall_height(t_var *var, float dist, int i);
-void	draw_game(t_img *img_g, int height, int width);
+void	draw_game(t_img *img_g, t_var *var);
 
 // cooridnates
 int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);

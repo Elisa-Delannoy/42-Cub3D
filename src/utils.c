@@ -53,3 +53,8 @@ char	**tab_cpy(char **tab, int size)
 	new_tab[i] = NULL;
 	return (new_tab);
 }
+
+int	rgb_to_int(char **tab)
+{
+	return ((ft_atoi(tab[0]) << 16) + (ft_atoi(tab[1]) << 8) + ft_atoi(tab[2]));
+}

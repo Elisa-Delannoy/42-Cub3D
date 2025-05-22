@@ -79,7 +79,8 @@ void	empty_for_window(t_map *map)
 	int	j;
 
 	i = 0;
-	free_split(map->temp);
+	if (map->temp)
+		free_split(map->temp);
 	map->temp = NULL;
 	map->temp = tab_cpy(map->tab_map, map->height);
 	while (map->temp[i])
