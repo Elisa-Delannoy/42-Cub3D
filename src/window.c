@@ -38,7 +38,7 @@ int	gameplay(t_var *var)
 	{
 		var->count = 0;
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * var->map->width))), (int)(var->height - (MAP_sz * var->map->height)));
+		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
 		movement(var->map, var->player);
