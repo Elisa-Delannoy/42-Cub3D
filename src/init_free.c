@@ -21,6 +21,8 @@ t_map	*ft_init_map(void)
 	map->so = NULL;
 	map->we = NULL;
 	map->ea = NULL;
+	map->color_c = 0;
+	map->color_f = 0;
 	map->height = 0;
 	map->width = 0;
 	map->g_to_m = (GAME_sz / MAP_sz);

@@ -55,6 +55,7 @@ void	color_c(t_var *var, t_map *map, int i, int *j)
 	free_split(tab_c);
 }
 
+
 int	ft_is_color(t_var *var, t_map *map, int i, int *j)
 {
 	if (map->tab_file[i][*j] && map->tab_file[i][*j + 1] == ' ')

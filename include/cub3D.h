@@ -75,8 +75,6 @@ typedef struct s_map
 	char	*ea;
 	int		color_f;
 	int		color_c;
-
-
 	int		height;
 	int		width;
 	float	g_to_m;
@@ -138,7 +136,7 @@ void	ft_print_tab(char **tab); /*a supp un jour*/
 int		ft_check_space(char c);
 float	radian(int degree);
 char	**tab_cpy(char **tab, int size);
-
+int		rgb_to_int(char **tab);
 
 // parse
 void 	ft_parse(int argc, char **argv, t_var *var);
