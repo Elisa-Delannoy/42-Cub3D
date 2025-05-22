@@ -15,15 +15,15 @@ t_map	*ft_init_map(void)
 	map->c_ea = 0;
 	map->c_f = 0;
 	map->c_c = 0;
+	map->color_c = 0;
+	map->color_f = 0;
 	map->no = NULL;
 	map->so = NULL;
 	map->we = NULL;
 	map->ea = NULL;
-	map->f = NULL;
-	map->c = NULL;
 	map->height = 0;
 	map->width = 0;
-	map->g_to_m = (float)(GAME_sz / MAP_sz);
+	map->g_to_m = (GAME_sz / MAP_sz);
 	return (map);
 }
 
@@ -98,10 +98,6 @@ void	ft_free_all(t_var *var)
 			free(var->map->we);
 		if (var->map->ea)
 			free(var->map->ea);
-		if (var->map->f)
-			free_split(var->map->f);
-		if (var->map->c)
-			free_split(var->map->c);
 		free(var->map);
 	}
 	if (var->player != NULL)

@@ -34,10 +34,6 @@ typedef enum e_key
 
 typedef struct s_player
 {
-	// float	game_x;
-	// float	game_y;
-	// float	map_x;
-	// float	map_y;
 	float	pos_x;
 	float	pos_y;
 	double	dir;
@@ -77,8 +73,9 @@ typedef struct s_map
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	**f;
-	char	**c;
+	int		color_f;
+	int		color_c;
+
 
 	int		height;
 	int		width;
@@ -104,7 +101,6 @@ typedef struct s_cast
 
 	float	step_y;
 	float	step_x;
-	
 	float	step_hy;
 	float	step_hx;
 	float	step_vy;
@@ -176,10 +172,9 @@ void	empty_for_window(t_map *map);
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
 void	draw_dir(t_var *var, t_point cell, int color);
-void	find_wall_ray(t_var *var);
+// void	find_wall_ray(t_var *var);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
-void 	clear_image(t_var *var);
 
 //movement
 void	move_up(t_map *map, t_player *player, float vitesse);
@@ -204,8 +199,6 @@ void	draw_game(t_img *img_g, t_var *var);
 int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
 
 // colors
-// void	color_f(t_map *map, int i, int *j);
-// void	color_c(t_map *map, int i, int *j);
 int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
 

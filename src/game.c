@@ -12,9 +12,9 @@ void	draw_game(t_img *img_g, t_var *var)
 		while (x < var->width)
 		{
 			if (i < var->height / 2)
-				my_put_pixel(img_g, i, x, rgb_to_int(var->map->f));
+				my_put_pixel(img_g, i, x, var->map->color_f);
 			else
-				my_put_pixel(img_g, i, x, rgb_to_int(var->map->c));
+				my_put_pixel(img_g, i, x, var->map->color_c);
 			x++;
 		}
 		i++;
@@ -30,6 +30,7 @@ void	draw_wall(t_var *var, float wall, int i)
 	y_end = y + wall;
 	while (y < y_end)
 	{
+		// my_put_pixel(var->img_g, y, i, 0x00FF00);
 		if (var->cast->wall_dir == NORTH)
 			my_put_pixel(var->img_g, y, i, 0x00FF00);
 		else if (var->cast->wall_dir == SOUTH)
@@ -57,16 +58,7 @@ void	wall_height(t_var *var, float dist, int i)
 		height_w = var->height;
 	if (height_w < 0)
 		height_w = 0;
-	// printf("dist = %d\n", height_w);
-
-	// printf("x = %d", new_x);
-	// printf("y = %d", new_y);
 	draw_wall(var, height_w, i);
-	
-	/*fenetre / calcul rayon*/
-	// Pour chaque rayon, tu dessines une ligne verticale de pixels, 
-	// dont la hauteur est proportionnelle à la distance du mur, et la couleur peut dépendre de 
-	// l'orientation du rayon (selon l'angle de vue du joueur).
 }
 
 void	make_game(t_var *var)
