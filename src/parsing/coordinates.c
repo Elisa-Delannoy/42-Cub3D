@@ -14,11 +14,11 @@ void	no(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->no == NULL)
-			map->no = ft_strjoin(path, ".xpm");
+			map->no = ft_strjoin(path, "");
 		free(path);
 		fd = open(map->no, O_RDONLY);
 	}
-	if (fd == -1 || map->no == NULL)
+	if (fd == -1 || map->no == NULL || map->no[ft_strlen(map->no) - 1] == '/')
 		return (ft_putstr_fd("Error : invalid NO texture\n", 2),
 			ft_free_all(var), exit(1));
 }
@@ -37,11 +37,11 @@ void	so(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->so == NULL)
-			map->so = ft_strjoin(path, ".xpm");
+			map->so = ft_strjoin(path, "");
 		free(path);
 		fd = open(map->so, O_RDONLY);
 	}
-	if (fd == -1 || map->so == NULL)
+	if (fd == -1 || map->so == NULL || map->so[ft_strlen(map->so) - 1] == '/')
 		return (ft_putstr_fd("Error : invalid SO texture\n", 2),
 			ft_free_all(var), exit(1));
 }
@@ -60,11 +60,11 @@ void	ea(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->ea == NULL)
-			map->ea = ft_strjoin(path, ".xpm");
+			map->ea = ft_strjoin(path, "");
 		free(path);
 		fd = open(map->ea, O_RDONLY);
 	}
-	if (fd == -1 || map->ea == NULL)
+	if (fd == -1 || map->ea == NULL || map->ea[ft_strlen(map->ea) - 1] == '/')
 		return (ft_putstr_fd("Error : invalid EA texture\n", 2),
 			ft_free_all(var), exit(1));
 }
@@ -83,11 +83,11 @@ void	we(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->we == NULL)
-			map->we = ft_strjoin(path, ".xpm");
+			map->we = ft_strjoin(path, "");
 		free(path);
 		fd = open(map->we, O_RDONLY);
 	}
-	if (fd == -1 || map->we == NULL)
+	if (fd == -1 || map->we == NULL || map->we[ft_strlen(map->we) - 1] == '/')
 		return (ft_putstr_fd("Error : invalid WE texture\n", 2),
 			ft_free_all(var), exit(1));
 }

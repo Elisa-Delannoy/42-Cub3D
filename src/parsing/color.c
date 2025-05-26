@@ -14,6 +14,8 @@ int	check_color(char **color)
 			return (1);
 		i++;
 	}
+	if (i < 3)
+		return (1);
 	return (0);
 }
 

@@ -60,10 +60,13 @@ void	ft_parse(int argc, char **argv, t_var *var)
 		return (exit(1));
 	map = ft_init_map();
 	if (ft_read_map(map, argv) == 1)
-		return (free(map), exit(1));
+	return (free(map), exit(1));
+	var->map = map;
 	if (ft_map_into_tab(map) == NULL)
 		return (ft_free_all(var), exit(1));
-	var->map = map;
+	if (map->tab_file[0] ==  NULL)
+		return (ft_putstr_fd("Error : empty map\n", 2), ft_free_all(var),
+			exit(1));
 	if (ft_check_instruct(var) != 0)
 		return (ft_free_all(var), exit(1));
 }
