@@ -14,7 +14,7 @@ void	no(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->no == NULL)
-			map->no = ft_strjoin(path, "");
+			map->no = ft_strdup(path);
 		free(path);
 		fd = open(map->no, O_RDONLY);
 	}
@@ -37,7 +37,7 @@ void	so(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->so == NULL)
-			map->so = ft_strjoin(path, "");
+			map->so = ft_strdup(path);
 		free(path);
 		fd = open(map->so, O_RDONLY);
 	}
@@ -60,7 +60,7 @@ void	ea(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->ea == NULL)
-			map->ea = ft_strjoin(path, "");
+			map->ea = ft_strdup(path);
 		free(path);
 		fd = open(map->ea, O_RDONLY);
 	}
@@ -83,7 +83,7 @@ void	we(t_var *var, t_map *map, int i, int *j)
 	if (path)
 	{
 		if (map->we == NULL)
-			map->we = ft_strjoin(path, "");
+			map->we = ft_strdup(path);
 		free(path);
 		fd = open(map->we, O_RDONLY);
 	}

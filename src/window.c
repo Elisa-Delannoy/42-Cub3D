@@ -10,6 +10,20 @@ int clear_all(t_var *var)
 	return (0);
 }
 
+void	rotate(t_player *player, float angle)
+{
+	float	previous_dir_x;
+	float	previous_plane_x;
+
+	previous_dir_x = player->dir_x;
+	previous_plane_x = player->plane_x;
+	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
+	player->dir_y = previous_dir_x * sin(angle) + player->dir_y * cos(angle);
+	player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
+	player->plane_y = previous_plane_x * sin(angle) + player->plane_y * cos(angle);
+
+}
+
 void	movement(t_map *map, t_player *player)
 {
 	float	speed;
@@ -26,9 +40,9 @@ void	movement(t_map *map, t_player *player)
 	if (player->m_right == 1)
 		move_right(map, player, speed);
 	if (player->t_left == 1)
-		player->dir += 0.05;
+		rotate(player, 0.05f);
 	if (player->t_right == 1)
-		player->dir -= 0.05;
+		rotate(player, -0.05f);
 }
 
 int	gameplay(t_var *var)

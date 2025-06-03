@@ -21,45 +21,64 @@ void	draw_game(t_img *img_g, t_var *var)
 	}
 }
 
-void	draw_wall(t_var *var, float wall, int i)
+void	draw_wall(t_var *var, float wall, int i, int w_coordinates)
 {
 	float	y;
 	float	y_end;
 
-	y = (var->height - wall) / 2.0f ;
-	y_end = y + wall;
+	y = -wall / 2.0f + var->height / 2.0f;
+	y_end = wall / 2.0f + var->height / 2.0f;
+	if (y < 0)
+		y = 0;
+	if (y_end >= var->height)
+		y_end = var->height - 1;
+	// y_end = y + wall;
+	printf("dir %d\n", w_coordinates);
 	while (y < y_end)
 	{
 		// my_put_pixel(var->img_g, y, i, 0x00FF00);
-		if (var->cast->wall_dir == NORTH)
+	
+		if (w_coordinates == NORTH)
 			my_put_pixel(var->img_g, y, i, 0x00FF00);
-		else if (var->cast->wall_dir == SOUTH)
+		else if (w_coordinates == SOUTH)
 			my_put_pixel(var->img_g, y, i, 0xFF0000);
-		else if (var->cast->wall_dir == EAST)
+		else if (w_coordinates == EAST)
 			my_put_pixel(var->img_g, y, i, 0xFFFF00);
-		else if (var->cast->wall_dir == WEST)
+		else if (w_coordinates == WEST)
 			my_put_pixel(var->img_g, y, i, 0xFFFFFF);
+
+		// if (var->cast->wall_dir == NORTH)
+		// 	my_put_pixel(var->img_g, y, i, 0x00FF00);
+		// else if (var->cast->wall_dir == SOUTH)
+		// 	my_put_pixel(var->img_g, y, i, 0xFF0000);
+		// else if (var->cast->wall_dir == EAST)
+		// 	my_put_pixel(var->img_g, y, i, 0xFFFF00);
+		// else if (var->cast->wall_dir == WEST)
+		// 	my_put_pixel(var->img_g, y, i, 0xFFFFFF);
 		y++;
 	}
+
+
+
 }
 
 
 
-void	wall_height(t_var *var, float dist, int i)
-{
-	float	height_w;
-	float	correc_dist;
+// void	wall_height(t_var *var, float dist, int i)
+// {
+// 	float	height_w;
+// 	float	correc_dist;
 
-	correc_dist = dist * cos(var->cast->ray - var->player->dir);
-	if (correc_dist < 0.0001f)
-		correc_dist = 0.0001f;
-	height_w = (GAME_sz * var->height) / correc_dist;
-	if (height_w > var->height)
-		height_w = var->height;
-	if (height_w < 0)
-		height_w = 0;
-	draw_wall(var, height_w, i);
-}
+// 	correc_dist = dist * cos(var->cast->ray - var->player->dir);
+// 	if (correc_dist < 0.0001f)
+// 		correc_dist = 0.0001f;
+// 	height_w = (GAME_sz * var->height) / correc_dist;
+// 	if (height_w > var->height)
+// 		height_w = var->height;
+// 	if (height_w < 0)
+// 		height_w = 0;
+// 	draw_wall(var, height_w, i);
+// }
 
 void	make_game(t_var *var)
 {

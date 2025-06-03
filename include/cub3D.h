@@ -7,7 +7,7 @@
 # include <math.h>
 
 # define PI 3.14159265358979323846
-# define GAME_sz 64.0f
+# define GAME_sz 1.0f
 # define MAP_sz 20.0f
 
 typedef enum e_dir
@@ -17,7 +17,7 @@ typedef enum e_dir
 	EAST = 0,
 	WEST = 180,
 	MAP = 20,
-	GAME = 64
+	GAME = 64,
 }	t_dir;
 
 typedef enum e_key
@@ -36,6 +36,12 @@ typedef struct s_player
 {
 	float	pos_x;
 	float	pos_y;
+	float	dir_x;
+	float	dir_y;
+	float	plane_x;
+	float	plane_y;
+
+
 	double	dir;
 	float	fov;
 	int		m_up;
@@ -201,6 +207,9 @@ int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
 // colors
 int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
+
+
+void	draw_wall(t_var *var, float wall, int i, int w_coordinates);
 
 
 #endif
