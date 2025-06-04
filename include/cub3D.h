@@ -34,22 +34,22 @@ typedef enum e_key
 
 typedef struct s_player
 {
-	float	pos_x;
-	float	pos_y;
-	float	dir_x;
-	float	dir_y;
-	float	plane_x;
-	float	plane_y;
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	plane_x;
+	double	plane_y;
 
 
-	double	dir;
-	float	fov;
+	// double	dir;
+	// double	fov;
 	int		m_up;
 	int		m_down;
 	int		m_left;
 	int		m_right;
-	float	speed;
-	float	sprint;
+	double	speed;
+	double	sprint;
 	int		t_left;
 	int		t_right;
 }	t_player;
@@ -58,9 +58,9 @@ typedef struct s_img
 {
 	void	*img;
 	char	*data_img;
-	int		bits_per_pixel;
-	int		size_line;
 	int		endian;
+	int		width;
+	int		height;
 }	t_img;
 
 typedef struct s_map
@@ -83,13 +83,13 @@ typedef struct s_map
 	int		color_c;
 	int		height;
 	int		width;
-	float	g_to_m;
+	double	g_to_m;
 }	t_map;
 
 typedef struct s_point
 {
-	float	y;
-	float	x;
+	double	y;
+	double	x;
 }	t_point;
 
 typedef struct s_cast
@@ -98,19 +98,19 @@ typedef struct s_cast
 	t_point	v;
 	t_point	w;
 
-	float	disth;
-	float	distv;
+	double	disth;
+	double	distv;
 
-	float	dist;
+	double	dist;
 
-	float	step_y;
-	float	step_x;
-	float	step_hy;
-	float	step_hx;
-	float	step_vy;
-	float	step_vx;
-	float	ray;
-	float	tan;
+	double	step_y;
+	double	step_x;
+	double	step_hy;
+	double	step_hx;
+	double	step_vy;
+	double	step_vx;
+	double	ray;
+	double	tan;
 	int		wall_dir;
 	int		wall_dir_h;
 	int		wall_dir_v;
@@ -123,14 +123,17 @@ typedef struct s_var
 	void		*win;
 	int			time;
 	int			count;
-	float		height;
-	float		width;
+	double		height;
+	double		width;
 	t_cast		*cast;
 	t_img		*img;
 	t_img		*img_g;
 	t_player	*player;
 	t_map		*map;
-
+	t_img		no_t;
+	// t_img		so_t;
+	// t_img		ea_t;
+	// t_img		we_t;
 } t_var;
 
 // window
@@ -140,7 +143,7 @@ int		setup_window(t_var *var);
 void	ft_print_lst(t_map *map); /*a supp un jour*/
 void	ft_print_tab(char **tab); /*a supp un jour*/
 int		ft_check_space(char c);
-float	radian(int degree);
+double	radian(int degree);
 char	**tab_cpy(char **tab, int size);
 int		rgb_to_int(char **tab);
 
@@ -181,22 +184,22 @@ void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
 
 //movement
-void	move_up(t_map *map, t_player *player, float vitesse);
-void	move_down(t_map *map, t_player *player, float vitesse);
-void	move_left(t_map *map, t_player *player, float vitesse);
-void	move_right(t_map *map, t_player *player, float vitesse);
+void	move_up(t_map *map, t_player *player, double vitesse);
+void	move_down(t_map *map, t_player *player, double vitesse);
+void	move_left(t_map *map, t_player *player, double vitesse);
+void	move_right(t_map *map, t_player *player, double vitesse);
 
 // raycasting
 void	raycasting(t_var *var);
-int		check_raycasting(float new_y, float new_x, t_var *var);
+int		check_raycasting(double new_y, double new_x, t_var *var);
 
 // utils
-float	distance(t_point cell, float x0, float y0);
+double	distance(t_point cell, double x0, double y0);
 int		valid_point(t_var *var, t_point cell);
 int		rgb_to_int(char **tab);
 // game
 void	make_game(t_var *var);
-void	wall_height(t_var *var, float dist, int i);
+// void	wall_height(t_var *var, double dist, int i);
 void	draw_game(t_img *img_g, t_var *var);
 
 // cooridnates
@@ -207,7 +210,9 @@ int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
 
 
-void	draw_wall(t_var *var, float wall, int i, int w_coordinates);
+void	draw_wall(t_var *var, double wall, int i, int w_coordinates, int pos);
 
+
+t_img	init_texture(t_var *var);
 
 #endif

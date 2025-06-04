@@ -13,7 +13,7 @@ void	draw_player(t_var *var, int color, int y, int i)
 		i = save_i;
 		while (i++ < save_i + MAP_sz / 2)
 		{
-			ptr = var->img->data_img + (((int)(y - MAP_sz / 4) * var->img->size_line) + (i * (var->img->bits_per_pixel / 8)));
+			ptr = var->img->data_img + (((int)(y - MAP_sz / 4) * var->img->width) + (i * (var->img->height / 8)));
 			*(int *)ptr = color;
 		}
 		y++;
@@ -24,7 +24,7 @@ void	my_put_pixel(t_img *img, int y, int x, int color)
 {
 	char	*ptr;
 	
-	ptr = img->data_img + ((y * img->size_line) + (x * (img->bits_per_pixel / 8)));
+	ptr = img->data_img + ((y * img->width) + (x * (img->height / 8)));
 	*(int *)ptr = color;
 }
 
@@ -74,7 +74,7 @@ void draw_dir(t_var *var, t_point cell, int color)
 // 	printf("width %f\n", var->width);
 // 	printf("height %f\n", var->height);
 //     for (i = 0; i < total_pixels; i++)
-//         *(int *)(var->img->data_img + i * (var->img->bits_per_pixel / 8)) = 0xFFFF00; // Remplir avec une couleur transparente
+//         *(int *)(var->img->data_img + i * (var->img->height / 8)) = 0xFFFF00; // Remplir avec une couleur transparente
 // }
 
 void	draw_map(t_img *img, int color, int i, int y)
@@ -90,7 +90,7 @@ void	draw_map(t_img *img, int color, int i, int y)
 		i = save_i;
 		while (i < save_i + MAP_sz) /*largeur map*/
 		{
-			ptr = img->data_img + ((y * img->size_line) + (i * (img->bits_per_pixel / 8)));
+			ptr = img->data_img + ((y * img->width) + (i * (img->height / 8)));
 			*(int *)ptr = color;
 			i++;
 		}
@@ -148,11 +148,11 @@ void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
 	}
 }
 
-void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, float scale)
+void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
 {
 	int		color;
-	float	rel_x;
-	float	rel_y;
+	double	rel_x;
+	double	rel_y;
 	int		mini_x;
 	int		mini_y;
 
@@ -173,11 +173,11 @@ void	top_minimap(t_var *var)
 	int		py;
 	int		dx;
 	int		dy;
-	float	scale;
+	double	scale;
 
 	px = (int)(var->player->pos_x / GAME_sz);
 	py = (int)(var->player->pos_y / GAME_sz);
-	scale = (float)MAP_sz / (float)GAME_sz;
+	scale = (double)MAP_sz / (double)GAME_sz;
 	dy = -5;
 	while (dy <= 5)
 	{
@@ -202,6 +202,6 @@ void	make_minimap(t_var *var)
 {
 	var->img = init_img();
 	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
-	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->bits_per_pixel, &var->img->size_line, &var->img->endian);
+	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height, &var->img->width, &var->img->endian);
 	draw_minimap(var);
 }

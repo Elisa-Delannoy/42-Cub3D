@@ -21,10 +21,28 @@ void	draw_game(t_img *img_g, t_var *var)
 	}
 }
 
-void	draw_wall(t_var *var, float wall, int i, int w_coordinates)
+void	put_texture(t_var *var, int y, int i, double wall, int texture_x)
 {
-	float	y;
-	float	y_end;
+	int color;
+	int pixel;
+	const int	*ptr;
+
+	pixel = (int)(y / (wall / var->no_t.height));
+	
+	ptr = (int *)var->no_t.data_img;
+	// ptr = var->no_t.data_img + ((pixel * var->no_t.width) + (i * (var->no_t.height / 8)));
+	color = ptr[pixel * var->no_t.height + texture_x];
+	my_put_pixel(var->img_g, y, i, color);
+}
+
+void	draw_wall(t_var *var, double wall, int i, int w_coordinates, int texture_x)
+{
+	double	y;
+	double	y_end;
+	double	step;
+	double	textpos;
+	int		texty;
+	int		color;
 
 	y = -wall / 2.0f + var->height / 2.0f;
 	y_end = wall / 2.0f + var->height / 2.0f;
@@ -32,20 +50,30 @@ void	draw_wall(t_var *var, float wall, int i, int w_coordinates)
 		y = 0;
 	if (y_end >= var->height)
 		y_end = var->height - 1;
+	step = (double)var->no_t.height / (y_end - y);
+	textpos = 0;
 	// y_end = y + wall;
-	printf("dir %d\n", w_coordinates);
 	while (y < y_end)
 	{
+		texty = (int)textpos & (var->no_t.height - 1);
+		textpos += step;
+		if (textpos < 0)
+			textpos = 0;
+		if (textpos >= var->no_t.height)
+			textpos = var->no_t.height - 1;
+		color = *((int *)(var->no_t.data_img + (texty * var->no_t.width)
+					+ (texture_x * var->no_t.height / 8)));
+
 		// my_put_pixel(var->img_g, y, i, 0x00FF00);
 	
 		if (w_coordinates == NORTH)
-			my_put_pixel(var->img_g, y, i, 0x9FD2E5); 
-		else if (w_coordinates == SOUTH)
-			my_put_pixel(var->img_g, y, i, 0x9E293B);
-		else if (w_coordinates == EAST)
-			my_put_pixel(var->img_g, y, i, 0xF2EDF1);
-		else if (w_coordinates == WEST)
-			my_put_pixel(var->img_g, y, i, 0xDAA935);
+			my_put_pixel(var->img_g, y, i, color);
+			// put_texture(var, y, i, wall, texture_x);
+		// else if (w_coordinates == SOUTH)
+		// else if (w_coordinates == EAST)
+		// 	my_put_pixel(var->img_g, y, i, 0xF2EDF1);
+		// else if (w_coordinates == WEST)
+		// 	my_put_pixel(var->img_g, y, i, 0xDAA935);
 
 		// if (var->cast->wall_dir == NORTH)
 		// 	my_put_pixel(var->img_g, y, i, 0x00FF00);
@@ -56,6 +84,7 @@ void	draw_wall(t_var *var, float wall, int i, int w_coordinates)
 		// else if (var->cast->wall_dir == WEST)
 		// 	my_put_pixel(var->img_g, y, i, 0xFFFFFF);
 		y++;
+		// printf("%f\n", y);
 	}
 
 
@@ -64,10 +93,10 @@ void	draw_wall(t_var *var, float wall, int i, int w_coordinates)
 
 
 
-// void	wall_height(t_var *var, float dist, int i)
+// void	wall_height(t_var *var, double dist, int i)
 // {
-// 	float	height_w;
-// 	float	correc_dist;
+// 	double	height_w;
+// 	double	correc_dist;
 
 // 	correc_dist = dist * cos(var->cast->ray - var->player->dir);
 // 	if (correc_dist < 0.0001f)
@@ -84,6 +113,6 @@ void	make_game(t_var *var)
 {
 	var->img_g = init_img();
 	var->img_g->img = mlx_new_image(var->mlx, (int)var->width, (int)var->height);
-	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->bits_per_pixel, &var->img_g->size_line, &var->img_g->endian);
+	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->height, &var->img_g->width, &var->img_g->endian);
 	draw_game(var->img_g, var);
 }

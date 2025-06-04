@@ -1,23 +1,45 @@
 #include "cub3D.h"
 
+int	find_pos_texture(t_var *var, double ray_x, double ray_y, double dist, int w_coordinates)
+{
+	double	pos;
+	int		texture_x;
+
+	if (w_coordinates == EAST || w_coordinates == WEST)
+		pos = var->player->pos_y + dist * ray_y;
+	else
+		pos = var->player->pos_x + dist * ray_x;
+	pos -= floor(pos);
+	texture_x = (int)(pos * var->no_t.width); /*mettre autre largeur*/
+	if (w_coordinates == SOUTH || w_coordinates == EAST)
+		texture_x = var->no_t.width - texture_x - 1;
+	if (texture_x < 0)
+		texture_x = 0;
+	if (texture_x >= var->no_t.width)
+		texture_x = var->no_t.width - 1;
+	return (texture_x);
+}
+
 void	raycasting(t_var *var)
 {
-	float 	i;
-	float	camera;
-	float	ray_x;
-	float	ray_y;
+	double 	i;
+	double	camera;
+	double	ray_x;
+	double	ray_y;
 	int		map_x;
 	int		map_y;
-	float	dist_x;
-	float	dist_y;
-	float	delta_dist_x;
-	float	delta_dist_y;
-	int		step_x;
-	int		step_y;
+	double	dist_x;
+	double	dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double		step_x;
+	double		step_y;
 	int		hit;
 	int		coordinates;
-	float	dist;
+	double	dist;
 	int		wall_h;
+
+	int		texture_x;
 
 	int		w_coordinates;
 
@@ -27,7 +49,7 @@ void	raycasting(t_var *var)
 	coordinates = 0;
 	while (i < var->width)
 	{
-		camera = 2 * i / var->width - 1;
+		camera = 2.0f * i / var->width - 1.0f;
 		ray_x = var->player->dir_x + var->player->plane_x * camera;
 		ray_y = var->player->dir_y + var->player->plane_y * camera;
 		map_x = (int)var->player->pos_x;
@@ -107,8 +129,17 @@ void	raycasting(t_var *var)
 		}
 		wall_h = (int)var->height / dist;
 
-		draw_wall(var, wall_h, i, w_coordinates);
+
+		printf("dist = %f\n", dist);
+		printf("x = %f\n", ray_x);
+		printf("y = %f\n", ray_y);
+		printf("coord = %d\n", w_coordinates);
+		texture_x = find_pos_texture(var, ray_x, ray_y, dist, w_coordinates);
+		printf("texture_x = %d\n", texture_x);
+		draw_wall(var, wall_h, i, w_coordinates, texture_x);
+
 		i++;
 	}
 }
+
 

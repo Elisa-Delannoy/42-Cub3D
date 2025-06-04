@@ -25,7 +25,7 @@ t_map	*ft_init_map(void)
 	map->color_f = 0;
 	map->height = 0;
 	map->width = 0;
-	map->g_to_m = (GAME_sz / MAP_sz);
+	// map->g_to_m = (GAME_sz / MAP_sz);
 	return (map);
 }
 
@@ -77,10 +77,10 @@ t_img	*init_img(void)
 	
 	img = malloc(sizeof(t_img));
 	img->img = NULL;
-	img->bits_per_pixel = 0;
+	img->height = 0;
 	img->data_img = NULL;
 	img->endian = 0;
-	img->size_line = 0;
+	img->width = 0;
 	return (img);
 }
 
@@ -90,11 +90,22 @@ t_img	*init_img_g(void)
 	
 	img_g = malloc(sizeof(t_img));
 	img_g->img = NULL;
-	img_g->bits_per_pixel = 0;
+	img_g->height = 0;
 	img_g->data_img = NULL;
 	img_g->endian = 0;
-	img_g->size_line = 0;
+	img_g->width = 0;
 	return (img_g);
+}
+
+t_img	init_texture(t_var *var)
+{
+	t_img no_t;
+
+	no_t.width = 80;
+	no_t.height = 80;
+	no_t.img = mlx_xpm_file_to_image(var->mlx, "./src/path_to_the_north_texture.xpm", &var->no_t.width, &var->no_t.height);
+	no_t.data_img = mlx_get_data_addr(no_t.img, &no_t.height, &no_t.width, &no_t.endian);
+	return (no_t);
 }
 
 void	ft_free_all(t_var *var)

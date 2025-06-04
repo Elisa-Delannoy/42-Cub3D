@@ -10,10 +10,10 @@ int clear_all(t_var *var)
 	return (0);
 }
 
-void	rotate(t_player *player, float angle)
+void	rotate(t_player *player, double angle)
 {
-	float	previous_dir_x;
-	float	previous_plane_x;
+	double	previous_dir_x;
+	double	previous_plane_x;
 
 	previous_dir_x = player->dir_x;
 	previous_plane_x = player->plane_x;
@@ -25,7 +25,7 @@ void	rotate(t_player *player, float angle)
 
 void	movement(t_map *map, t_player *player)
 {
-	float	speed;
+	double	speed;
 
 	speed = player->speed;
 	if (player->sprint == 1)
@@ -59,6 +59,8 @@ int	gameplay(t_var *var)
 		draw_minimap(var);
 		// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
 		raycasting(var);
+		mlx_put_image_to_window(var->mlx, var->win, var->no_t.img, 0, 0);
+		mlx_do_sync(var->mlx);
 		// find_wall_ray(var, GAME);
 	}
 	return(0);
@@ -122,6 +124,7 @@ int	setup_window(t_var *var)
 	make_game(var);
 	// printf("x =%f\n", var->player->map_x);
 	// printf("y =%f\n", var->player->map_y);
+	var->no_t = init_texture(var);
 	mlx_hook(var->win, 17, 0, clear_all, var);
 	mlx_hook(var->win, 2, 1L << 0, key_press, var);
 	mlx_hook(var->win, 3, 1L << 1, key_release, var);

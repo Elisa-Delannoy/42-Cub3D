@@ -9,10 +9,10 @@ int	check_in_map(t_map *map, int y, int x)
 	return (1);
 }
 
-void	move_up(t_map *map, t_player *player, float speed)
+void	move_up(t_map *map, t_player *player, double speed)
 {
-	float	anticip_x;
-	float	anticip_y;
+	double	anticip_x;
+	double	anticip_y;
 	int		check;
 
 	anticip_y = player->pos_y + (player->dir_y * speed) * 5.f;
@@ -24,10 +24,10 @@ void	move_up(t_map *map, t_player *player, float speed)
 		player->pos_x += player->dir_x * speed;
 }
 
-void	move_down(t_map *map, t_player *player, float speed)
+void	move_down(t_map *map, t_player *player, double speed)
 {
-	float	anticip_x;
-	float	anticip_y;
+	double	anticip_x;
+	double	anticip_y;
 	int		check;
 
 	anticip_y = player->pos_y + (player->dir_y * speed) * 5.0F;
@@ -39,10 +39,10 @@ void	move_down(t_map *map, t_player *player, float speed)
 		player->pos_x -= player->dir_x * speed;
 }
 
-void	move_left(t_map *map, t_player *player, float speed)
+void	move_left(t_map *map, t_player *player, double speed)
 {
-	float	anticip_x;
-	float	anticip_y;
+	double	anticip_x;
+	double	anticip_y;
 	int		check;
 
 	anticip_y = player->pos_y - player->plane_y * (speed * 5.0f);
@@ -55,11 +55,11 @@ void	move_left(t_map *map, t_player *player, float speed)
 		player->pos_x -= player->plane_x * speed;
 }
 
-void	move_right(t_map *map, t_player *player, float speed)
+void	move_right(t_map *map, t_player *player, double speed)
 {
 	
-	float	anticip_x;
-	float	anticip_y;
+	double	anticip_x;
+	double	anticip_y;
 	int		check;
 
 	anticip_y = player->pos_y + player->plane_y * (speed * 5.0f);
