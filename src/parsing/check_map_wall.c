@@ -73,25 +73,25 @@ int	check_wall_min_max(t_var *var)
 	return (2);
 }
 
-void	empty_for_window(t_map *map)
-{
-	int	i;
-	int	j;
+// void	empty_for_window(t_map *map)
+// {
+// 	int	i;
+// 	int	j;
 
-	i = 0;
-	if (map->temp)
-		free_split(map->temp);
-	map->temp = NULL;
-	map->temp = tab_cpy(map->tab_map, map->height);
-	while (map->temp[i])
-	{
-		j = 0;
-		while (map->temp[i][j])
-		{
-			if (ft_check_space(map->temp[i][j]) == 0)
-				floodfill_space_wall(map, i, j, '2');
-			j++;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	if (map->temp)
+// 		free_split(map->temp);
+// 	map->temp = NULL;
+// 	map->temp = tab_cpy(map->tab_map, map->height);
+// 	while (map->temp[i])
+// 	{
+// 		j = 0;
+// 		while (map->temp[i][j])
+// 		{
+// 			if (ft_check_space(map->temp[i][j]) == 0)
+// 				floodfill_space_wall(map, i, j, '2');
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// }

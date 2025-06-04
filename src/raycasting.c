@@ -1,209 +1,114 @@
 #include "cub3D.h"
 
-t_point	raycating_horizontal(t_var *var, t_cast *cast)
-{
-	t_point cell;
-	
-	if (sin(cast->ray) < 0)
-	{
-		cast->step_hy = GAME_sz;
-		cast->wall_dir_h = 'S';
-	}
-	else
-	{
-		cast->step_hy = -GAME_sz;
-		cast->wall_dir_h = 'N';
-	}
-	if (sin(cast->ray) < 0)
-		cell.y = (floor(var->player->pos_y / GAME_sz) * GAME_sz) + GAME_sz;
-	else
-		cell.y = (floor(var->player->pos_y / GAME_sz) * GAME_sz) - 1.0f;
-	cell.x = var->player->pos_x + ((var->player->pos_y - cell.y) / cast->tan);
-	cast->step_hx = (float)(GAME_sz / cast->tan);
-	if ((cast->step_hx > 0 && cos(cast->ray) < 0) || (cast->step_hx < 0 && cos(cast->ray) > 0))
-		cast->step_hx *= -1.0f;
-	// if (check_raycasting(cell.y, cell.x, var) != 0)
-	// {
-	// 	cell.x += cast->step_hx;
-	// 	cell.y += cast->step_hy;
-	// }
-	return (cell);
-}
-
-t_point	raycating_vertical(t_var *var, t_cast *cast)
-{
-	t_point cell;
-
-	if (cos(cast->ray) > 0)
-	{
-		cast->step_vx = GAME_sz;
-		cast->wall_dir_v = 'E';
-	}
-	else
-	{
-		cast->step_vx = -GAME_sz;
-		cast->wall_dir_v = 'W';
-	}
-	if (cos(cast->ray) > 0)
-		cell.x = (floor(var->player->pos_x / GAME_sz) * GAME_sz) + GAME_sz;
-	else
-		cell.x = (floor(var->player->pos_x / GAME_sz) * GAME_sz) - 1.0f;
-	cell.y = var->player->pos_y + ((var->player->pos_x - cell.x) * cast->tan);
-	cast->step_vy = (float)(GAME_sz * cast->tan);
-	if ((cast->step_vy >= 0 && sin(cast->ray) >= 0) || (cast->step_vy <= 0 && sin(cast->ray) <= 0))
-		cast->step_vy *= -1.0f;
-	// if (check_raycasting(cell.y, cell.x, var) != 0)
-	// {
-	// 	cell.x += cast->step_vx;
-	// 	cell.y += cast->step_vy;
-	// }
-	return(cell);
-}
-
-void	map_print(t_var *var, t_cast *cast, float i)
-{
-
-	draw_dir(var, cast->w, 0xf7f2a6);
-	wall_height(var, cast->dist, i);
-}
-	// int	check;
-
-	// check = 0;
-   	// if (fabs(cast->disth - cast->distv) <= 5)
-	// {
-	// 	// printf("i = %f diff dist = %f , wall dir = %c\n", i, cast->disth - cast->distv, cast->wall_dir);
-	// 	check = 1;
-	// 	cast->wall_dir = cast->wall_dir;
-	// }
-	// if (check == 1 && (cast->wall_dir == 'N' || cast->wall_dir == 'S'))
-	// {
-	// 	cast->wall_dir = cast->wall_dir_h;
-	// 	draw_dir(var, cast->h, 0xf7f2a6);
-	// 	wall_height(var, cast->disth, i);
-	// }
-	// else if ((check == 1 && (cast->wall_dir == 'E' || cast->wall_dir == 'W')))
-	// {
-	// 	cast->wall_dir = cast->wall_dir_v;
-	// 	draw_dir(var, cast->v, 0xf7f2a6);
-	// 	wall_height(var, cast->distv, i);
-	// }
-	// else if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x)
-	// 		&& valid_point(var, cast->h) == 0)
-	// {
-	// 	// printf("i DANS H = %f diff dist = %f , wall dir = %c\n", i, cast->disth - cast->distv, cast->wall_dir);
-	// 	cast->wall_dir = cast->wall_dir_h;
-	// 	draw_dir(var, cast->h, 0xf7f2a6);
-	// 	wall_height(var, cast->disth, i);
-	// }
-	// else if (valid_point(var, cast->v) == 0)
-	// {
-	// 	cast->wall_dir = cast->wall_dir_v;
-	// 	draw_dir(var, cast->v, 0xf7f2a6);
-	// 	wall_height(var, cast->distv, i);
-	// }
-// 	if (cast->disth < cast->distv)
-// 	{
-// 		if (1 ||valid_point(var, cast->h))
-// 		{
-// 			cast->wall_dir = cast->wall_dir_h;
-// 			if(var->cast->wall_dir == 'N')
-// 			{
-// 				printf("P %.4f %.4f\n", var->player->pos_x, var->player->pos_y);
-// 				printf("H %.4f P %.4f %.4f\n", cast->disth, cast->h.x, cast->h.y);
-// 				printf("V %.4f P %.4f %.4f\n", cast->distv, cast->v.x, cast->v.y);
-// 			}
-// 			draw_dir(var, cast->h, 0xf7f2a6);
-// 			wall_height(var, cast->disth, i);
-// 		}else
-// 			printf("INVALID\n");
-
-// 	}
-// 	else
-// 	{
-// 		if (1 ||valid_point(var, cast->v))
-// 		{
-// 			cast->wall_dir = cast->wall_dir_v;
-// 			draw_dir(var, cast->v, 0xf7f2a6);
-// 			wall_height(var, cast->distv, i);
-// 		}
-// 		else
-// 			printf("INVALID\n");
-// 	}
-// }
-
-
-		// if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x))
-t_point	find_hit(t_var *var, t_cast *cast)
-{
-	while (1)
-	{
-		if (check_raycasting(cast->h.y, cast->h.x, var) != 0)
-		{
-			cast->h.x += cast->step_hx;
-			cast->h.y += cast->step_hy;
-			// printf("hx %f\n", cast->h.x);
-			// printf("hy %f\n\n", cast->h.y);
-		}
-		else
-		{
-			// printf("FIN H\n");
-			if (sin(cast->ray) < 0)
-				cast->wall_dir = SOUTH;
-			else
-				cast->wall_dir = NORTH;
-			// if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x))
-			if(distance(cast->h, var->player->pos_x, var->player->pos_y) < distance(cast->v, var->player->pos_x, var->player->pos_y))
-				return (cast->h);
-			else
-				return (cast->v);
-		}
-		if (check_raycasting(cast->v.y, cast->v.x, var) != 0)
-		{
-			cast->v.x += cast->step_vx;
-			cast->v.y += cast->step_vy;
-			// printf("vx %f\n", cast->v.x);
-			// printf("vy %f\n\n", cast->v.y);
-		}
-		else
-		{
-			// printf("FIN V\n");
-			if (cos(cast->ray) < 0)
-				cast->wall_dir = WEST;
-			else
-				cast->wall_dir = EAST;
-			// if (fabs(cast->h.x - var->player->pos_x) <= fabs(cast->v.x - var->player->pos_x))
-			if(distance(cast->h, var->player->pos_x, var->player->pos_y) < distance(cast->v, var->player->pos_x, var->player->pos_y))
-				return (cast->h);
-			else
-				return (cast->v);
-		}
-	}
-}
-
 void	raycasting(t_var *var)
 {
-	int i;
-	float	ray_step;
+	float 	i;
+	float	camera;
+	float	ray_x;
+	float	ray_y;
+	int		map_x;
+	int		map_y;
+	float	dist_x;
+	float	dist_y;
+	float	delta_dist_x;
+	float	delta_dist_y;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		coordinates;
+	float	dist;
+	int		wall_h;
 
-	ray_step = var->player->fov / var->width;
+	int		w_coordinates;
+
+
 	i = 0;
-	// while (i < 1)
+	hit = 0;
+	coordinates = 0;
 	while (i < var->width)
 	{
-		var->cast->ray = (var->player->dir - (var->player->fov / 2) + (i * ray_step));
-		var->cast->tan = tan(var->cast->ray);
-		var->cast->h = raycating_horizontal(var, var->cast);
-		var->cast->v = raycating_vertical(var, var->cast);
-		var->cast->w = find_hit(var, var->cast);
+		camera = 2 * i / var->width - 1;
+		ray_x = var->player->dir_x + var->player->plane_x * camera;
+		ray_y = var->player->dir_y + var->player->plane_y * camera;
+		map_x = (int)var->player->pos_x;
+		map_y = (int)var->player->pos_y;
 
-		printf("i = %d x = %f, y = %f, pos.x = %f, pos.y = %f\n", i, var->cast->w.x, var->cast->w.y, var->player->pos_x, var->player->pos_y);
-		// var->cast->disth = distance(var->cast->h, var->player->pos_x, var->player->pos_y);
-		// printf("v. = %f, v.y = %f, pos.x = %f, pos.y = %f\n", var->cast->v.x, var->cast->v.y, var->player->pos_x, var->player->pos_y);
-		// var->cast->distv = distance(var->cast->v, var->player->pos_x, var->player->pos_y);
-		var->cast->dist = distance(var->cast->w, var->player->pos_x, var->player->pos_y);
-		printf("dist %f\n", var->cast->dist);
+		if (ray_x == 0)
+			delta_dist_x = INFINITY;
+		else
+			delta_dist_x = fabs(1 / ray_x);
+		if (ray_y == 0)
+			delta_dist_y = INFINITY;
+		else
+			delta_dist_y = fabs(1 / ray_y);
 
-		map_print(var, var->cast, var->width - i);
+		if (ray_x < 0)
+		{
+			step_x = -GAME_sz;
+			dist_x = (var->player->pos_x - map_x) * delta_dist_x;
+		}
+		else
+		{
+			step_x = GAME_sz;
+			dist_x = (map_x + GAME_sz - var->player->pos_x) * delta_dist_x;
+		}
+		if (ray_y < 0)
+		{
+			step_y = -GAME_sz;
+			dist_y = (var->player->pos_y - map_y) * delta_dist_y;
+		}
+		else
+		{
+			step_y = GAME_sz;
+			dist_y = (map_y + GAME_sz - var->player->pos_y) * delta_dist_y;
+		}
+
+		while (hit == 0)
+		{
+			if (dist_x < dist_y)
+			{
+				dist_x += delta_dist_x;
+				map_x += step_x;
+				coordinates = 0;
+			}
+			else
+			{
+				dist_y += delta_dist_y;
+				map_y += step_y;
+				coordinates = 1;
+			}
+			if (map_y / (int)GAME_sz < 0)
+				map_y = 0;
+			if (map_x / (int)GAME_sz < 0)
+				map_x = 0;
+			if (map_x / (int)GAME_sz >= var->map->width)
+				map_x = var->map->width - 1;
+			if (map_y / (int)GAME_sz >= var->map->height)
+				map_y = var->map->height - 1;
+			if (var->map->tab_map[map_y / (int)GAME_sz][map_x / (int)GAME_sz] == '1')
+				hit = 1;
+		}
+		hit = 0;
+		if (coordinates == 0)
+		{
+			dist = dist_x - delta_dist_x;
+			if (step_x > 0)
+				w_coordinates = EAST;
+			else
+				w_coordinates = WEST;
+		}
+		else
+		{
+			dist = dist_y - delta_dist_y;
+			if (step_y > 0)
+				w_coordinates = SOUTH;
+			else
+				w_coordinates = NORTH;
+		}
+		wall_h = (int)var->height / dist;
+
+		draw_wall(var, wall_h, i, w_coordinates);
 		i++;
 	}
 }
+
