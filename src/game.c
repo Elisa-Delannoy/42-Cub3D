@@ -39,13 +39,13 @@ void	draw_wall(t_var *var, float wall, int i, int w_coordinates)
 		// my_put_pixel(var->img_g, y, i, 0x00FF00);
 	
 		if (w_coordinates == NORTH)
-			my_put_pixel(var->img_g, y, i, 0x00FF00);
+			my_put_pixel(var->img_g, y, i, 0x9FD2E5); 
 		else if (w_coordinates == SOUTH)
-			my_put_pixel(var->img_g, y, i, 0xFF0000);
+			my_put_pixel(var->img_g, y, i, 0x9E293B);
 		else if (w_coordinates == EAST)
-			my_put_pixel(var->img_g, y, i, 0xFFFF00);
+			my_put_pixel(var->img_g, y, i, 0xF2EDF1);
 		else if (w_coordinates == WEST)
-			my_put_pixel(var->img_g, y, i, 0xFFFFFF);
+			my_put_pixel(var->img_g, y, i, 0xDAA935);
 
 		// if (var->cast->wall_dir == NORTH)
 		// 	my_put_pixel(var->img_g, y, i, 0x00FF00);

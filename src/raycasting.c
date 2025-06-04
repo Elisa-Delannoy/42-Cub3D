@@ -164,8 +164,6 @@ void	raycasting(t_var *var)
 	int		wall_h;
 
 	int		w_coordinates;
-	int		angle;
-
 
 
 	i = 0;
@@ -235,28 +233,26 @@ void	raycasting(t_var *var)
 				map_x = var->map->width - 1;
 			if (map_y / (int)GAME_sz >= var->map->height)
 				map_y = var->map->height - 1;
-// 		return (0);
 			if (var->map->tab_map[map_y / (int)GAME_sz][map_x / (int)GAME_sz] == '1')
 				hit = 1;
 			// printf("hit %d\n", hit);
 		}
 		hit = 0;
-		angle = sin(atan2(var->player->dir_y, var->player->dir_x));
 		if (coordinates == 0)
 		{
 			dist = dist_x - delta_dist_x;
-			if (sin(angle) > 0)
-				w_coordinates = NORTH;
+			if (step_x > 0)
+				w_coordinates = EAST;
 			else
-				w_coordinates = SOUTH;
+				w_coordinates = WEST;
 		}
 		else
 		{
 			dist = dist_y - delta_dist_y;
-			if (cos(angle) > 0)
-				w_coordinates = EAST;
+			if (step_y > 0)
+				w_coordinates = SOUTH;
 			else
-				w_coordinates = WEST;
+				w_coordinates = NORTH;
 		}
 		wall_h = (int)var->height / dist;
 
