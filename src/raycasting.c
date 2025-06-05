@@ -1,151 +1,154 @@
 #include "cub3D.h"
 
-int	find_pos_texture(t_var *var, double ray_x, double ray_y, double dist, int w_coordinates)
+t_img	select_texture(t_var *var, t_cast *cast)
 {
-	double	pos;
-	int		texture_x;
+	t_img	texture;
 
-	if (w_coordinates == EAST || w_coordinates == WEST)
-		pos = var->player->pos_y + dist * ray_y;
+	if (cast->wall_dir == NORTH)
+		texture = var->no_t;
+	else if (cast->wall_dir == SOUTH)
+		texture = var->so_t;
+	else if (cast->wall_dir == EAST)
+		texture = var->ea_t;
+	else if (cast->wall_dir == WEST)
+		texture = var->we_t;
 	else
-		pos = var->player->pos_x + dist * ray_x;
-	pos -= floor(pos);
-	texture_x = (int)(pos * var->no_t.width); /*mettre autre largeur*/
-	if (w_coordinates == SOUTH || w_coordinates == EAST)
-		texture_x = var->no_t.width - texture_x - 1;
-	if (texture_x < 0)
-		texture_x = 0;
-	if (texture_x >= var->no_t.width)
-		texture_x = var->no_t.width - 1;
-	return (texture_x);
+	{
+		texture = var->no_t;
+		return (ft_putstr_fd("Error : texture direction", 2), texture); /*VOIR SI FREE*/
+	}
+	return (texture);
 }
 
-void	raycasting(t_var *var)
+void	find_pos_texture(t_var *var, t_cast *cast)
+{
+	double	pos;
+
+	cast->texture = select_texture(var, cast);
+	if (cast->wall_dir == EAST || cast->wall_dir == WEST)
+		pos = var->player->pos_y + cast->dist * cast->ray_dir_y;
+	else
+		pos = var->player->pos_x + cast->dist * cast->ray_dir_x;
+	pos -= floor(pos);
+	cast->text_pos_x = (int)(pos * cast->texture.width);
+	if (cast->wall_dir == SOUTH || cast->wall_dir == WEST)
+		cast->text_pos_x = cast->texture.width - cast->text_pos_x - 1;
+	if (cast->text_pos_x < 0)
+		cast->text_pos_x = 0;
+	if (cast->text_pos_x >= cast->texture.width)
+		cast->text_pos_x = cast->texture.width - 1;
+}
+
+void	find_hit(t_var *var, t_cast *cast)
 {
 	t_point	hit;
 
+	while (1)
+	{
+		if (cast->dist_x < cast->dist_y)
+		{
+			cast->dist_x += cast->delta_dist_x;
+			cast->map_x += cast->step_x;
+			cast->coordinates = 0;
+		}
+		else
+		{
+			cast->dist_y += cast->delta_dist_y;
+			cast->map_y += cast->step_y;
+			cast->coordinates = 1;
+		}
+		if (check_in_map(var->map, cast->map_y, cast->map_x) != 1)
+			return; /*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
+		if (var->map->tab_map[cast->map_y][cast->map_x] == '1')
+		{
+			hit.x = cast->map_x;
+			hit.y = cast->map_y;
+			break;
+		}
+	}
+}
+
+void	init_dist_x_y(t_var *var, t_cast *cast)
+{
+	if (cast->ray_dir_x < 0)
+	{
+		cast->step_x = -1;
+		cast->dist_x = (var->player->pos_x - cast->map_x) * cast->delta_dist_x;
+	}
+	else
+	{
+		cast->step_x = 1;
+		cast->dist_x = (cast->map_x + 1 - var->player->pos_x)
+			* cast->delta_dist_x;
+	}
+	if (cast->ray_dir_y < 0)
+	{
+		cast->step_y = -1;
+		cast->dist_y = (var->player->pos_y - cast->map_y) * cast->delta_dist_y;
+	}
+	else
+	{
+		cast->step_y = 1;
+		cast->dist_y = (cast->map_y + 1 - var->player->pos_y)
+			* cast->delta_dist_y;
+	}
+}
+
+void	init_cast_ray(t_var *var, t_cast *cast, int i)
+{
+	cast->camera = 2.0f * i / var->width - 1.0f;
+	cast->ray_dir_x = var->player->dir_x + var->player->plane_x
+		* cast->camera;
+	cast->ray_dir_y = var->player->dir_y + var->player->plane_y
+		* cast->camera;
+	cast->map_x = (int)var->player->pos_x;
+	cast->map_y = (int)var->player->pos_y;
+	if (cast->ray_dir_x == 0)
+		cast->delta_dist_x = INFINITY;
+	else
+		cast->delta_dist_x = fabs(1 / cast->ray_dir_x);
+	if (cast->ray_dir_y == 0)
+		cast->delta_dist_y = INFINITY;
+	else
+		cast->delta_dist_y = fabs(1 / cast->ray_dir_y);
+	init_dist_x_y(var, cast);
+}
+
+void	find_wall_dir(t_cast *cast)
+{
+	if (cast->coordinates == 0)
+	{
+		cast->dist = cast->dist_x - cast->delta_dist_x;
+		if (cast->step_x > 0)
+			cast->wall_dir = EAST;
+		else
+			cast->wall_dir = WEST;
+	}
+	else
+	{
+		cast->dist = cast->dist_y - cast->delta_dist_y;
+		if (cast->step_y > 0)
+			cast->wall_dir = SOUTH;
+		else
+			cast->wall_dir = NORTH;
+	}
+}
+
+void	raycasting(t_var *var, t_cast *cast)
+{
 	double 	i;
-	double	camera;
-	double	ray_x;
-	double	ray_y;
-	int		map_x;
-	int		map_y;
-	double	dist_x;
-	double	dist_y;
-	double	delta_dist_x;
-	double	delta_dist_y;
-	double		step_x;
-	double		step_y;
 	int		hit_w;
-	int		coordinates;
-	double	dist;
-	int		wall_h;
-
-	int		texture_x;
-
-	int		w_coordinates;
-
 
 	i = 0;
 	hit_w = 0;
-	coordinates = 0;
 	while (i < var->width)
 	{
-		camera = 2.0f * i / var->width - 1.0f;
-		ray_x = var->player->dir_x + var->player->plane_x * camera;
-		ray_y = var->player->dir_y + var->player->plane_y * camera;
-		map_x = (int)var->player->pos_x;
-		map_y = (int)var->player->pos_y;
-
-		if (ray_x == 0)
-			delta_dist_x = INFINITY;
-		else
-			delta_dist_x = fabs(1 / ray_x);
-		if (ray_y == 0)
-			delta_dist_y = INFINITY;
-		else
-			delta_dist_y = fabs(1 / ray_y);
-
-		if (ray_x < 0)
-		{
-			step_x = -GAME_sz;
-			dist_x = (var->player->pos_x - map_x) * delta_dist_x;
-		}
-		else
-		{
-			step_x = GAME_sz;
-			dist_x = (map_x + GAME_sz - var->player->pos_x) * delta_dist_x;
-		}
-		if (ray_y < 0)
-		{
-			step_y = -GAME_sz;
-			dist_y = (var->player->pos_y - map_y) * delta_dist_y;
-		}
-		else
-		{
-			step_y = GAME_sz;
-			dist_y = (map_y + GAME_sz - var->player->pos_y) * delta_dist_y;
-		}
-
-		while (hit_w == 0)
-		{
-			if (dist_x < dist_y)
-			{
-				dist_x += delta_dist_x;
-				map_x += step_x;
-				coordinates = 0;
-			}
-			else
-			{
-				dist_y += delta_dist_y;
-				map_y += step_y;
-				coordinates = 1;
-			}
-			if (map_y / (int)GAME_sz < 0)
-				map_y = 0;
-			if (map_x / (int)GAME_sz < 0)
-				map_x = 0;
-			if (map_x / (int)GAME_sz >= var->map->width)
-				map_x = var->map->width - 1;
-			if (map_y / (int)GAME_sz >= var->map->height)
-				map_y = var->map->height - 1;
-			if (var->map->tab_map[map_y / (int)GAME_sz][map_x / (int)GAME_sz] == '1')
-			{
-				hit_w = 1;
-				hit.x = map_x;
-				hit.y = map_y;
-			}
-		}
-		printf("x = %f\n", hit.x);
-		printf("y = %f\n", hit.y);
-		hit_w = 0;
-		if (coordinates == 0)
-		{
-			dist = dist_x - delta_dist_x;
-			if (step_x > 0)
-				w_coordinates = EAST;
-			else
-				w_coordinates = WEST;
-		}
-		else
-		{
-			dist = dist_y - delta_dist_y;
-			if (step_y > 0)
-				w_coordinates = SOUTH;
-			else
-				w_coordinates = NORTH;
-		}
-		wall_h = (int)var->height / dist;
-
-
-		// printf("dist = %f\n", dist);
-		// printf("x = %f\n", ray_x);
-		// printf("y = %f\n", ray_y);
-		// printf("coord = %d\n", w_coordinates);
-		texture_x = find_pos_texture(var, ray_x, ray_y, dist, w_coordinates);
-		// printf("texture_x = %d\n", texture_x);
-		draw_wall(var, wall_h, i, w_coordinates, texture_x);
-
+		init_cast_ray(var, cast, i);	
+		find_hit(var, cast);
+		find_wall_dir(cast);
+		cast->wall_h = (int)var->height / cast->dist;
+		find_pos_texture(var, cast);
+		draw_wall(var, var->cast, i);
 		i++;
 	}
 }

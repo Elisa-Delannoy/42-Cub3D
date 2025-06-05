@@ -25,7 +25,6 @@ t_map	*ft_init_map(void)
 	map->color_f = 0;
 	map->height = 0;
 	map->width = 0;
-	// map->g_to_m = (GAME_sz / MAP_sz);
 	return (map);
 }
 
@@ -34,8 +33,8 @@ t_player	*init_player(t_var *var, int x, int y)
 	t_player	*player;
 
 	player = malloc(sizeof(t_player));
-	player->pos_x = y * GAME_sz + GAME_sz / 2;
-	player->pos_y = x * GAME_sz + GAME_sz / 2;
+	player->pos_x = y + 1 / 2;
+	player->pos_y = x + 1 / 2;
 
 	if (var->map->tab_map[x][y] == 'N')
 	{
@@ -59,10 +58,7 @@ t_player	*init_player(t_var *var, int x, int y)
 	}
 	player->plane_x = -player->dir_y * 0.66;
 	player->plane_y = player->dir_x * 0.66;
-	
-
-	// player->fov = radian(60);
-	player->speed = 0.05; /*init 3*/
+	player->speed = 0.05;
 	player->m_up = 0;
 	player->m_down = 0;
 	player->m_left = 0;
@@ -97,15 +93,35 @@ t_img	*init_img_g(void)
 	return (img_g);
 }
 
-t_img	init_texture(t_var *var)
-{
-	t_img no_t;
 
-	no_t.width = 80;
-	no_t.height = 80;
-	no_t.img = mlx_xpm_file_to_image(var->mlx, var->map->no, &var->no_t.width, &var->no_t.height);
-	no_t.data_img = mlx_get_data_addr(no_t.img, &no_t.bpp, &no_t.line_len, &no_t.endian);
-	return (no_t);
+
+
+t_img	init_texture(t_var *var, int dir)
+{
+	t_img	new_text;
+	char	*path;
+
+	path = NULL;
+	if (dir == NORTH)
+		path = var->map->no;
+	else if (dir == SOUTH)
+		path = var->map->so;
+	else if (dir == EAST)
+		path = var->map->ea;
+	else if (dir == WEST)
+		path = var->map->we;
+
+	new_text.img = mlx_xpm_file_to_image(var->mlx, path, &new_text.width, &new_text.height);
+	new_text.data_img = mlx_get_data_addr(new_text.img, &new_text.bpp, &new_text.line_len, &new_text.endian);
+	return(new_text);
+}
+
+void	init_all_textures(t_var *var)
+{
+	var->no_t = init_texture(var, NORTH);
+	var->so_t = init_texture(var, SOUTH);
+	var->ea_t = init_texture(var, EAST);
+	var->we_t = init_texture(var, WEST);
 }
 
 void	ft_free_all(t_var *var)

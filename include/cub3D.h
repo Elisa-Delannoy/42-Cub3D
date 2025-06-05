@@ -40,10 +40,6 @@ typedef struct s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
-
-
-	// double	dir;
-	// double	fov;
 	int		m_up;
 	int		m_down;
 	int		m_left;
@@ -85,7 +81,6 @@ typedef struct s_map
 	int		color_c;
 	int		height;
 	int		width;
-	double	g_to_m;
 }	t_map;
 
 typedef struct s_point
@@ -96,28 +91,27 @@ typedef struct s_point
 
 typedef struct s_cast
 {
-	// t_point	h;
-	// t_point	v;
-	// t_point	w;
-
 	t_point	hit;
-	double	disth;
-	double	distv;
-
+	t_img	texture;
 	double	dist;
-
-	double	step_y;
-	double	step_x;
-	double	step_hy;
-	double	step_hx;
-	double	step_vy;
-	double	step_vx;
-	double	ray;
-	double	tan;
+	int		wall_h;
+	double	camera;
+	double	ray_dir_x;
+	double	ray_dir_y;
 	int		wall_dir;
-	int		wall_dir_h;
-	int		wall_dir_v;
-	int		stock_dir;
+	int		map_x;
+	int		map_y;
+	double	dist_x;
+	double	dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	step_x;
+	double	step_y;
+	int		text_pos_x;
+	double	double_text_pos_y;
+	int		text_pos_y;
+	int		coordinates;
+
 }	t_cast;
 
 typedef struct s_var
@@ -134,9 +128,9 @@ typedef struct s_var
 	t_player	*player;
 	t_map		*map;
 	t_img		no_t;
-	// t_img		so_t;
-	// t_img		ea_t;
-	// t_img		we_t;
+	t_img		so_t;
+	t_img		ea_t;
+	t_img		we_t;
 } t_var;
 
 // window
@@ -191,9 +185,10 @@ void	move_up(t_map *map, t_player *player, double vitesse);
 void	move_down(t_map *map, t_player *player, double vitesse);
 void	move_left(t_map *map, t_player *player, double vitesse);
 void	move_right(t_map *map, t_player *player, double vitesse);
+int		check_in_map(t_map *map, int y, int x);
 
 // raycasting
-void	raycasting(t_var *var);
+void	raycasting(t_var *var, t_cast *cast);
 int		check_raycasting(double new_y, double new_x, t_var *var);
 
 // utils
@@ -202,8 +197,8 @@ int		valid_point(t_var *var, t_point cell);
 int		rgb_to_int(char **tab);
 // game
 void	make_game(t_var *var);
-// void	wall_height(t_var *var, double dist, int i);
 void	draw_game(t_img *img_g, t_var *var);
+void	draw_wall(t_var *var, t_cast *cast, int i);
 
 // cooridnates
 int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
@@ -213,9 +208,10 @@ int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
 
 
-void	draw_wall(t_var *var, double wall, int i, int w_coordinates, int pos);
 
 
-t_img	init_texture(t_var *var);
+void	init_all_textures(t_var *var);
+
+
 
 #endif

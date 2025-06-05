@@ -1,7 +1,7 @@
-NO ./src/path_to_the_north_texture
-SO ./src/path_to_the_north_texture
-WE ./src/path_to_the_north_texture
-EA ./src/path_to_the_north_texture
+NO 1
+SO 2
+WE 3
+EA 4
 
 F 220,100,0
 C 225,30,0
