@@ -96,10 +96,11 @@ typedef struct s_point
 
 typedef struct s_cast
 {
-	t_point	h;
-	t_point	v;
-	t_point	w;
+	// t_point	h;
+	// t_point	v;
+	// t_point	w;
 
+	t_point	hit;
 	double	disth;
 	double	distv;
 

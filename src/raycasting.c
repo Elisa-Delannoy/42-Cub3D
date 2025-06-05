@@ -22,6 +22,8 @@ int	find_pos_texture(t_var *var, double ray_x, double ray_y, double dist, int w_
 
 void	raycasting(t_var *var)
 {
+	t_point	hit;
+
 	double 	i;
 	double	camera;
 	double	ray_x;
@@ -34,7 +36,7 @@ void	raycasting(t_var *var)
 	double	delta_dist_y;
 	double		step_x;
 	double		step_y;
-	int		hit;
+	int		hit_w;
 	int		coordinates;
 	double	dist;
 	int		wall_h;
@@ -45,7 +47,7 @@ void	raycasting(t_var *var)
 
 
 	i = 0;
-	hit = 0;
+	hit_w = 0;
 	coordinates = 0;
 	while (i < var->width)
 	{
@@ -85,7 +87,7 @@ void	raycasting(t_var *var)
 			dist_y = (map_y + GAME_sz - var->player->pos_y) * delta_dist_y;
 		}
 
-		while (hit == 0)
+		while (hit_w == 0)
 		{
 			if (dist_x < dist_y)
 			{
@@ -108,9 +110,15 @@ void	raycasting(t_var *var)
 			if (map_y / (int)GAME_sz >= var->map->height)
 				map_y = var->map->height - 1;
 			if (var->map->tab_map[map_y / (int)GAME_sz][map_x / (int)GAME_sz] == '1')
-				hit = 1;
+			{
+				hit_w = 1;
+				hit.x = map_x;
+				hit.y = map_y;
+			}
 		}
-		hit = 0;
+		printf("x = %f\n", hit.x);
+		printf("y = %f\n", hit.y);
+		hit_w = 0;
 		if (coordinates == 0)
 		{
 			dist = dist_x - delta_dist_x;
