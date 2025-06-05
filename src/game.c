@@ -50,44 +50,48 @@ void	draw_wall(t_var *var, double wall, int i, int w_coordinates, int texture_x)
 		y = 0;
 	if (y_end >= var->height)
 		y_end = var->height - 1;
+	// printf("hauteur texture %d\n", var->no_t.height);
+	// printf("hauteur mur %f\n", wall);
+	// printf("hauteur mur %f\n", y_end - y);
 	step = (double)var->no_t.height / (y_end - y);
+	// printf("step %f\n", step);
 	textpos = 0;
 	// y_end = y + wall;
 	while (y < y_end)
 	{
-		texty = (int)textpos & (var->no_t.height - 1);
-		textpos += step;
 		if (textpos < 0)
 			textpos = 0;
 		if (textpos >= var->no_t.height)
-			textpos = var->no_t.height - 1;
-		color = *((int *)(var->no_t.data_img + (texty * var->no_t.width)
-					+ (texture_x * var->no_t.height / 8)));
-
+			textpos = 0;
+		texty = (int)textpos;
+		// texty = (int)textpos;
+		// printf("textpos %f\n", textpos);
+		color = *((int *)(var->no_t.data_img + (texty * var->no_t.line_len)
+		+ (texture_x * var->no_t.bpp / 8)));
+		
 		// my_put_pixel(var->img_g, y, i, 0x00FF00);
-	
-		if (w_coordinates == NORTH)
-			my_put_pixel(var->img_g, y, i, color);
-			// put_texture(var, y, i, wall, texture_x);
-		// else if (w_coordinates == SOUTH)
-		// else if (w_coordinates == EAST)
-		// 	my_put_pixel(var->img_g, y, i, 0xF2EDF1);
-		// else if (w_coordinates == WEST)
-		// 	my_put_pixel(var->img_g, y, i, 0xDAA935);
-
 		// if (var->cast->wall_dir == NORTH)
 		// 	my_put_pixel(var->img_g, y, i, 0x00FF00);
+		if (w_coordinates == NORTH)
+			my_put_pixel(var->img_g, (int)y, i, color);	
+		else if (w_coordinates == SOUTH)
+			my_put_pixel(var->img_g, y, i, 0x00FF00);
+		else if (w_coordinates == EAST)
+			my_put_pixel(var->img_g, y, i, 0xF2EDF1);
+		else if (w_coordinates == WEST)
+			my_put_pixel(var->img_g, y, i, 0xDAA935);
+		// printf("y = %f, texty = %d\n", y, texty);
+		textpos += step;
+		y++;
+		}
+		
 		// else if (var->cast->wall_dir == SOUTH)
 		// 	my_put_pixel(var->img_g, y, i, 0xFF0000);
 		// else if (var->cast->wall_dir == EAST)
 		// 	my_put_pixel(var->img_g, y, i, 0xFFFF00);
 		// else if (var->cast->wall_dir == WEST)
 		// 	my_put_pixel(var->img_g, y, i, 0xFFFFFF);
-		y++;
-		// printf("%f\n", y);
-	}
-
-
+		
 
 }
 

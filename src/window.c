@@ -59,7 +59,6 @@ int	gameplay(t_var *var)
 		draw_minimap(var);
 		// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
 		raycasting(var);
-		mlx_put_image_to_window(var->mlx, var->win, var->no_t.img, 0, 0);
 		mlx_do_sync(var->mlx);
 		// find_wall_ray(var, GAME);
 	}

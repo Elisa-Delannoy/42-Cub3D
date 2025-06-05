@@ -103,8 +103,8 @@ t_img	init_texture(t_var *var)
 
 	no_t.width = 80;
 	no_t.height = 80;
-	no_t.img = mlx_xpm_file_to_image(var->mlx, "./src/path_to_the_north_texture.xpm", &var->no_t.width, &var->no_t.height);
-	no_t.data_img = mlx_get_data_addr(no_t.img, &no_t.height, &no_t.width, &no_t.endian);
+	no_t.img = mlx_xpm_file_to_image(var->mlx, var->map->no, &var->no_t.width, &var->no_t.height);
+	no_t.data_img = mlx_get_data_addr(no_t.img, &no_t.bpp, &no_t.line_len, &no_t.endian);
 	return (no_t);
 }
 

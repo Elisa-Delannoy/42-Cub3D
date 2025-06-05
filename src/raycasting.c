@@ -130,12 +130,12 @@ void	raycasting(t_var *var)
 		wall_h = (int)var->height / dist;
 
 
-		printf("dist = %f\n", dist);
-		printf("x = %f\n", ray_x);
-		printf("y = %f\n", ray_y);
-		printf("coord = %d\n", w_coordinates);
+		// printf("dist = %f\n", dist);
+		// printf("x = %f\n", ray_x);
+		// printf("y = %f\n", ray_y);
+		// printf("coord = %d\n", w_coordinates);
 		texture_x = find_pos_texture(var, ray_x, ray_y, dist, w_coordinates);
-		printf("texture_x = %d\n", texture_x);
+		// printf("texture_x = %d\n", texture_x);
 		draw_wall(var, wall_h, i, w_coordinates, texture_x);
 
 		i++;

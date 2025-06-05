@@ -61,6 +61,8 @@ typedef struct s_img
 	int		endian;
 	int		width;
 	int		height;
+	int		bpp;
+	int		line_len;
 }	t_img;
 
 typedef struct s_map
