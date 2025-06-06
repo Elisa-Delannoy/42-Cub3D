@@ -193,6 +193,9 @@ void	top_minimap(t_var *var)
 
 void	draw_minimap(t_var *var)
 {
+	if (var->img->data_img != NULL)
+		mlx_destroy_image(var->mlx, var->img->img);
+	make_minimap(var);
 	top_minimap(var);
 	// map_border(var);
 	draw_map(var->img, 0x000000, 4.5 * MAP_sz, 4.5 * MAP_sz);
@@ -203,5 +206,4 @@ void	make_minimap(t_var *var)
 	var->img = init_img();
 	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
 	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height, &var->img->width, &var->img->endian);
-	draw_minimap(var);
 }

@@ -116,8 +116,6 @@ void	raycasting(t_var *var)
 				hit.y = map_y;
 			}
 		}
-		printf("x = %f\n", hit.x);
-		printf("y = %f\n", hit.y);
 		hit_w = 0;
 		if (coordinates == 0)
 		{

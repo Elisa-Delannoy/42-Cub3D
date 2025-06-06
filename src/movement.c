@@ -15,12 +15,14 @@ void	move_up(t_map *map, t_player *player, double speed)
 	double	anticip_y;
 	int		check;
 
-	anticip_y = player->pos_y + (player->dir_y * speed) * 5.f;
-	anticip_x = player->pos_x + (player->dir_x * speed) * 5.f;
-	check = check_in_map(map, (int)(anticip_y / GAME_sz), (int)(anticip_x / GAME_sz));
-	if (check != 0 && map->tab_map[(int)(anticip_y / GAME_sz)][(int)(player->pos_x / GAME_sz)] != '1')
-			player->pos_y += player->dir_y * speed;
-	if (check != 2 && map->tab_map[(int)(player->pos_y / GAME_sz)][(int)(anticip_x / GAME_sz)] != '1')
+	anticip_y = player->pos_y + (player->dir_y * speed) * 10.f;
+	anticip_x = player->pos_x + (player->dir_x * speed) * 10.f;
+	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
+	if (check != 0 && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != '1')
+		player->pos_y += player->dir_y * speed;
+	if (check != 2 && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != '1')
 		player->pos_x += player->dir_x * speed;
 }
 
@@ -30,13 +32,15 @@ void	move_down(t_map *map, t_player *player, double speed)
 	double	anticip_y;
 	int		check;
 
-	anticip_y = player->pos_y + (player->dir_y * speed) * 5.0F;
-	anticip_x = player->pos_x + (player->dir_x * speed) * 5.0F;
-	check = check_in_map(map, (int)(anticip_y / GAME_sz), (int)(anticip_x / GAME_sz));
-	if (check != 0 && map->tab_map[(int)(anticip_y / GAME_sz)][(int)(player->pos_x / GAME_sz)] != '1')
-			player->pos_y -= player->dir_y * speed;
-	if (check != 2 && map->tab_map[(int)(player->pos_y / GAME_sz)][(int)(anticip_x / GAME_sz)] != '1')
+	anticip_y = player->pos_y + (player->dir_y * speed) * 10.0F;
+	anticip_x = player->pos_x + (player->dir_x * speed) * 10.0F;
+	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
+	if (check != 0 && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != '1')
 		player->pos_x -= player->dir_x * speed;
+	if (check != 2 && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != '1')
+		player->pos_y -= player->dir_y * speed;
 }
 
 void	move_left(t_map *map, t_player *player, double speed)
@@ -45,13 +49,14 @@ void	move_left(t_map *map, t_player *player, double speed)
 	double	anticip_y;
 	int		check;
 
-	anticip_y = player->pos_y - player->plane_y * (speed * 5.0f);
-	anticip_x = player->pos_x - player->plane_x * (speed * 5.0f);
-	check = check_in_map(map, (int)(anticip_y / GAME_sz), (int)(anticip_x / GAME_sz));
-	if (check != 0 && map->tab_map[(int)(anticip_y / GAME_sz)]
-		[(int)(player->pos_x / GAME_sz)] != '1')
+	anticip_y = player->pos_y - player->plane_y * (speed * 10.0f);
+	anticip_x = player->pos_x - player->plane_x * (speed * 10.0f);
+	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
+	if (check != 0 && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != '1')
 		player->pos_y -= player->plane_y * speed;
-	if (check != 2 && map->tab_map[(int)(player->pos_y / GAME_sz)][(int)(anticip_x / GAME_sz)] != '1')
+	if (check != 2 && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != '1')
 		player->pos_x -= player->plane_x * speed;
 }
 
@@ -62,13 +67,14 @@ void	move_right(t_map *map, t_player *player, double speed)
 	double	anticip_y;
 	int		check;
 
-	anticip_y = player->pos_y + player->plane_y * (speed * 5.0f);
-	anticip_x = player->pos_x + player->plane_x * (speed * 5.0f);
-	check = check_in_map(map, (int)(anticip_y / GAME_sz), (int)(anticip_x / GAME_sz));
-	if (check != 0 && map->tab_map[(int)(anticip_y / GAME_sz)]
-		[(int)(player->pos_x / GAME_sz)] != '1')
+	anticip_y = player->pos_y + player->plane_y * (speed * 10.0f);
+	anticip_x = player->pos_x + player->plane_x * (speed * 10.0f);
+	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
+	if (check != 0 && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != '1')
 		player->pos_y += player->plane_y * speed;
-	if (check != 2 && map->tab_map[(int)(player->pos_y / GAME_sz)][(int)(anticip_x / GAME_sz)] != '1')
+	if (check != 2 && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != '1')
 		player->pos_x += player->plane_x * speed;
 }
 
