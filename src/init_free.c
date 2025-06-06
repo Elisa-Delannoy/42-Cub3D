@@ -64,6 +64,7 @@ t_player	*init_player(t_var *var, int x, int y)
 	player->m_left = 0;
 	player->m_right = 0;
 	player->sprint = 0;
+	player->mouse = 0;
 	return (player);
 }
 
