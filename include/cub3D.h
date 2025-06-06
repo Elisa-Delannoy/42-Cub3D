@@ -101,7 +101,7 @@ typedef struct s_cast
 	double	ray_dir_x;
 	double	ray_dir_y;
 	int		wall_dir;
-	int		map_x;
+	int 	map_x;
 	int		map_y;
 	double	dist_x;
 	double	dist_y;
