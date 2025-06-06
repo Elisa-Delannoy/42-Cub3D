@@ -94,8 +94,8 @@ void	draw_wall(t_var *var, t_cast *cast, int i)
 		y = 0;
 	if (y_end >= var->height)
 		y_end = var->height - 1;
-	step = (double)cast->texture.height / (y_end - y);
-	cast->double_text_pos_y = 0;
+	step = (double)cast->texture.height / (cast->wall_h);
+	cast->double_text_pos_y = (y - var->height / 2 + cast->wall_h / 2) * step;
 	while (y < y_end)
 	{
 		if (cast->double_text_pos_y < 0)
