@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 	// printf("g to m %f\n", var.map->g_to_m);
 	var.height = 1200;
 	var.width = 1900;
-	var.time = 100;
+	var.time = 300;
 	var.count = 0;
 	setup_window(&var);
 	ft_free_all(&var);
