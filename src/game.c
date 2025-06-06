@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-int modify_color(int color, double coeff)
+int	modify_color(int color, double coeff)
 {
 	int	r;
 	int	g;
@@ -12,7 +12,7 @@ int modify_color(int color, double coeff)
 	g = ((color >> 8) & 0xFF) * coeff;
 	b = (color & 0xFF) * coeff;
 
-    return ((r << 16) + (g << 8) + b);
+	return ((r << 16) + (g << 8) + b);
 }
 
 void	draw_game(t_img *img_g, t_var *var)
@@ -21,22 +21,36 @@ void	draw_game(t_img *img_g, t_var *var)
 	int	i;
 	double	coeff_f;
 	double	coeff_c;
+	double	ratio;
 
-	i = 0;
-	while (i < var->height)
+	ratio =  var->height / (var->width / 3);
+	x = 0;
+	while (x < var->width)
 	{
-		x = 0;
-		coeff_f = 1.f - (double)i / (double)((var->height - 1) / 2);
-		coeff_c = ((double)(i - var->height / 2)) / ((var->height / 2) - 1);
-		while (x < var->width)
+		i = 0;
+		// coeff_f = 1;
+		while (i < var->height)
 		{
+			coeff_c = 1.f - (double)i / (double)((var->height - 1) / 2);
+			if (coeff_c > 0.45)
+				coeff_c = 0.45;
+			coeff_f = ((double)(i - var->height / 2)) / ((var->height / 2) - 1) + 0.45f;
+			
 			if (i < var->height / 2)
-				my_put_pixel(img_g, i, x, modify_color(var->map->color_f, coeff_f));
-			else
+			{
+				if ((x < (var->width / 3 + var->height / 6)  && x < ((i + var->height / 6) / ratio)) || ((var->width - x) < ((i + var->height / 6) / ratio) && x > (2 * var->width / 6 - var->height / 3)))
+					coeff_c = 0.1;
 				my_put_pixel(img_g, i, x, modify_color(var->map->color_c, coeff_c));
-			x++;
+			}
+			else
+			{
+				if ((x < (var->width / 3 + var->height / 6)  && x < ((i + var->height / 6) / ratio)) || ((var->width - x) < ((i + var->height / 6) / ratio) && x > (2 * var->width / 6 - var->height / 3)))
+					coeff_f = 0.1;
+				my_put_pixel(img_g, i, x, modify_color(var->map->color_f, coeff_f));
+			}
+			i++;
 		}
-		i++;
+		x++;
 	}
 }
 
@@ -48,13 +62,13 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 
 	color = *((int *)(cast->texture.data_img + (cast->text_pos_y 
 	* cast->texture.line_len) + (cast->text_pos_x * cast->texture.bpp / 8)));
-	ratio =  var->height / (var->width / 6);
+	ratio =  var->height / (var->width / 3);
 	
 
 	// coeff = (1.f + cast->dist * 0.3f);
 	// coeff = powf((1.f / (1.f + cast->dist * 0.04f)), 3);
 	coeff = expf(-cast->dist * 0.2f);
-	if ((i < (var->width / 6 + var->height /6)  && i < ((y + var->height /6) / ratio)) || ((var->width - i) < (y / ratio) && i > 3 * var->width / 4))
+	if ((i < (var->width / 3 + var->height / 6)  && i < ((y + var->height / 6) / ratio)) || ((var->width - i) < ((y + var->height / 6) / ratio) && i > (2 * var->width / 6 - var->height / 3)))
 		coeff = 0.1;
 	color = modify_color (color, coeff);
 	// coeff = 1 - expf(-cast->dist * 3.f); */
