@@ -43,9 +43,21 @@ void	draw_game(t_img *img_g, t_var *var)
 void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 {
 	int	color;
+	double	coeff;
+	double	ratio;
 
 	color = *((int *)(cast->texture.data_img + (cast->text_pos_y 
 	* cast->texture.line_len) + (cast->text_pos_x * cast->texture.bpp / 8)));
+	ratio =  var->height / (var->width / 6);
+	
+
+	// coeff = (1.f + cast->dist * 0.3f);
+	// coeff = powf((1.f / (1.f + cast->dist * 0.04f)), 3);
+	coeff = expf(-cast->dist * 0.2f);
+	if ((i < (var->width / 6 + var->height /6)  && i < ((y + var->height /6) / ratio)) || ((var->width - i) < (y / ratio) && i > 3 * var->width / 4))
+		coeff = 0.1;
+	color = modify_color (color, coeff);
+	// coeff = 1 - expf(-cast->dist * 3.f); */
 	if (cast->wall_dir == NORTH)
 		my_put_pixel(var->img_g, (int)y, i, color);	
 	else if (cast->wall_dir == SOUTH)

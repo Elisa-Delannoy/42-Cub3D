@@ -83,12 +83,7 @@ int	key_press(int keycode, t_var *var)
 	if (keycode == TURN_R)
 		var->player->t_right = 1;
 	if (keycode == MOUSE)
-	{
-		if (var->player->mouse == 0)
-			var->player->mouse = 1;
-		else if (var->player->mouse == 1)
-			var->player->mouse = 0;
-	}
+		var->player->mouse = 0;
 	return (0);
 }
 
@@ -119,6 +114,18 @@ t_cast	*init_cast(void)
 	return (cast);
 }
 
+int	active_mouse(int button, int x, int y, t_var *var)
+{
+	(void)	x;
+	(void)	y;
+
+	if (button == 1)
+	{
+		var->player->mouse = 1;
+		return (1);
+	}
+	return (0);
+}
 
 int	mouse_movement(int x, int y, t_var *var)
 {
@@ -135,6 +142,7 @@ int	mouse_movement(int x, int y, t_var *var)
 		else if (last_x - x < 0)
 			rotate(var->player, +0.015f);
 	}
+
 	last_x = x;
 	return (0);
 }
@@ -146,14 +154,12 @@ int	setup_window(t_var *var)
 	var->cast = init_cast();
 	make_minimap(var);
 	make_game(var);
-	// printf("x =%f\n", var->player->map_x);
-	// printf("y =%f\n", var->player->map_y);
 	init_all_textures(var);
 	var->torch = init_torch(var);
 	mlx_hook(var->win, 17, 0, clear_all, var);
+	mlx_mouse_hook(var->win, active_mouse, var);
 	mlx_hook(var->win, 6, 1L << 6, mouse_movement, var);
 	mlx_hook(var->win, 2, 1L << 0, key_press, var);
-
 	mlx_hook(var->win, 3, 1L << 1, key_release, var);
 	mlx_loop_hook(var->mlx, gameplay, var);
 	// mlx_hook(var->win, 2, 1L << 0, key_hook, g);
