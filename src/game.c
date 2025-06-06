@@ -1,9 +1,26 @@
 #include "cub3D.h"
 
+int modify_color(int color, double coeff)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	if (coeff < 0.0f) coeff = 0.0f;
+	if (coeff > 1.0f) coeff = 1.0f;
+	r = ((color >> 16) & 0xFF) * coeff;
+	g = ((color >> 8) & 0xFF) * coeff;
+	b = (color & 0xFF) * coeff;
+
+    return ((r << 16) + (g << 8) + b);
+}
+
 void	draw_game(t_img *img_g, t_var *var)
 {
 	int x;
 	int	i;
+	double	coeff_f;
+	double	coeff_c;
 
 	i = 0;
 	while (i < var->height)
@@ -11,10 +28,12 @@ void	draw_game(t_img *img_g, t_var *var)
 		x = 0;
 		while (x < var->width)
 		{
+			coeff_f = 1.f - (double)i / (double)((var->height - 1) / 2);
+			coeff_c = ((double)(i - var->height / 2)) / ((var->height / 2) - 1);
 			if (i < var->height / 2)
-				my_put_pixel(img_g, i, x, var->map->color_f);
+				my_put_pixel(img_g, i, x, modify_color(var->map->color_f, coeff_f));
 			else
-				my_put_pixel(img_g, i, x, var->map->color_c);
+				my_put_pixel(img_g, i, x, modify_color(var->map->color_c, coeff_c));
 			x++;
 		}
 		i++;
@@ -35,7 +54,6 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 		my_put_pixel(var->img_g, y, i, color);
 	else if (cast->wall_dir == WEST)
 		my_put_pixel(var->img_g, y, i, color);
-	
 }
 
 void	draw_wall(t_var *var, t_cast *cast, int i)
