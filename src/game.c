@@ -26,10 +26,10 @@ void	draw_game(t_img *img_g, t_var *var)
 	while (i < var->height)
 	{
 		x = 0;
+		coeff_f = 1.f - (double)i / (double)((var->height - 1) / 2);
+		coeff_c = ((double)(i - var->height / 2)) / ((var->height / 2) - 1);
 		while (x < var->width)
 		{
-			coeff_f = 1.f - (double)i / (double)((var->height - 1) / 2);
-			coeff_c = ((double)(i - var->height / 2)) / ((var->height / 2) - 1);
 			if (i < var->height / 2)
 				my_put_pixel(img_g, i, x, modify_color(var->map->color_f, coeff_f));
 			else
@@ -88,5 +88,4 @@ void	make_game(t_var *var)
 	var->img_g = init_img();
 	var->img_g->img = mlx_new_image(var->mlx, (int)var->width, (int)var->height);
 	var->img_g->data_img = mlx_get_data_addr(var->img_g->img, &var->img_g->height, &var->img_g->width, &var->img_g->endian);
-	draw_game(var->img_g, var);
 }
