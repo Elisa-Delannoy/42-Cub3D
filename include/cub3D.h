@@ -125,6 +125,7 @@ typedef struct s_var
 	t_cast		*cast;
 	t_img		*img;
 	t_img		*img_g;
+	t_img		*torch;
 	t_player	*player;
 	t_map		*map;
 	t_img		no_t;
@@ -190,6 +191,8 @@ int		check_in_map(t_map *map, int y, int x);
 // raycasting
 void	raycasting(t_var *var, t_cast *cast);
 int		check_raycasting(double new_y, double new_x, t_var *var);
+
+t_img	*init_torch(t_var *var);
 
 // utils
 double	distance(t_point cell, double x0, double y0);

@@ -39,9 +39,9 @@ void	movement(t_map *map, t_player *player)
 	if (player->m_right == 1)
 		move_right(map, player, speed);
 	if (player->t_left == 1)
-		rotate(player, -0.05f);
+		rotate(player, -0.03f);
 	if (player->t_right == 1)
-		rotate(player, +0.05f);
+		rotate(player, +0.03f);
 }
 
 int	gameplay(t_var *var)
@@ -50,24 +50,20 @@ int	gameplay(t_var *var)
 	if (var->count >= var->time)
 	{
 		var->count = 0;
-		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
-		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
-		// find_wall_ray(var, MAP);
 		movement(var->map, var->player);
 		draw_game(var->img_g, var);
 		draw_minimap(var);
-		// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
-		raycasting(var, var->cast);
+		raycasting(var);
+		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
+		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
 		mlx_do_sync(var->mlx);
-		// find_wall_ray(var, GAME);
 	}
 	return(0);
 }
 
 int	key_press(int keycode, t_var *var)
 {
-	// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
 	if (keycode == ESC)
 		clear_all(var);
 	if (keycode == UP && var->player)
@@ -124,6 +120,7 @@ int	setup_window(t_var *var)
 	// printf("x =%f\n", var->player->map_x);
 	// printf("y =%f\n", var->player->map_y);
 	init_all_textures(var);
+	var->torch = init_torch(var);
 	mlx_hook(var->win, 17, 0, clear_all, var);
 	mlx_hook(var->win, 2, 1L << 0, key_press, var);
 	mlx_hook(var->win, 3, 1L << 1, key_release, var);
