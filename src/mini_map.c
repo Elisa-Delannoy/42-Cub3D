@@ -85,7 +85,7 @@ void	draw_map(t_img *img, int color, int i, int y)
 
 	save_i = i;
 	save_y = y;
-	while (y < save_y + MAP_sz)
+	while (y < save_y +MAP_sz)
 	{
 		i = save_i;
 		while (i < save_i + MAP_sz) /*largeur map*/
@@ -111,7 +111,7 @@ void	map_border(t_var *var)
 		{
 			while (++x < 10)
 			{
-				draw_map(var->img, 0x8a6d67, x * MAP_sz, y * MAP_sz);
+				draw_map(var->img, 0x39201a, x * MAP_sz, y * MAP_sz);
 			}	
 		}
 		else if (y < 10 && y > 0)
@@ -119,7 +119,7 @@ void	map_border(t_var *var)
 			while (x < 10)
 			{
 				if (x == 0 || x == 9)
-					draw_map(var->img, 0x8a6d67, x * MAP_sz, y * MAP_sz);
+					draw_map(var->img, 0x39201a, x * MAP_sz, y * MAP_sz);
 				x++;
 			}
 		}
@@ -198,7 +198,7 @@ void	draw_minimap(t_var *var)
 	make_minimap(var);
 	top_minimap(var);
 	map_border(var);
-	draw_map(var->img, 0x000000, 4.5 * MAP_sz, 4.5 * MAP_sz);
+	draw_map(var->img, 0x39201a, 4.5 * MAP_sz, 4.5 * MAP_sz);
 }
 
 void	make_minimap(t_var *var)

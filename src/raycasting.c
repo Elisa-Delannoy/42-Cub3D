@@ -59,7 +59,7 @@ void	find_hit(t_var *var, t_cast *cast)
 		}
 		if (check_in_map(var->map, cast->map_y, cast->map_x) != 1)
 			return; /*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
-		if (var->map->tab_map[cast->map_y][cast->map_x] == '1')
+		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1')
 		{
 			hit.x = cast->map_x;
 			hit.y = cast->map_y;
