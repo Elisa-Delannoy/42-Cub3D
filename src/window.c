@@ -55,6 +55,8 @@ int	gameplay(t_var *var)
 		// draw_dir(var, 1920 - ((34 - var->player->map_y - 0.5) * 20), 1080 - ((14 - var->player->map_x - 0.5) * 20), 0xFF0140);
 		// find_wall_ray(var, MAP);
 		movement(var->map, var->player);
+		if (var->player->mouse == 0)
+			mlx_mouse_show(var->mlx, var->win);
 		draw_game(var->img_g, var);
 		draw_minimap(var);
 		// draw_player(var, 0xFF0140, var->player->pos_y / var->map->g_to_m, var->player->pos_x / var->map->g_to_m);
@@ -84,6 +86,13 @@ int	key_press(int keycode, t_var *var)
 		var->player->t_left = 1;
 	if (keycode == TURN_R)
 		var->player->t_right = 1;
+	if (keycode == MOUSE)
+	{
+		if (var->player->mouse == 0)
+			var->player->mouse = 1;
+		else if (var->player->mouse == 1)
+			var->player->mouse = 0;
+	}
 	return (0);
 }
 
@@ -114,6 +123,26 @@ t_cast	*init_cast(void)
 	return (cast);
 }
 
+
+int	mouse_movement(int x, int y, t_var *var)
+{
+	static int	last_x = -1;
+	(void)		y;
+
+	if (last_x != - 1 && var->player->mouse == 1)
+	{
+		mlx_mouse_hide(var->mlx, var->win);
+		if (x >= var->width / 4 * 3 || x <= var->width / 4)
+			mlx_mouse_move(var->mlx, var->win, var->width / 2, var->height / 2);
+		if (last_x - x > 0)
+			rotate(var->player, -0.015f);
+		else if (last_x - x < 0)
+			rotate(var->player, +0.015f);
+	}
+	last_x = x;
+	return (0);
+}
+
 int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
@@ -125,7 +154,9 @@ int	setup_window(t_var *var)
 	// printf("y =%f\n", var->player->map_y);
 	init_all_textures(var);
 	mlx_hook(var->win, 17, 0, clear_all, var);
+	mlx_hook(var->win, 6, 1L << 6, mouse_movement, var);
 	mlx_hook(var->win, 2, 1L << 0, key_press, var);
+
 	mlx_hook(var->win, 3, 1L << 1, key_release, var);
 	mlx_loop_hook(var->mlx, gameplay, var);
 	// mlx_hook(var->win, 2, 1L << 0, key_hook, g);

@@ -29,7 +29,8 @@ typedef enum e_key
 	TURN_L = 65361,
 	TURN_R = 65363,
 	ESC = 65307,
-	SPRINT = 65505
+	SPRINT = 65505,
+	MOUSE = 65288
 }	t_key;
 
 typedef struct s_player
@@ -44,6 +45,7 @@ typedef struct s_player
 	int		m_down;
 	int		m_left;
 	int		m_right;
+	int		mouse;
 	double	speed;
 	double	sprint;
 	int		t_left;
