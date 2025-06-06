@@ -55,7 +55,7 @@ int	gameplay(t_var *var)
 			mlx_mouse_show(var->mlx, var->win);
 		draw_game(var->img_g, var);
 		draw_minimap(var);
-		raycasting(var);
+		raycasting(var, var->cast);
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
