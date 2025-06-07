@@ -41,8 +41,6 @@ void	find_pos_texture(t_var *var, t_cast *cast)
 
 void	find_hit(t_var *var, t_cast *cast)
 {
-	t_point	hit;
-
 	while (1)
 	{
 		if (cast->dist_x < cast->dist_y)
@@ -61,8 +59,12 @@ void	find_hit(t_var *var, t_cast *cast)
 			return; /*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
 		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1')
 		{
-			hit.x = cast->map_x;
-			hit.y = cast->map_y;
+			if (cast->coordinates == 0)
+				cast->dist = cast->dist_x - cast->delta_dist_x;
+			else
+				cast->dist = cast->dist_y - cast->delta_dist_y;
+			cast->hit.x = var->player->pos_x + cast->dist * cast->ray_dir_x;
+			cast->hit.y = var->player->pos_y + cast->dist * cast->ray_dir_y;
 			break;
 		}
 	}
@@ -72,31 +74,31 @@ void	init_dist_x_y(t_var *var, t_cast *cast)
 {
 	if (cast->ray_dir_x < 0)
 	{
-		cast->step_x = -1;
+		cast->step_x = -1.f;
 		cast->dist_x = (var->player->pos_x - cast->map_x) * cast->delta_dist_x;
 	}
 	else
 	{
-		cast->step_x = 1;
-		cast->dist_x = (cast->map_x + 1 - var->player->pos_x)
+		cast->step_x = 1.f;
+		cast->dist_x = (cast->map_x + 1.f - var->player->pos_x)
 			* cast->delta_dist_x;
 	}
 	if (cast->ray_dir_y < 0)
 	{
-		cast->step_y = -1;
+		cast->step_y = -1.f;
 		cast->dist_y = (var->player->pos_y - cast->map_y) * cast->delta_dist_y;
 	}
 	else
 	{
-		cast->step_y = 1;
-		cast->dist_y = (cast->map_y + 1 - var->player->pos_y)
+		cast->step_y = 1.f;
+		cast->dist_y = (cast->map_y + 1.f - var->player->pos_y)
 			* cast->delta_dist_y;
 	}
 }
 
 void	init_cast_ray(t_var *var, t_cast *cast, int i)
 {
-	cast->camera = 2.0f * i / var->width - 1.0f;
+	cast->camera = 2.0f * (double)i / var->width - 1.0f;
 	cast->ray_dir_x = var->player->dir_x + var->player->plane_x
 		* cast->camera;
 	cast->ray_dir_y = var->player->dir_y + var->player->plane_y
@@ -106,11 +108,11 @@ void	init_cast_ray(t_var *var, t_cast *cast, int i)
 	if (cast->ray_dir_x == 0)
 		cast->delta_dist_x = INFINITY;
 	else
-		cast->delta_dist_x = fabs(1 / cast->ray_dir_x);
+		cast->delta_dist_x = fabs(1.f / cast->ray_dir_x);
 	if (cast->ray_dir_y == 0)
 		cast->delta_dist_y = INFINITY;
 	else
-		cast->delta_dist_y = fabs(1 / cast->ray_dir_y);
+		cast->delta_dist_y = fabs(1.f / cast->ray_dir_y);
 	init_dist_x_y(var, cast);
 }
 
@@ -118,7 +120,7 @@ void	find_wall_dir(t_cast *cast)
 {
 	if (cast->coordinates == 0)
 	{
-		cast->dist = cast->dist_x - cast->delta_dist_x;
+		// cast->dist = cast->dist_x - cast->delta_dist_x;
 		if (cast->step_x > 0)
 			cast->wall_dir = EAST;
 		else
@@ -126,7 +128,7 @@ void	find_wall_dir(t_cast *cast)
 	}
 	else
 	{
-		cast->dist = cast->dist_y - cast->delta_dist_y;
+		// cast->dist = cast->dist_y - cast->delta_dist_y;
 		if (cast->step_y > 0)
 			cast->wall_dir = SOUTH;
 		else
@@ -149,6 +151,7 @@ void	raycasting(t_var *var, t_cast *cast)
 		cast->wall_h = (int)var->height / cast->dist;
 		find_pos_texture(var, cast);
 		draw_wall(var, var->cast, i);
+		draw_dir(var, cast->hit, 0xf0eba8, i);
 		i++;
 	}
 }

@@ -94,7 +94,13 @@ t_img	*init_img_g(void)
 	return (img_g);
 }
 
+t_minimap	*init_minimap(void)
+{
+	t_minimap	*minimap;
 
+	minimap = malloc(sizeof(t_minimap));
+	return (minimap);
+}
 
 
 t_img	init_texture(t_var *var, int dir)
@@ -145,8 +151,14 @@ void	ft_free_all(t_var *var)
 			free(var->map->we);
 		if (var->map->ea)
 			free(var->map->ea);
-		free(var->map);
+		free(var->map);		
 	}
 	if (var->player != NULL)
 		free(var->player);
+	if (var->cast != NULL)
+		free(var->cast);
+	if (var->img != NULL)
+		free (var->img);
+	if (var->img_g != NULL)
+		free (var->img_g);
 }

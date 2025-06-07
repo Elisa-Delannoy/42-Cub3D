@@ -1,20 +1,5 @@
 #include "cub3D.h"
 
-int	modify_color(int color, double coeff)
-{
-	int	r;
-	int	g;
-	int	b;
-
-	if (coeff < 0.0f) coeff = 0.0f;
-	if (coeff > 1.0f) coeff = 1.0f;
-	r = ((color >> 16) & 0xFF) * coeff;
-	g = ((color >> 8) & 0xFF) * coeff;
-	b = (color & 0xFF) * coeff;
-
-	return ((r << 16) + (g << 8) + b);
-}
-
 void	draw_game(t_img *img_g, t_var *var)
 {
 	int x;
@@ -65,15 +50,12 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 	ratio =  var->height / (var->width / 3);
 	
 
-	// coeff = (1.f + cast->dist * 0.3f);
-	// coeff = powf((1.f / (1.f + cast->dist * 0.04f)), 3);
 	coeff = expf(-cast->dist * 0.2f);
 	if ((i < (var->width / 3 + var->height / 6)  && i < ((y + var->height / 6) / ratio)) || ((var->width - i) < ((y + var->height / 6) / ratio) && i > (2 * var->width / 6 - var->height / 3)))
 		coeff = 0.1;
 	color = modify_color (color, coeff);
-	// coeff = 1 - expf(-cast->dist * 3.f); */
 	if (cast->wall_dir == NORTH)
-		my_put_pixel(var->img_g, (int)y, i, color);	
+		my_put_pixel(var->img_g, (int)y, i, color);
 	else if (cast->wall_dir == SOUTH)
 		my_put_pixel(var->img_g, y, i, color);
 	else if (cast->wall_dir == EAST)

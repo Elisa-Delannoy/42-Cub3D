@@ -1,14 +1,5 @@
 #include "cub3D.h"
 
-int	check_in_map(t_map *map, int y, int x)
-{
-	if (y < 0 || y >= map->height)
-		return (0);
-	if (x < 0 || x >= map->width)
-		return (2);
-	return (1);
-}
-
 void	move_up(t_map *map, t_player *player, double speed)
 {
 	double	anticip_x;
@@ -76,5 +67,18 @@ void	move_right(t_map *map, t_player *player, double speed)
 	if (check != 2 && map->tab_map[(int)(player->pos_y)]
 		[(int)(anticip_x)] != '1')
 		player->pos_x += player->plane_x * speed;
+}
+
+void	rotate(t_player *player, double angle)
+{
+	double	previous_dir_x;
+	double	previous_plane_x;
+
+	previous_dir_x = player->dir_x;
+	previous_plane_x = player->plane_x;
+	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
+	player->dir_y = previous_dir_x * sin(angle) + player->dir_y * cos(angle);
+	player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
+	player->plane_y = previous_plane_x * sin(angle) + player->plane_y * cos(angle);
 }
 
