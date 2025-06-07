@@ -10,19 +10,6 @@ int clear_all(t_var *var)
 	return (0);
 }
 
-void	rotate(t_player *player, double angle)
-{
-	double	previous_dir_x;
-	double	previous_plane_x;
-
-	previous_dir_x = player->dir_x;
-	previous_plane_x = player->plane_x;
-	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
-	player->dir_y = previous_dir_x * sin(angle) + player->dir_y * cos(angle);
-	player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
-	player->plane_y = previous_plane_x * sin(angle) + player->plane_y * cos(angle);
-}
-
 void	movement(t_map *map, t_player *player)
 {
 	double	speed;
@@ -152,6 +139,7 @@ int	setup_window(t_var *var)
 	var->mlx = mlx_init();
 	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height, "Exit the cavern !");
 	var->cast = init_cast();
+	var->minimap = init_minimap();
 	make_minimap(var);
 	make_game(var);
 	init_all_textures(var);

@@ -101,8 +101,8 @@ typedef struct s_cast
 	double	ray_dir_x;
 	double	ray_dir_y;
 	int		wall_dir;
-	int 	map_x;
-	int		map_y;
+	double 	map_x;
+	double	map_y;
 	double	dist_x;
 	double	dist_y;
 	double	delta_dist_x;
@@ -115,6 +115,17 @@ typedef struct s_cast
 	int		coordinates;
 
 }	t_cast;
+
+
+typedef struct s_minimap
+{
+	int	x0;
+	int	y0;
+	int	step_x;
+	int	step_y;
+	int	dist_x;
+	int	dist_y;
+}	t_minimap;
 
 typedef struct s_var
 {
@@ -134,10 +145,12 @@ typedef struct s_var
 	t_img		so_t;
 	t_img		ea_t;
 	t_img		we_t;
+	t_minimap	*minimap;
 } t_var;
 
 // window
 int		setup_window(t_var *var);
+void	init_all_textures(t_var *var);
 
 // utils
 void	ft_print_lst(t_map *map); /*a supp un jour*/
@@ -146,7 +159,8 @@ int		ft_check_space(char c);
 double	radian(int degree);
 char	**tab_cpy(char **tab, int size);
 int		rgb_to_int(char **tab);
-
+int		modify_color(int color, double coeff);
+int		check_in_map(t_map *map, int y, int x);
 // parse
 void 	ft_parse(int argc, char **argv, t_var *var);
 
@@ -155,6 +169,7 @@ t_map		*ft_init_map(void);
 void		ft_free_all(t_var *var);
 t_img		*init_img(void);
 t_player	*init_player(t_var *var, int x, int y);
+t_minimap	*init_minimap(void);
 
 // check first part
 int		ft_check_instruct(t_var *var);
@@ -165,7 +180,7 @@ int		check_map(t_var *var, int *i);
 int		count_empty(char **tab);
 
 // check map space
-void		check_space_in_map(t_var *var, int i, int j);
+void	check_space_in_map(t_var *var, int i, int j);
 int		delete_space(t_map *map);
 void	add_space_end(t_map *map);
 void	floodfill_space_wall(t_map *map, int x, int y, int c);
@@ -178,8 +193,7 @@ void	empty_for_window(t_map *map);
 // mini_map
 void	make_minimap(t_var *var);
 void	draw_player(t_var *var, int color, int i, int y);
-void	draw_dir(t_var *var, t_point cell, int color);
-// void	find_wall_ray(t_var *var);
+void	draw_dir(t_var *var, t_point cell, int color, int i);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
 
@@ -188,18 +202,14 @@ void	move_up(t_map *map, t_player *player, double vitesse);
 void	move_down(t_map *map, t_player *player, double vitesse);
 void	move_left(t_map *map, t_player *player, double vitesse);
 void	move_right(t_map *map, t_player *player, double vitesse);
-int		check_in_map(t_map *map, int y, int x);
+void	rotate(t_player *player, double angle);
 
 // raycasting
 void	raycasting(t_var *var, t_cast *cast);
-int		check_raycasting(double new_y, double new_x, t_var *var);
 
 t_img	*init_torch(t_var *var);
 
-// utils
-double	distance(t_point cell, double x0, double y0);
-int		valid_point(t_var *var, t_point cell);
-int		rgb_to_int(char **tab);
+
 // game
 void	make_game(t_var *var);
 void	draw_game(t_img *img_g, t_var *var);
@@ -210,13 +220,6 @@ int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
 
 // colors
 int	ft_is_color(t_var *var, t_map *map, int i, int *j);
-
-
-
-
-
-void	init_all_textures(t_var *var);
-
 
 
 #endif

@@ -28,54 +28,82 @@ void	my_put_pixel(t_img *img, int y, int x, int color)
 	*(int *)ptr = color;
 }
 
-void draw_dir(t_var *var, t_point cell, int color)
+void draw_dir(t_var *var, t_point cell, int color, int i)
 {
+	int error;
+	int	error_x2;
+	int	count;
+	// int	ratio = var->map->height / (10 * MAP_sz / 3);
+	double	coeff;
+	int	dist;
+	
+	var->minimap->x0 = 200;
+	var->minimap->y0 = 200;
+	count = 0;
+	cell.y = (double)var->minimap->y0 + ((cell.y - var->player->pos_y) * (MAP_sz));
+	cell.x = (double)var->minimap->x0 + ((cell.x - var->player->pos_x) * (MAP_sz));
+	var->minimap->dist_x = abs((int)cell.x - var->minimap->x0);
+	var->minimap->dist_y = abs((int)cell.y - var->minimap->y0);
+	dist = sqrt(var->minimap->dist_x * var->minimap->dist_x + var->minimap->dist_y *var->minimap->dist_y);
+		
+	if (var->minimap->x0 < (int)cell.x)
+		var->minimap->step_x = 1;
+	else
+		var->minimap->step_x = -1;
+	if (var->minimap->y0 < (int)cell.y)
+		var->minimap->step_y = 1;
+	else
+		var->minimap->step_y = -1;
+	error = var->minimap->dist_x - var->minimap->dist_y;
 
-	int x0;
-	int y0;
-	int dx;
-	int dy;
-    int sx, sy, err, e2;
+	if (i < var->width / 3)
+		color = modify_color (color, (double)i / (var->width / 3));
+	if ( i >  2 * var->width / 3)
+		color = modify_color (color, 1.f - (double)(i - 2 * (var->width / 3)) / (var->width / 3));
+	while (1)
+	{
+		// coeff = expf(-(double)(count + 1) / dist * 0.05f);
+		// coeff = expf(-cast->dist * 0.2f);
+		// printf("%f\n", coeff);
+		// if (count > 5 * MAP_sz)
+		// 	coeff = 0.2;
+		// else if (count > 4 * MAP_sz)
+		// 	coeff = 0.4;
+		// else if (count > 3 * MAP_sz)
+		// 	coeff = 0.6;
+		// else if (count > 2 * MAP_sz)
+		// 	coeff = 0.8;
+		// else
+		// 	coeff = 1;
+		
+		coeff = expf(-(double)count / (7 * MAP_sz) * 0.05);
+		if (count > 7 * MAP_sz)
+			coeff = 0;
+		
+		// int ratio =  / (var->width / 3);
+		// if ((var->minimap->y0 < (10 * MAP_sz / 3 + 10 * MAP_sz / 6)  && i < ((y + var->height / 6) / ratio)) || ((var->width - i) < ((y + var->height / 6) / ratio) && i > (2 * var->width / 6 - var->height / 3)))
+		// coeff = 0.1;
 
-	int	count = 0; 
-    y0 = 200;
-    x0 = 200;
+		color = modify_color (color, coeff);
 
-	cell.y = y0 + (int)((cell.y - var->player->pos_y) * (MAP_sz / GAME_sz));
-	cell.x = x0 + (int)((cell.x - var->player->pos_x) * (MAP_sz / GAME_sz));
-
-    dx = abs((int)cell.x - x0);
-    dy = abs((int)cell.y - y0);
-
-    sx = (x0 < (int)cell.x) ? 1 : -1;
-    sy = (y0 < (int)cell.y) ? 1 : -1;
-
-    err = dx - dy;
-    while (1)
-    {
-        if (y0 > 0 && x0 > 0 && y0 < 400 && x0 < 400)
-			my_put_pixel(var->img, y0, x0, color);
-        // if ((x0 == (int)cell.x && y0 == (int)cell.y) || (count > (3 * MAP_sz)))
-		if ((x0 == (int)cell.x && y0 == (int)cell.y))
-            break;
-
-        e2 = 2 * err;
-        if (e2 > -dy) { err -= dy; x0 += sx; }
-        if (e2 < dx)  { err += dx; y0 += sy; }
+		if (count > 19 && var->minimap->y0 > MAP_sz && var->minimap->x0 > MAP_sz - 1 && var->minimap->y0 < 400 - MAP_sz && var->minimap->x0 < 400 - MAP_sz)
+			my_put_pixel(var->img, var->minimap->y0, var->minimap->x0, color);
+		if ((var->minimap->x0 == (int)cell.x && var->minimap->y0 == (int)cell.y))
+			break;
+		error_x2 = 2 * error;
+		if (error_x2 > -var->minimap->dist_y)
+		{
+			error -= var->minimap->dist_y;
+			var->minimap->x0 += var->minimap->step_x;
+		}
+		if (error_x2 < var->minimap->dist_x)
+		{
+			error += var->minimap->dist_x;
+			var->minimap->y0 += var->minimap->step_y;
+		}
 		count++;
     }
 }
-
-// void clear_image(t_var *var)
-// {
-//     int i;
-//     int total_pixels = (int)((MAP_sz * var->map->width) * (MAP_sz * var->map->height));
-
-// 	printf("width %f\n", var->width);
-// 	printf("height %f\n", var->height);
-//     for (i = 0; i < total_pixels; i++)
-//         *(int *)(var->img->data_img + i * (var->img->height / 8)) = 0xFFFF00; // Remplir avec une couleur transparente
-// }
 
 void	draw_map(t_img *img, int color, int i, int y)
 {
@@ -171,23 +199,23 @@ void	top_minimap(t_var *var)
 {
 	int		px;
 	int		py;
-	int		dx;
-	int		dy;
+	int		delta_x;
+	int		delta_y;
 	double	scale;
 
-	px = (int)(var->player->pos_x / GAME_sz);
-	py = (int)(var->player->pos_y / GAME_sz);
-	scale = (double)MAP_sz / (double)GAME_sz;
-	dy = -5;
-	while (dy <= 5)
+	px = (int)(var->player->pos_x);
+	py = (int)(var->player->pos_y );
+	scale = (double)MAP_sz;
+	delta_y = -5;
+	while (delta_y <= 5)
 	{
-		dx = -5;
-		while (dx <= 5)
+		delta_x = -5;
+		while (delta_x <= 5)
 		{
-			draw_minimap_cell(var, px + dx, py + dy, scale);
-			dx++;
+			draw_minimap_cell(var, px + delta_x, py + delta_y, scale);
+			delta_x++;
 		}
-		dy++;
+		delta_y++;
 	}
 }
 
