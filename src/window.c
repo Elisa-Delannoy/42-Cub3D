@@ -45,7 +45,9 @@ int	gameplay(t_var *var)
 		draw_game(var->img_g, var);
 		draw_minimap(var);
 		raycasting(var, var->cast);
-		draw_torch(var);
+		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
+			var->a += var->on_off;
+		draw_torch(var, var->a);
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
@@ -58,6 +60,8 @@ int	key_press(int keycode, t_var *var)
 {
 	if (keycode == ESC)
 		clear_all(var);
+	if (keycode == SPACE)
+		var->on_off *= -1;
 	if (keycode == UP && var->player)
 		var->player->m_up = 1;
 	if (keycode == DOWN)
@@ -155,7 +159,6 @@ int	setup_window(t_var *var)
 	mlx_hook(var->win, 2, 1L << 0, key_press, var);
 	mlx_hook(var->win, 3, 1L << 1, key_release, var);
 	mlx_loop_hook(var->mlx, gameplay, var);
-	// mlx_hook(var->win, 2, 1L << 0, key_hook, g);
 	mlx_loop(var->mlx);
 	return (0);
 }
