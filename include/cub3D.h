@@ -8,7 +8,7 @@
 
 # define PI 3.14159265358979323846
 # define GAME_sz 1.0f
-# define MAP_sz 40.0f
+# define MAP_sz 20.0f
 
 typedef enum e_dir
 {
@@ -211,6 +211,8 @@ void	rotate(t_player *player, double angle);
 // raycasting
 void	raycasting(t_var *var, t_cast *cast);
 
+//torch
+void	draw_torch(t_var *var);
 t_img	*init_torch(t_var *var);
 
 
