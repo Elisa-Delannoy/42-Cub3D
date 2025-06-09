@@ -4,7 +4,9 @@ t_img	select_texture(t_var *var, t_cast *cast)
 {
 	t_img	texture;
 
-	if (cast->wall_dir == NORTH)
+	if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'D')
+		texture = var->door_t;
+	else if (cast->wall_dir == NORTH)
 		texture = var->no_t;
 	else if (cast->wall_dir == SOUTH)
 		texture = var->so_t;
@@ -57,7 +59,8 @@ void	find_hit(t_var *var, t_cast *cast)
 		}
 		if (check_in_map(var->map, cast->map_y, cast->map_x) != 1)
 			return; /*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
-		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1')
+		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1'
+			|| var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'D') /*bonus*/
 		{
 			if (cast->coordinates == 0)
 				cast->dist = cast->dist_x - cast->delta_dist_x;
@@ -155,5 +158,3 @@ void	raycasting(t_var *var, t_cast *cast)
 		i++;
 	}
 }
-
-
