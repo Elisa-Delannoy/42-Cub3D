@@ -90,12 +90,16 @@ void	draw_game(t_img *img_g, t_var *var)
 			{
 				if ((i >= top && (x < x_left || x > x_right)))
 					coeff_c = 0.1;
+				if (var->on_off == -1)
+					coeff_c = 0;
 				my_put_pixel(img_g, i, x, modify_color(var->map->color_c, coeff_c));
 			}
 			else
 			{
 				if ((i >= top && (x < x_left || x > x_right)))
 					coeff_f = 0.1;
+				if (var->on_off == -1)
+					coeff_f = 0;
 				my_put_pixel(img_g, i, x, modify_color(var->map->color_f, coeff_f));
 			}
 			i++;
@@ -139,7 +143,8 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 
 	if ((y >= top && (i < x_left || i > x_right)))
 		coeff = 0.1;
-
+	if (var->on_off == -1)
+		coeff = 0;
 
 	color = modify_color (color, coeff);
 	if ((color >> 24 & 0xFF) == 0)
