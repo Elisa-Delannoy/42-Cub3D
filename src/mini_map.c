@@ -1,24 +1,24 @@
 #include "cub3D.h"
 
-void	draw_player(t_var *var, int color, int y, int i)
-{
-	int save_i;
-	int save_y;
-	char *ptr;
+// void	draw_player(t_var *var, int color, int y, int i)
+// {
+// 	int save_i;
+// 	int save_y;
+// 	char *ptr;
 	
-	save_i = i - MAP_sz / 4;
-	save_y = y;
-	while (y < save_y + MAP_sz / 2)
-	{
-		i = save_i;
-		while (i++ < save_i + MAP_sz / 2)
-		{
-			ptr = var->img->data_img + (((int)(y - MAP_sz / 4) * var->img->width) + (i * (var->img->height / 8)));
-			*(int *)ptr = color;
-		}
-		y++;
-	}
-}
+// 	save_i = i - MAP_sz / 4;
+// 	save_y = y;
+// 	while (y < save_y + MAP_sz / 2)
+// 	{
+// 		i = save_i;
+// 		while (i++ < save_i + MAP_sz / 2)
+// 		{
+// 			ptr = var->img->data_img + (((int)(y) * var->img->width) + (i * (var->img->height / 8)));
+// 			*(int *)ptr = color;
+// 		}
+// 		y++;
+// 	}
+// }
 
 void	my_put_pixel(t_img *img, int y, int x, int color)
 {
@@ -187,7 +187,14 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
 	if (cell_x < 0 || cell_y < 0 || cell_x >= var->map->width
 		|| cell_y >= var->map->height)
 		return ;
-	color = (var->map->tab_map[cell_y][cell_x] == '1') ? 0x3a3c3d : 0x0;
+	if (var->map->tab_map[cell_y][cell_x] == '1')
+		color = 0x3a3c3d;
+	else if (var->map->tab_map[cell_y][cell_x] == 'D')
+		color = 0xFFFFFF;
+	else if (var->map->tab_map[cell_y][cell_x] == 'O')
+		color = 0x3a003d;
+	else
+		color = 0x0;
 	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
 	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
 	mini_x = 200 + (int)(rel_x * scale);

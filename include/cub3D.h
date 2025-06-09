@@ -31,7 +31,8 @@ typedef enum e_key
 	TURN_R = 65363,
 	ESC = 65307,
 	SPRINT = 65505,
-	MOUSE = 65288
+	MOUSE = 65288,
+	OPEN_CLOSE = 101 /*bonus*/
 }	t_key;
 
 typedef struct s_player
@@ -51,6 +52,7 @@ typedef struct s_player
 	double	sprint;
 	int		t_left;
 	int		t_right;
+	int		o_c_door;
 }	t_player;
 
 typedef struct s_img
@@ -227,6 +229,8 @@ int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
 // bonus
 void	door(t_var *var, t_map *map, int i, int *j);
-int	ft_is_door(t_var *var, t_map *map, int i, int *j);
+int		ft_is_door(t_var *var, t_map *map, int i, int *j);
+
+void	open_close_d(t_var *var, t_map *map, int speed);
 
 #endif
