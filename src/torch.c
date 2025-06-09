@@ -48,7 +48,6 @@ void	draw_torch(t_var *var, int i)
 			int src_y = y / scale;
 
 			color = *(int *)(var->torch[i].data_img + (src_y * var->torch[i].line_len) + (src_x * (var->torch[i].bpp / 8)));
-			
 			if ((color >> 24 & 0xFF) == 0)
 				*(int *)(var->img_g->data_img + (start_y + y) * var->img_g->width + (start_x + x) * (var->img_g->height / 8)) = color;
 			x++;

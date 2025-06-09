@@ -6,9 +6,9 @@ void	open_close_d(t_var *var, t_map *map, int speed)
 	double	anticip_y;
 	int		check;
 
-
-	anticip_y = var->player->pos_y + (var->player->dir_y * speed) * 10.f;
-	anticip_x = var->player->pos_x + (var->player->dir_x *speed) * 10.f;
+	(void)speed;
+	anticip_y = var->player->pos_y + var->player->dir_y;
+	anticip_x = var->player->pos_x + var->player->dir_x;
 	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (var->player->o_c_door == 1)
 	{

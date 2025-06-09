@@ -54,14 +54,9 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 	if ((i < (var->width / 3 + var->height / 6)  && i < ((y + var->height / 6) / ratio)) || ((var->width - i) < ((y + var->height / 6) / ratio) && i > (2 * var->width / 6 - var->height / 3)))
 		coeff = 0.1;
 	color = modify_color (color, coeff);
-	if (cast->wall_dir == NORTH)
+	if ((color >> 24 & 0xFF) == 0)
 		my_put_pixel(var->img_g, (int)y, i, color);
-	else if (cast->wall_dir == SOUTH)
-		my_put_pixel(var->img_g, y, i, color);
-	else if (cast->wall_dir == EAST)
-		my_put_pixel(var->img_g, y, i, color);
-	else if (cast->wall_dir == WEST)
-		my_put_pixel(var->img_g, y, i, color);
+	
 }
 
 void	draw_wall(t_var *var, t_cast *cast, int i)

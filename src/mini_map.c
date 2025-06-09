@@ -126,33 +126,47 @@ void	draw_map(t_img *img, int color, int i, int y)
 	}
 }
 
+void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img)
+{
+	int x = 0;
+	int y = 0;
+	int color;
+	int scale = 4;
+
+	while (y < img.height / scale && start_y + y < MAP_sz * 10)
+	{
+		x = 0;
+		while (x < img.width / scale && start_x + x < MAP_sz * 10)
+		{
+			int src_x = x * scale;
+			int src_y = y * scale;
+
+			color = *(int *)(img.data_img + (src_y * img.line_len) + (src_x * (img.bpp / 8)));
+			if ((color >> 24 & 0xFF) == 0)
+				*(int *)(var->img->data_img + (start_y + y) * var->img->width + (start_x + x) * (var->img->height / 8)) = color;
+			x++;
+		}
+		y++;
+	}
+}
+
 void	map_border(t_var *var)
 {
 	int x;
 	int y;
 
+	x = 0;
 	y = 0;
-	while (y < 10)
-	{
-		x = -1;
-		if (y == 0 || y == 9)
-		{
-			while (++x < 10)
-			{
-				draw_map(var->img, 0x39201a, x * MAP_sz, y * MAP_sz);
-			}	
-		}
-		else if (y < 10 && y > 0)
-		{
-			while (x < 10)
-			{
-				if (x == 0 || x == 9)
-					draw_map(var->img, 0x39201a, x * MAP_sz, y * MAP_sz);
-				x++;
-			}
-		}
-		y++;
-	}
+	while (x < MAP_sz * 10)
+		my_put_pixel(var->img, y, x++, 0xFFFFFF);
+	x--;
+	while (y < MAP_sz * 10)
+		my_put_pixel(var->img, y++, x, 0xFFFFFF);
+	y--;
+	while (x > 0)
+		my_put_pixel(var->img, y, x--, 0xFFFFFF);
+	while (y > 0)
+		my_put_pixel(var->img, y--, x, 0xFFFFFF);
 }
 
 void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
@@ -183,24 +197,36 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
 	double	rel_y;
 	int		mini_x;
 	int		mini_y;
+	t_img	texture;
 
 	if (cell_x < 0 || cell_y < 0 || cell_x >= var->map->width
 		|| cell_y >= var->map->height)
 		return ;
-	if (var->map->tab_map[cell_y][cell_x] == '1')
-		color = 0x3a3c3d;
-	else if (var->map->tab_map[cell_y][cell_x] == 'D')
-		color = 0xFFFFFF;
-	else if (var->map->tab_map[cell_y][cell_x] == 'O')
-		color = 0x3a003d;
-	else
-		color = 0x0;
 	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
 	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
 	mini_x = MAP_sz * 5 + (int)(rel_x * scale);
 	mini_y = MAP_sz * 5  + (int)(rel_y * scale);
 
-	draw_minimap_pixel(var, mini_x, mini_y, color);
+	if (var->map->tab_map[cell_y][cell_x] == '1')
+	{
+		texture = var->no_t;
+		draw_mini_wall(var, mini_x, mini_y, texture);
+	}
+	else if (var->map->tab_map[cell_y][cell_x] == 'D')
+	{
+		texture = var->door_t;
+		draw_mini_wall(var, mini_x, mini_y, texture);
+	}
+	else if (var->map->tab_map[cell_y][cell_x] == 'O')
+	{
+		color = 0x3a003d;
+		draw_minimap_pixel(var, mini_x, mini_y, color);
+	}	
+	else
+	{
+		color = 0x0;
+		draw_minimap_pixel(var, mini_x, mini_y, color);
+	}
 }
 
 void	top_minimap(t_var *var)
@@ -226,6 +252,7 @@ void	top_minimap(t_var *var)
 		delta_y++;
 	}
 }
+
 
 void	draw_minimap(t_var *var)
 {
