@@ -37,8 +37,8 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 	double	coeff;
 	int	dist;
 	
-	var->minimap->x0 = 200;
-	var->minimap->y0 = 200;
+	var->minimap->x0 = MAP_sz * 5;
+	var->minimap->y0 = MAP_sz * 5;
 	count = 0;
 	cell.y = (double)var->minimap->y0 + ((cell.y - var->player->pos_y) * (MAP_sz));
 	cell.x = (double)var->minimap->x0 + ((cell.x - var->player->pos_x) * (MAP_sz));
@@ -86,7 +86,7 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 
 		color = modify_color (color, coeff);
 
-		if (count > 19 && var->minimap->y0 > MAP_sz && var->minimap->x0 > MAP_sz - 1 && var->minimap->y0 < 400 - MAP_sz && var->minimap->x0 < 400 - MAP_sz)
+		if (count > (MAP_sz/2)-1 && var->minimap->y0 > MAP_sz && var->minimap->x0 > MAP_sz - 1 && var->minimap->y0 < MAP_sz*10 - MAP_sz && var->minimap->x0 < MAP_sz*10 - MAP_sz)
 			my_put_pixel(var->img, var->minimap->y0, var->minimap->x0, color);
 		if ((var->minimap->x0 == (int)cell.x && var->minimap->y0 == (int)cell.y))
 			break;
@@ -170,7 +170,7 @@ void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
 		{
 			px = mini_x + j;
 			py = mini_y + i;
-			if (px >= 0 && py >= 0 && px < 400 && py < 400)
+			if (px >= 0 && py >= 0 && px < MAP_sz * 10 && py < MAP_sz * 10)
 				my_put_pixel(var->img, py, px, color);
 		}
 	}
