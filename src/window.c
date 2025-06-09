@@ -10,7 +10,7 @@ int clear_all(t_var *var)
 	return (0);
 }
 
-void	movement(t_map *map, t_player *player)
+void	movement(t_var *var, t_map *map, t_player *player)
 {
 	double	speed;
 
@@ -29,6 +29,8 @@ void	movement(t_map *map, t_player *player)
 		rotate(player, -0.03f);
 	if (player->t_right == 1)
 		rotate(player, +0.03f);
+	if (player->o_c_door == 1)
+		open_close_d(var, map, speed);
 }
 
 int	gameplay(t_var *var)
@@ -37,7 +39,7 @@ int	gameplay(t_var *var)
 	if (var->count >= var->time)
 	{
 		var->count = 0;
-		movement(var->map, var->player);
+		movement(var, var->map, var->player);
 		if (var->player->mouse == 0)
 			mlx_mouse_show(var->mlx, var->win);
 		draw_game(var->img_g, var);
@@ -72,6 +74,8 @@ int	key_press(int keycode, t_var *var)
 		var->player->t_right = 1;
 	if (keycode == MOUSE)
 		var->player->mouse = 0;
+	if (keycode == OPEN_CLOSE)
+		var->player->o_c_door = 1;
 	return (0);
 }
 

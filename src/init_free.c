@@ -35,8 +35,8 @@ t_player	*init_player(t_var *var, int x, int y)
 	t_player	*player;
 
 	player = malloc(sizeof(t_player));
-	player->pos_x = y + 1 / 2;
-	player->pos_y = x + 1 / 2;
+	player->pos_x = (double)y + 0.5;
+	player->pos_y = (double)x + 0.5;
 
 	if (var->map->tab_map[x][y] == 'N')
 	{
@@ -67,6 +67,7 @@ t_player	*init_player(t_var *var, int x, int y)
 	player->m_right = 0;
 	player->sprint = 0;
 	player->mouse = 0;
+	player->o_c_door = 0; /*bonus*/
 	return (player);
 }
 

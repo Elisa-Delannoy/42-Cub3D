@@ -1,5 +1,31 @@
 #include "cub3D.h"
 
+void	open_close_d(t_var *var, t_map *map, int speed)
+{
+	double	anticip_x;
+	double	anticip_y;
+	int		check;
+
+
+	anticip_y = var->player->pos_y + (var->player->dir_y * speed) * 10.f;
+	anticip_x = var->player->pos_x + (var->player->dir_x *speed) * 10.f;
+	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
+	if (var->player->o_c_door == 1)
+	{
+		// printf("%d\n", var->cast->wall_dir);
+		printf("ay= %f\n", (anticip_y));
+		printf("ax =%f\n", (anticip_x));
+		printf("py =%f\n", (var->player->pos_y));
+		printf("px =%f\n\n", (var->player->pos_x));
+		if (map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'D')
+			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'O';
+		else if (map->tab_map[(int)(var->player->pos_y)][(int)(var->player->pos_x)] != 'O' && map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'O' )
+			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'D';
+		// printf("%c\n", map->tab_map[(int)(anticip_y)][(int)(anticip_x)]);
+	}
+	var->player->o_c_door = 0;
+}
+
 void	move_up(t_map *map, t_player *player, double speed)
 {
 	double	anticip_x;
@@ -10,10 +36,12 @@ void	move_up(t_map *map, t_player *player, double speed)
 	anticip_x = player->pos_x + (player->dir_x * speed) * 10.f;
 	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (check != 0 && map->tab_map[(int)(anticip_y)]
-		[(int)(player->pos_x)] != '1')
+		[(int)(player->pos_x)] != '1' && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != 'D')
 		player->pos_y += player->dir_y * speed;
 	if (check != 2 && map->tab_map[(int)(player->pos_y)]
-		[(int)(anticip_x)] != '1')
+		[(int)(anticip_x)] != '1' && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != 'D')
 		player->pos_x += player->dir_x * speed;
 }
 
