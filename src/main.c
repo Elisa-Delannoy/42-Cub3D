@@ -15,6 +15,8 @@ int main(int argc, char **argv)
 	var.width = 1200;
 	var.time = 300;
 	var.count = 0;
+	var.on_off = 1;
+	var.a = 4;
 	setup_window(&var);
 	ft_free_all(&var);
 	return (0);

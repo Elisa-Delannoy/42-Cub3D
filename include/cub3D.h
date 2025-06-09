@@ -31,7 +31,8 @@ typedef enum e_key
 	TURN_R = 65363,
 	ESC = 65307,
 	SPRINT = 65505,
-	MOUSE = 65288
+	MOUSE = 65288,
+	SPACE = 32
 }	t_key;
 
 typedef struct s_player
@@ -136,6 +137,8 @@ typedef struct s_var
 	void		*win;
 	int			time;
 	int			count;
+	int			on_off;
+	int			a;
 	double		height;
 	double		width;
 	t_cast		*cast;
@@ -212,7 +215,7 @@ void	rotate(t_player *player, double angle);
 void	raycasting(t_var *var, t_cast *cast);
 
 //torch
-void	draw_torch(t_var *var);
+void	draw_torch(t_var *var, int i);
 t_img	*init_torch(t_var *var);
 
 
