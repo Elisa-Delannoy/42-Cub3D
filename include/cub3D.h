@@ -18,7 +18,8 @@ typedef enum e_dir
 	WEST = 180,
 	MAP = 20,
 	GAME = 64,
-	DOOR = 'D' /*bonus*/
+	DOOR = 'D', /*bonus*/
+	EXIT = 'X' /*bonus*/
 }	t_dir;
 
 typedef enum e_key
@@ -155,6 +156,7 @@ typedef struct s_var
 	t_img		ea_t;
 	t_img		we_t;
 	t_img		door_t; /*bonus*/
+	t_img		exit_t; /*bonus*/
 	t_minimap	*minimap;
 } t_var;
 
