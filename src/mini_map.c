@@ -141,7 +141,8 @@ void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img)
 			int src_x = x * scale;
 			int src_y = y * scale;
 
-			color = *(int *)(img.data_img + (src_y * img.line_len) + (src_x * (img.bpp / 8)));
+			color = *(int *)(img.data_img
+			 + (src_y * img.line_len) + (src_x * (img.bpp / 8)));
 			if ((color >> 24 & 0xFF) == 0)
 				*(int *)(var->img->data_img + (start_y + y) * var->img->width + (start_x + x) * (var->img->height / 8)) = color;
 			x++;
@@ -238,7 +239,7 @@ void	top_minimap(t_var *var)
 	double	scale;
 
 	px = (int)(var->player->pos_x);
-	py = (int)(var->player->pos_y );
+	py = (int)(var->player->pos_y);
 	scale = (double)MAP_sz;
 	delta_y = -5;
 	while (delta_y <= 5)
@@ -261,7 +262,8 @@ void	draw_minimap(t_var *var)
 	make_minimap(var);
 	top_minimap(var);
 	map_border(var);
-	draw_map(var->img, 0x39201a, 4.5 * MAP_sz, 4.5 * MAP_sz);
+	draw_mini_wall(var, 4.5 * MAP_sz, 4.5 * MAP_sz, var->icon);
+	// draw_map(var->img, 0x39201a, 4.5 * MAP_sz, 4.5 * MAP_sz);
 }
 
 void	make_minimap(t_var *var)
@@ -269,4 +271,6 @@ void	make_minimap(t_var *var)
 	var->img = init_img();
 	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
 	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height, &var->img->width, &var->img->endian);
+	var->icon.img = mlx_xpm_file_to_image(var->mlx, "icon.xpm", &var->icon.width, &var->icon.height);
+	var->icon.data_img = mlx_get_data_addr(var->icon.img, &var->icon.bpp, &var->icon.line_len, &var->icon.endian);
 }

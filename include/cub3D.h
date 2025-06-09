@@ -149,6 +149,7 @@ typedef struct s_var
 	t_img		*torch;
 	t_player	*player;
 	t_map		*map;
+	t_img		icon;
 	t_img		no_t;
 	t_img		so_t;
 	t_img		ea_t;

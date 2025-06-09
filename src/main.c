@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 	// printf("g to m %f\n", var.map->g_to_m);
 	var.height = 800;
 	var.width = 1200;
-	var.time = 300;
+	var.time = 500;
 	var.count = 0;
 	var.on_off = 1;
 	var.a = 4;
