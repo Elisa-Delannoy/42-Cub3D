@@ -197,8 +197,8 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
 		color = 0x0;
 	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
 	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
-	mini_x = 200 + (int)(rel_x * scale);
-	mini_y = 200 + (int)(rel_y * scale);
+	mini_x = MAP_sz * 5 + (int)(rel_x * scale);
+	mini_y = MAP_sz * 5  + (int)(rel_y * scale);
 
 	draw_minimap_pixel(var, mini_x, mini_y, color);
 }
