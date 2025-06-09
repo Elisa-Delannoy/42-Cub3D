@@ -23,32 +23,31 @@ int	ft_one_instruct(t_map *map)
 		&& map->c_f == 1 && map->c_c == 1)
 		return (0);
 	else if (map->c_no > 1 || map->c_so > 1 || map->c_we > 1 || map->c_ea > 1
-		|| map->c_f > 1 || map->c_c > 1)
+		|| map->c_f > 1 || map->c_c > 1 || map->c_d > 1) /*bonus*/
 		return (1);
 	return (2);
 }
 
-int	check_btw_instruct_map(t_map *map, int *i)
+int	check_btw_instruct_map(t_var *var, int *i)
 {
 	int	j;
 
-	while (map->tab_file[*i])
+	while (var->map->tab_file[*i])
 	{
 		j = 0;
-		while (map->tab_file[*i][j])
+		while (var->map->tab_file[*i][j])
 		{
-			if (ft_check_space(map->tab_file[*i][j]) == 0)
+			if (ft_is_door(var, var->map, *i, &j) == 0) /*bonnus*/
+				break ; /*bonnus*/
+			if (ft_check_space(var->map->tab_file[*i][j]) == 0)
 				j++;
-			else if (map->tab_file[*i][j] == 10)
+			else if (var->map->tab_file[*i][j] == 10)
 				break ;
-			if (map->tab_file[*i][j] == '1')
+			if (var->map->tab_file[*i][j] == '1')
 				return (0);
-			else if (map->tab_file[*i][j] && map->tab_file[*i][j] != ' '
-					&& map->tab_file[*i][j] != 10)
-			{
-				ft_putstr_fd("Error : invalid map\n", 2);
-				return (1);
-			}
+			else if (var->map->tab_file[*i][j] && var->map->tab_file[*i][j] != ' '
+					&& var->map->tab_file[*i][j] != 10)
+				return (ft_putstr_fd("Error : invalid map\n", 2), 1);
 		}
 		*(i) += 1;
 	}
@@ -61,7 +60,8 @@ int	check_coordinate_and_color(t_var *var, t_map *map, int i, int *j)
 	while (map->tab_file[i][*j])
 	{
 		if (ft_is_coordinates(var, map, i, j) == 0
-			|| ft_is_color(var, map, i, j) == 0)
+			|| ft_is_color(var, map, i, j) == 0
+			|| ft_is_door(var, map, i, j) == 0) /*bonnus*/
 			break ;
 		else if (ft_check_space(map->tab_file[i][*j]) == 0)
 			(*j)++;
@@ -84,7 +84,7 @@ int	ft_check_instruct(t_var *var)
 		j = 0;
 		if (ft_one_instruct(var->map) == 0)
 		{
-			if (check_btw_instruct_map(var->map, &i) == 0
+			if (check_btw_instruct_map(var, &i) == 0
 				&& check_map(var, &i) == 0)
 				return (0);
 			else

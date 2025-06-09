@@ -18,6 +18,7 @@ typedef enum e_dir
 	WEST = 180,
 	MAP = 20,
 	GAME = 64,
+	DOOR = 'D' /*bonus*/
 }	t_dir;
 
 typedef enum e_key
@@ -75,10 +76,12 @@ typedef struct s_map
 	int		c_ea;
 	int		c_f;
 	int		c_c;
+	int		c_d; /*bonus*/
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
+	char	*door; /*bonus*/
 	int		color_f;
 	int		color_c;
 	int		height;
@@ -145,6 +148,7 @@ typedef struct s_var
 	t_img		so_t;
 	t_img		ea_t;
 	t_img		we_t;
+	t_img		door_t; /*bonus*/
 	t_minimap	*minimap;
 } t_var;
 
@@ -221,5 +225,8 @@ int	ft_is_coordinates(t_var *var, t_map *map,int i, int *j);
 // colors
 int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 
+// bonus
+void	door(t_var *var, t_map *map, int i, int *j);
+int	ft_is_door(t_var *var, t_map *map, int i, int *j);
 
 #endif
