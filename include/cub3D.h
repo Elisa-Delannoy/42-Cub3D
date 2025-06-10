@@ -12,7 +12,7 @@
 # define PI 3.14159265358979323846
 # define GAME_sz 1.0f
 # define MAP_sz 20.0f
-# define GAME_DURATION 20
+# define GAME_DURATION 30
 
 typedef enum e_dir
 {

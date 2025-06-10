@@ -48,8 +48,14 @@ void	movement(t_var *var, t_map *map, t_player *player)
 int	check_time(t_var *var)
 {
 	gettimeofday(&var->tv, NULL);
-	if (var->tv.tv_sec - var->start_t == GAME_DURATION)
-		exit(clear_all(var));
+	if (var->tv.tv_sec - var->start_t < GAME_DURATION / 3)
+		draw_img_in_img(var, var->batterie[0], var->width - 160, 0);
+	else if (var->tv.tv_sec - var->start_t < ((double)GAME_DURATION * 0.6666666666666))
+		draw_img_in_img(var, var->batterie[1], var->width - 160, 0);
+	else if (var->tv.tv_sec - var->start_t < GAME_DURATION)
+		draw_img_in_img(var, var->batterie[2], var->width - 160, 0);
+	if (var->tv.tv_sec - var->start_t >= GAME_DURATION)
+		return(1);
 	return (0);
 }
 
@@ -68,10 +74,13 @@ int	gameplay(t_var *var)
 		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
 			var->a += var->on_off;
 		draw_img_in_img(var, var->torch[var->a], 550, 650);
-		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
-		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
-		check_time(var);
+		if (check_time(var) == 0)
+		{
+			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+			mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
+		}
+		else
+			mlx_put_image_to_window(var->mlx, var->win, var->batterie[3].img, 0, 0);
 		mlx_do_sync(var->mlx);
 	}
 	return(0);
@@ -156,16 +165,34 @@ int	mouse_movement(int x, int y, t_var *var)
 	return (0);
 }
 
+t_img	*set_timer(t_var* var)
+{
+	t_img *batterie;
+	
+	gettimeofday(&var->tv, NULL);
+	var->start_t = var->tv.tv_sec;
+	batterie = malloc(sizeof(t_img) * 4);
+	batterie[0].img = mlx_xpm_file_to_image(var->mlx, "batterie3.xpm", &batterie[0].width, &batterie[0].height);
+	batterie[1].img = mlx_xpm_file_to_image(var->mlx, "batterie2.xpm", &batterie[1].width, &batterie[1].height);
+	batterie[2].img = mlx_xpm_file_to_image(var->mlx, "batterie1.xpm", &batterie[2].width, &batterie[2].height);
+	batterie[3].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[3].width, &batterie[3].height);
+	batterie[0].data_img = mlx_get_data_addr(batterie[0].img, &batterie[0].bpp, &batterie[0].line_len, &batterie[0].endian);
+	batterie[1].data_img = mlx_get_data_addr(batterie[1].img, &batterie[1].bpp, &batterie[1].line_len, &batterie[1].endian);
+	batterie[2].data_img = mlx_get_data_addr(batterie[2].img, &batterie[2].bpp, &batterie[2].line_len, &batterie[2].endian);
+	return (batterie);
+}
+
 int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
 	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height, "Exit the cavern !");
 	var->cast = init_cast();
 	var->minimap = init_minimap();
+	var->batterie = var->batterie = set_timer(var);
+	var->torch = init_torch(var);
 	make_minimap(var);
 	make_game(var);
 	init_all_textures(var);
-	var->torch = init_torch(var);
 	mlx_hook(var->win, 17, 0, clear_all, var);
 	mlx_mouse_hook(var->win, active_mouse, var);
 	mlx_hook(var->win, MotionNotify, PointerMotionMask, mouse_movement, var);
