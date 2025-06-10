@@ -223,6 +223,11 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
 		color = 0x3a003d;
 		draw_minimap_pixel(var, mini_x, mini_y, color);
 	}	
+	else if (var->map->tab_map[cell_y][cell_x] == 'X')
+	{
+		texture = var->exit_t;
+		draw_mini_wall(var, mini_x, mini_y, texture);
+	}
 	else
 	{
 		color = 0x0;

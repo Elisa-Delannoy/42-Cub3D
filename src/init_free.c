@@ -16,6 +16,7 @@ t_map	*ft_init_map(void)
 	map->c_f = 0;
 	map->c_c = 0;
 	map->c_d = 0; /*bonus*/
+	map->c_x = 0; /*bonus*/
 	map->color_c = 0;
 	map->color_f = 0;
 	map->no = NULL;
@@ -23,6 +24,7 @@ t_map	*ft_init_map(void)
 	map->we = NULL;
 	map->ea = NULL;
 	map->door = NULL; /*bonus*/
+	map->exit = NULL; /*bonus*/
 	map->color_c = 0;
 	map->color_f = 0;
 	map->height = 0;
@@ -122,8 +124,11 @@ t_img	init_texture(t_var *var, int dir)
 		path = var->map->we;
 	else if (dir == DOOR) /*bonnus*/
 		path = var->map->door; /*bonnus*/
-
+	else if (dir == EXIT) /*bonnus*/
+		path = var->map->exit; /*bonnus*/
 	new_text.img = mlx_xpm_file_to_image(var->mlx, path, &new_text.width, &new_text.height);
+	if (new_text.img == NULL)
+		return (ft_putstr_fd("Error : invalid texture : ", 2), ft_putendl_fd(path, 2),  exit(2), new_text);
 	new_text.data_img = mlx_get_data_addr(new_text.img, &new_text.bpp, &new_text.line_len, &new_text.endian);
 	return(new_text);
 }
@@ -136,6 +141,8 @@ void	init_all_textures(t_var *var)
 	var->we_t = init_texture(var, WEST);
 	if (var->map->door != NULL) /*bonnus*/
 		var->door_t = init_texture(var, DOOR); /*bonus*/
+	if (var->map->exit != NULL) /*bonnus*/
+		var->exit_t = init_texture(var, EXIT); /*bonus*/
 }
 
 void	ft_free_all(t_var *var)
@@ -160,6 +167,8 @@ void	ft_free_all(t_var *var)
 			free(var->map->ea);
 		if (var->map->door) /*bonus*/
 			free(var->map->door); /*bonus*/
+		if (var->map->exit) /*bonus*/
+			free(var->map->exit); /*bonus*/
 		free(var->map);		
 	}
 	if (var->player != NULL)

@@ -57,6 +57,18 @@ int	check_w_s_d(t_map *map, int i, int j)
 				|| map->tab_map[i][j] == '0')
 		return (1);
 	}
+	if (map->c_x == 1)
+	{
+		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'X')
+		return (1);
+	}
+	if (map->c_d == 0)
+	{
+		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+				|| map->tab_map[i][j] == '0')
+		return (1);
+	}
 	return (0);
 
 }

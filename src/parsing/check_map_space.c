@@ -38,14 +38,15 @@ int	check_ok_delete(char *tab)
 	while (tab[i])
 	{
 		if (tab[i] == 'N' || tab[i] == 'S' || tab[i] == 'E'
-			|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D') /*bonnus*/
+			|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D' || tab[i] == 'X') /*bonnus*/
 			return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), 1);
 		else if (tab[i] == ' ')
 			i++;
 		else
 		{
 			if (tab[i] == 'N' || tab[i] == 'S' || tab[i] == 'E'
-				|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D') /*bonnus*/
+				|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D'
+				|| tab[i] == 'X') /*bonnus*/
 				return (ft_putstr_fd("Error : invalid map\n", 2), 1);
 			else
 				return (ft_putstr_fd("Error : invalid character\n", 2), 1);

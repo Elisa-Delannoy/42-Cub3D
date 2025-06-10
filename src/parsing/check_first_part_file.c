@@ -23,7 +23,7 @@ int	ft_one_instruct(t_map *map)
 		&& map->c_f == 1 && map->c_c == 1)
 		return (0);
 	else if (map->c_no > 1 || map->c_so > 1 || map->c_we > 1 || map->c_ea > 1
-		|| map->c_f > 1 || map->c_c > 1 || map->c_d > 1) /*bonus*/
+		|| map->c_f > 1 || map->c_c > 1 || map->c_d > 1 || map->c_x > 1) /*bonus*/
 		return (1);
 	return (2);
 }
@@ -37,7 +37,8 @@ int	check_btw_instruct_map(t_var *var, int *i)
 		j = 0;
 		while (var->map->tab_file[*i][j])
 		{
-			if (ft_is_door(var, var->map, *i, &j) == 0) /*bonnus*/
+			if (ft_is_door(var, var->map, *i, &j) == 0
+				|| ft_is_exit(var, var->map, *i, &j) == 0) /*bonnus*/
 				break ; /*bonnus*/
 			if (ft_check_space(var->map->tab_file[*i][j]) == 0)
 				j++;
@@ -61,7 +62,8 @@ int	check_coordinate_and_color(t_var *var, t_map *map, int i, int *j)
 	{
 		if (ft_is_coordinates(var, map, i, j) == 0
 			|| ft_is_color(var, map, i, j) == 0
-			|| ft_is_door(var, map, i, j) == 0) /*bonnus*/
+			|| ft_is_door(var, map, i, j) == 0
+			|| ft_is_exit(var, map, i, j) == 0) /*bonnus*/
 			break ;
 		else if (ft_check_space(map->tab_file[i][*j]) == 0)
 			(*j)++;

@@ -4,11 +4,7 @@ int main(int argc, char **argv)
 {
 	t_var	var; 
 
-	var.player = NULL;
-	var.cast = NULL;
-	var.img = NULL;
-	var.img_g = NULL;
-	var.minimap = NULL;
+	ft_bzero(&var, sizeof(t_var));
 	ft_parse(argc, argv, &var);
 	// printf("g to m %f\n", var.map->g_to_m);
 	var.height = 800;

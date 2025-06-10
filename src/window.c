@@ -56,49 +56,41 @@ int	gameplay(t_var *var)
 	return(0);
 }
 
+int select_key(int keycode, t_var *var, int truc) {
+	if (keycode == XK_w)
+		var->player->m_up = truc;
+	if (keycode == XK_s)
+		var->player->m_down = truc;
+	if (keycode == XK_a)
+		var->player->m_left = truc;
+	if (keycode == XK_d)
+		var->player->m_right = truc;
+	if (keycode == XK_Shift_L)
+		var->player->sprint = truc;
+	if (keycode == XK_Left)
+		var->player->t_left = truc;
+	if (keycode == XK_Right)
+		var->player->t_right = truc;
+	return (0);
+}
+
 int	key_press(int keycode, t_var *var)
 {
-	if (keycode == ESC)
+	if (keycode == XK_Escape)
 		clear_all(var);
-	if (keycode == SPACE)
+	if (keycode == XK_space)
 		var->on_off *= -1;
-	if (keycode == UP && var->player)
-		var->player->m_up = 1;
-	if (keycode == DOWN)
-		var->player->m_down = 1;
-	if (keycode == LEFT)
-		var->player->m_left = 1;
-	if (keycode == RIGHT)
-		var->player->m_right = 1;
-	if (keycode == SPRINT)
-		var->player->sprint = 1;
-	if (keycode == TURN_L)
-		var->player->t_left = 1;
-	if (keycode == TURN_R)
-		var->player->t_right = 1;
-	if (keycode == MOUSE)
+	select_key(keycode, var, 1);
+	if (keycode == XK_BackSpace)
 		var->player->mouse = 0;
-	if (keycode == OPEN_CLOSE)
+	if (keycode == XK_e)
 		var->player->o_c_door = 1;
 	return (0);
 }
 
 int	key_release(int keycode, t_var *var)
 {
-	if (keycode == UP)
-		var->player->m_up = 0;
-	if (keycode == DOWN)
-		var->player->m_down = 0;
-	if (keycode == LEFT)
-		var->player->m_left = 0;
-	if (keycode == RIGHT)
-		var->player->m_right = 0;
-	if (keycode == SPRINT)
-		var->player->sprint = 0;
-	if (keycode == TURN_L)
-		var->player->t_left = 0;
-	if (keycode == TURN_R)
-		var->player->t_right = 0;
+	select_key(keycode, var, 0);
 	return (0);
 }
 
@@ -126,8 +118,8 @@ int	active_mouse(int button, int x, int y, t_var *var)
 int	mouse_movement(int x, int y, t_var *var)
 {
 	static int	last_x = -1;
-	(void)		y;
-
+	
+	(void) y;
 	if (last_x != - 1 && var->player->mouse == 1)
 	{
 		mlx_mouse_hide(var->mlx, var->win);
@@ -155,9 +147,9 @@ int	setup_window(t_var *var)
 	var->torch = init_torch(var);
 	mlx_hook(var->win, 17, 0, clear_all, var);
 	mlx_mouse_hook(var->win, active_mouse, var);
-	mlx_hook(var->win, 6, 1L << 6, mouse_movement, var);
-	mlx_hook(var->win, 2, 1L << 0, key_press, var);
-	mlx_hook(var->win, 3, 1L << 1, key_release, var);
+	mlx_hook(var->win, MotionNotify, PointerMotionMask, mouse_movement, var);
+	mlx_hook(var->win, KeyPress, KeyPressMask, key_press, var);
+	mlx_hook(var->win, KeyRelease, KeyReleaseMask, key_release, var);
 	mlx_loop_hook(var->mlx, gameplay, var);
 	mlx_loop(var->mlx);
 	return (0);

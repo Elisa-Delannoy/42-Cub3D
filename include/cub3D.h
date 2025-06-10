@@ -5,6 +5,8 @@
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include <math.h>
+# include <X11/keysym.h>
+# include <X11/X.h>
 
 # define PI 3.14159265358979323846
 # define GAME_sz 1.0f
@@ -21,21 +23,6 @@ typedef enum e_dir
 	DOOR = 'D', /*bonus*/
 	EXIT = 'X' /*bonus*/
 }	t_dir;
-
-typedef enum e_key
-{
-	RIGHT = 100,
-	LEFT = 97,
-	UP = 119,
-	DOWN = 115,
-	TURN_L = 65361,
-	TURN_R = 65363,
-	ESC = 65307,
-	SPRINT = 65505,
-	MOUSE = 65288,
-	OPEN_CLOSE = 101, /*bonus*/
-	SPACE = 32
-}	t_key;
 
 typedef struct s_player
 {
@@ -81,11 +68,13 @@ typedef struct s_map
 	int		c_f;
 	int		c_c;
 	int		c_d; /*bonus*/
+	int		c_x; /*bonus*/
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
 	char	*door; /*bonus*/
+	char	*exit; /*bonus*/
 	int		color_f;
 	int		color_c;
 	int		height;
@@ -238,6 +227,7 @@ int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 // bonus
 void	door(t_var *var, t_map *map, int i, int *j);
 int		ft_is_door(t_var *var, t_map *map, int i, int *j);
+int		ft_is_exit(t_var *var, t_map *map, int i, int *j);
 
 void	open_close_d(t_var *var, t_map *map, int speed);
 
