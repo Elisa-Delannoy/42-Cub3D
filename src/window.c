@@ -14,7 +14,7 @@ int	check_end_game(t_var *var, t_player *player)
 {
 	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
 		var->exit = 1;
-	return ;
+	return (0);
 }
 
 void	movement(t_var *var, t_map *map, t_player *player)

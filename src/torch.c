@@ -37,17 +37,24 @@ void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y)
 	double	coeff;
 
 	coeff = 1;
-	if (image.img == var->torch[4].img)
-		coeff = 0.8;
+
 	while (y + start_y < var->height && y < image.height * scale)
 	{
 		x = 0;
 		while (x + start_x < var->width && x < image.width * scale)
 		{
+			if (image.img == var->torch[0].img || image.img == var->torch[1].img
+				|| image.img == var->torch[2].img || image.img == var->torch[3].img || var->torch[4].img
+				|| image.img == var->torch[5].img)
+				coeff = 0.8;
 			color = *(int *)(image.data_img + (y / scale * image.line_len) + (x / scale * (image.bpp / 8)));
 			if ((color >> 24 & 0xFF) == 0)
 			{
-				if (var->on_off == -1 && (image.img == var->torch[0].img || image.img == var->torch[1].img || image.img == var->torch[2].img))
+				if (image.img == var->torch[4].img)
+					coeff = 0.8;
+				if (var->on_off == -1 && (image.img == var->torch[0].img || image.img == var->torch[1].img
+					|| image.img == var->torch[2].img || image.img == var->torch[3].img || var->torch[4].img
+					|| image.img == var->torch[5].img))
 					coeff = 0.4;
 				color = modify_color(color, coeff);
 				*(int *)(var->img_g->data_img + (start_y + y) * var->img_g->width + (start_x + x) * (var->img_g->height / 8)) = color;

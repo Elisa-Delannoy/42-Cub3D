@@ -34,7 +34,7 @@ void	draw_game(t_img *img_g, t_var *var)
 		 	x_left = var->light->left_bottom + (i - var->light->bottom) * (var->light->left_top - var->light->left_bottom) / (double)(var->light->top - var->light->bottom);
 			x_right = var->light->right_bottom + (i - var->light->bottom) * (var->light->right_top - var->light->right_bottom) / (double)(var->light->top - var->light->bottom);
 			if ((i >= var->light->top && (x < x_left || x > x_right)))
-				var->light->coeff = 0.1;
+				var->light->coeff = 0.15;
 			if (var->on_off == -1)
 				var->light->coeff = 0;
 			my_put_pixel(img_g, i, x, modify_color(var->light->color, var->light->coeff));
@@ -46,45 +46,24 @@ void	draw_game(t_img *img_g, t_var *var)
 
 void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 {
-	int	color;
-	double	coeff;
-	double	ratio;
+	double x_left;
+	double x_right;
 
-	color = *((int *)(cast->texture.data_img + (cast->text_pos_y 
+	var->light->color = *((int *)(cast->texture.data_img + (cast->text_pos_y 
 	* cast->texture.line_len) + (cast->text_pos_x * cast->texture.bpp / 8)));
-	ratio =  var->height / (var->width / 2);
-	
+	var->light->coeff = expf(-cast->dist * 0.2f);
 
-	coeff = expf(-cast->dist * 0.2f);
-	// if ((i < ((var->width / 2) -30 + (double)(y - var->height) * (-((var->width / 2) -30)) / (150 - var->height)))
-	// 			|| ((var->width - i) < ((y / ratio) - 100) && i > (var->width / 6 - var->height / 2)))
-	// 	coeff = 0.1;
-	
-	
-	int top = 150;                 // i où le faisceau s’arrête en haut
-	int bottom = var->height - 1;  // i en bas (le bas de l’écran)
+	x_left = var->light->left_bottom + (y - var->light->bottom) * (var->light->left_top - var->light->left_bottom) / (double)(var->light->top - var->light->bottom);
+	x_right = var->light->right_bottom + (y - var->light->bottom) * (var->light->right_top - var->light->right_bottom) / (double)(var->light->top - var->light->bottom);
 
-	int center = var->width / 2;
-
-	// Bord gauche : de (bottom, center - 30) à (top, 0)
-	int left_bottom = center - 30;
-	int left_top = 0;
-
-	// Bord droit : de (bottom, center + 100) à (top, var->width)
-	int right_bottom = center + 100;
-	int right_top = var->width;
-
-	double x_left = left_bottom + (y - bottom) * (left_top - left_bottom) / (double)(top - bottom);
-	double x_right = right_bottom + (y - bottom) * (right_top - right_bottom) / (double)(top - bottom);
-
-	if ((y >= top && (i < x_left || i > x_right)))
-		coeff = 0.1;
+	if ((y >= var->light->top && (i < x_left || i > x_right)))
+		var->light->coeff = 0.1;
 	if (var->on_off == -1)
-		coeff = 0;
+		var->light->coeff = 0;
 
-	color = modify_color (color, coeff);
-	if ((color >> 24 & 0xFF) == 0)
-		my_put_pixel(var->img_g, (int)y, i, color);
+	var->light->color = modify_color (var->light->color, var->light->coeff);
+	if ((var->light->color >> 24 & 0xFF) == 0)
+		my_put_pixel(var->img_g, (int)y, i, var->light->color);
 	
 }
 
