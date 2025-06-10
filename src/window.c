@@ -36,7 +36,7 @@ void	movement(t_var *var, t_map *map, t_player *player)
 int	check_time(t_var *var)
 {
 	gettimeofday(&var->tv, NULL);
-	if (var->tv.tv_sec - var->start_t < GAME_DURATION / 3)
+	if (var->tv.tv_sec - var->start_t == GAME_DURATION)
 		exit(clear_all(var));
 	return (0);
 }
