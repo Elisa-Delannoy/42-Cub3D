@@ -87,12 +87,12 @@ typedef struct s_light
 {
 	int		top;
 	int		bottom;
-	int		left_bottom;
+	int		left_b;
 	int		left_top;
-	int		right_bottom;
+	int		right_b;
 	int		right_top;
 	int		center;
-	int		color;
+	int		colo;
 	double	coeff;
 }	t_light;
 
@@ -238,7 +238,7 @@ void	draw_img_end(t_var *var, t_img image, int start_x, int start_y);
 
 // game
 void	make_game(t_var *var);
-void	draw_game(t_img *img_g, t_var *var);
+void	draw_game(t_var *var, t_img *img_g, t_light *light);
 void	draw_wall(t_var *var, t_cast *cast, int i);
 
 // cooridnates
@@ -252,6 +252,6 @@ void	door(t_var *var, t_map *map, int i, int *j);
 int		ft_is_door(t_var *var, t_map *map, int i, int *j);
 int		ft_is_exit(t_var *var, t_map *map, int i, int *j);
 
-void	open_close_d(t_var *var, t_map *map, int speed);
+void	open_close_d(t_var *var, t_map *map);
 
 #endif

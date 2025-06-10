@@ -21,7 +21,7 @@ int	check_wall(t_map *map)
 		i++;
 	}
 	if (count != count_empty(map->temp))
-		return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), 1);
+		return (ft_putstr_fd("Error: invalid map (missing wall)\n", 2), 1);
 	return (0);
 }
 
@@ -71,26 +71,3 @@ int	check_wall_min_max(t_var *var)
 			ft_free_all(var), exit(1), 1);
 	return (2);
 }
-
-// void	empty_for_window(t_map *map)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	if (map->temp)
-// 		free_split(map->temp);
-// 	map->temp = NULL;
-// 	map->temp = tab_cpy(map->tab_map, map->height);
-// 	while (map->temp[i])
-// 	{
-// 		j = 0;
-// 		while (map->temp[i][j])
-// 		{
-// 			if (ft_check_space(map->temp[i][j]) == 0)
-// 				floodfill_space_wall(map, i, j, '2');
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// }

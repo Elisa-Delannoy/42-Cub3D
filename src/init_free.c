@@ -5,41 +5,36 @@ t_map	*ft_init_map(void)
 	t_map	*map;
 
 	map = malloc(sizeof(t_map));
-	map->lst_map = NULL;
-	map->tab_file = NULL;
-	map->tab_map = NULL;
-	map->temp = NULL;
-	map->c_no = 0;
-	map->c_so = 0;
-	map->c_we = 0;
-	map->c_ea = 0;
-	map->c_f = 0;
-	map->c_c = 0;
-	map->c_d = 0; /*bonus*/
-	map->c_x = 0; /*bonus*/
-	map->color_c = 0;
-	map->color_f = 0;
-	map->no = NULL;
-	map->so = NULL;
-	map->we = NULL;
-	map->ea = NULL;
-	map->door = NULL; /*bonus*/
-	map->exit = NULL; /*bonus*/
-	map->color_c = 0;
-	map->color_f = 0;
-	map->height = 0;
-	map->width = 0;
+	ft_bzero(map, sizeof(t_map));
 	return (map);
 }
+	// map->lst_map = NULL;
+	// map->tab_file = NULL;
+	// map->tab_map = NULL;
+	// map->temp = NULL;
+	// map->c_no = 0;
+	// map->c_so = 0;
+	// map->c_we = 0;
+	// map->c_ea = 0;
+	// map->c_f = 0;
+	// map->c_c = 0;
+	// map->c_d = 0;
+	// map->c_x = 0;
+	// map->color_c = 0;
+	// map->color_f = 0;
+	// map->no = NULL;
+	// map->so = NULL;
+	// map->we = NULL;
+	// map->ea = NULL;
+	// map->door = NULL;
+	// map->exit = NULL;
+	// map->color_c = 0;
+	// map->color_f = 0;
+	// map->height = 0;
+	// map->width = 0;
 
-t_player	*init_player(t_var *var, int x, int y)
+void	init_player_dir(t_var *var, t_player *player, int x, int y)
 {
-	t_player	*player;
-
-	player = malloc(sizeof(t_player));
-	player->pos_x = (double)y + 0.5;
-	player->pos_y = (double)x + 0.5;
-
 	if (var->map->tab_map[x][y] == 'N')
 	{
 		player->dir_x = 0;
@@ -60,6 +55,16 @@ t_player	*init_player(t_var *var, int x, int y)
 		player->dir_x = -1;
 		player->dir_y = 0;
 	}
+}
+
+t_player	*init_player(t_var *var, int x, int y)
+{
+	t_player	*player;
+
+	player = malloc(sizeof(t_player));
+	player->pos_x = (double)y + 0.5;
+	player->pos_y = (double)x + 0.5;
+	init_player_dir(var, player, x, y);
 	player->plane_x = -player->dir_y * 0.66;
 	player->plane_y = player->dir_x * 0.66;
 	player->speed = 0.05;
@@ -69,14 +74,14 @@ t_player	*init_player(t_var *var, int x, int y)
 	player->m_right = 0;
 	player->sprint = 0;
 	player->mouse = 0;
-	player->o_c_door = 0; /*bonus*/
+	player->o_c_door = 0;
 	return (player);
 }
 
 t_img	*init_img(void)
 {
 	t_img	*img;
-	
+
 	img = malloc(sizeof(t_img));
 	img->img = NULL;
 	img->height = 0;
@@ -89,7 +94,7 @@ t_img	*init_img(void)
 t_img	*init_img_g(void)
 {
 	t_img	*img_g;
-	
+
 	img_g = malloc(sizeof(t_img));
 	img_g->img = NULL;
 	img_g->height = 0;
@@ -107,7 +112,6 @@ t_minimap	*init_minimap(void)
 	return (minimap);
 }
 
-
 t_img	init_texture(t_var *var, int dir)
 {
 	t_img	new_text;
@@ -122,16 +126,18 @@ t_img	init_texture(t_var *var, int dir)
 		path = var->map->ea;
 	else if (dir == WEST)
 		path = var->map->we;
-	else if (dir == DOOR) /*bonnus*/
-		path = var->map->door; /*bonnus*/
-	else if (dir == EXIT) /*bonnus*/
-		path = var->map->exit; /*bonnus*/
-	new_text.img = mlx_xpm_file_to_image(var->mlx, path, &new_text.width, &new_text.height);
+	else if (dir == DOOR)
+		path = var->map->door;
+	else if (dir == EXIT)
+		path = var->map->exit;
+	new_text.img = mlx_xpm_file_to_image(var->mlx, path, &new_text.width,
+			&new_text.height);
 	if (new_text.img == NULL)
-		return (ft_putstr_fd("Error : invalid texture ->", 2), ft_putendl_fd(path, 2), 
-			ft_free_all(var), exit(2), new_text);
-	new_text.data_img = mlx_get_data_addr(new_text.img, &new_text.bpp, &new_text.line_len, &new_text.endian);
-	return(new_text);
+		return (ft_putstr_fd("Error : invalid texture ->", 2),
+			ft_putendl_fd(path, 2), ft_free_all(var), exit(2), new_text);
+	new_text.data_img = mlx_get_data_addr(new_text.img, &new_text.bpp,
+			&new_text.line_len, &new_text.endian);
+	return (new_text);
 }
 
 void	init_all_textures(t_var *var)
@@ -140,14 +146,15 @@ void	init_all_textures(t_var *var)
 	var->so_t = init_texture(var, SOUTH);
 	var->ea_t = init_texture(var, EAST);
 	var->we_t = init_texture(var, WEST);
-	if (var->map->door != NULL) /*bonnus*/
-		var->door_t = init_texture(var, DOOR); /*bonus*/
-	if (var->map->exit != NULL) /*bonnus*/
+	if (var->map->door != NULL)
+		var->door_t = init_texture(var, DOOR);
+	if (var->map->exit != NULL)
 	{
-		var->exit_t = init_texture(var, EXIT); /*bonus*/
-		var->end.img = mlx_xpm_file_to_image(var->mlx, "end.xpm", &var->end.width, &var->end.height);
+		var->exit_t = init_texture(var, EXIT);
+		var->end.img = mlx_xpm_file_to_image(var->mlx, "end.xpm",
+				&var->end.width, &var->end.height);
 		var->end.data_img = mlx_get_data_addr(var->end.img,
-		&var->end.bpp, &var->end.line_len, &var->end.endian);
+				&var->end.bpp, &var->end.line_len, &var->end.endian);
 	}
 }
 
@@ -159,15 +166,14 @@ t_light	*init_light(t_var *var)
 	light->top = 150;
 	light->bottom = var->height - 1;
 	light->center = var->width / 2;
-	light->left_bottom = light->center -30 ;
+	light->left_b = light->center -30 ;
 	light->left_top = 0;
-	light->right_bottom = light->center + 100;
+	light->right_b = light->center + 100;
 	light->right_top = var->width;
 	return (light);
-
 }
 
-void	ft_free_all(t_var *var)
+void	free_map(t_var *var)
 {
 	if (var->map)
 	{
@@ -187,12 +193,17 @@ void	ft_free_all(t_var *var)
 			free(var->map->we);
 		if (var->map->ea)
 			free(var->map->ea);
-		if (var->map->door) /*bonus*/
-			free(var->map->door); /*bonus*/
-		if (var->map->exit) /*bonus*/
-			free(var->map->exit); /*bonus*/
-		free(var->map);		
+		if (var->map->door)
+			free(var->map->door);
+		if (var->map->exit)
+			free(var->map->exit);
+		free(var->map);
 	}
+}
+
+void	ft_free_all(t_var *var)
+{
+	free_map(var);
 	if (var->player != NULL)
 		free(var->player);
 	if (var->cast != NULL)

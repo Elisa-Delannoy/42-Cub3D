@@ -38,7 +38,7 @@ void	movement(t_var *var, t_map *map, t_player *player)
 	if (player->t_right == 1)
 		rotate(player, +0.03f);
 	if (player->o_c_door == 1)
-		open_close_d(var, map, speed);
+		open_close_d(var, map);
 }
 
 int	check_time(t_var *var)
@@ -64,7 +64,7 @@ int	gameplay(t_var *var)
 			movement(var, var->map, var->player);
 			if (var->player->mouse == 0)
 				mlx_mouse_show(var->mlx, var->win);
-			draw_game(var->img_g, var);
+			draw_game(var, var->img_g, var->light);
 			draw_minimap(var);
 			raycasting(var, var->cast);
 			if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))

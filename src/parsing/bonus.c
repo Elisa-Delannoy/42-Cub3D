@@ -18,7 +18,8 @@ void	door(t_var *var, t_map *map, int i, int *j)
 		free(path);
 		fd = open(map->door, O_RDONLY);
 	}
-	if (fd == -1 || map->door == NULL || map->door[ft_strlen(map->door) - 1] == '/')
+	if (fd == -1 || map->door == NULL
+		|| map->door[ft_strlen(map->door) - 1] == '/')
 		return (ft_putstr_fd("Error : invalid door texture\n", 2),
 			ft_free_all(var), exit(1));
 }
@@ -55,7 +56,8 @@ void	exit_d(t_var *var, t_map *map, int i, int *j)
 		free(path);
 		fd = open(map->exit, O_RDONLY);
 	}
-	if (fd == -1 || map->exit == NULL || map->exit[ft_strlen(map->exit) - 1] == '/')
+	if (fd == -1 || map->exit == NULL
+		|| map->exit[ft_strlen(map->exit) - 1] == '/')
 		return (ft_putstr_fd("Error : invalid exit texture\n", 2),
 			ft_free_all(var), exit(1));
 }

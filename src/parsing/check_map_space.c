@@ -34,22 +34,22 @@ int	check_ok_delete(char *tab)
 
 	i = 1;
 	if (tab == NULL)
-		return (ft_putstr_fd("Error : invalid map (missing wall)", 2), 1);
+		return (ft_putstr_fd("Error: invalid map (missing wall)", 2), 1);
 	while (tab[i])
 	{
 		if (tab[i] == 'N' || tab[i] == 'S' || tab[i] == 'E'
-			|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D' || tab[i] == 'X') /*bonnus*/
-			return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2), 1);
+			|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D' || tab[i] == 'X')
+			return (ft_putstr_fd("Error: invalid map (missing wall)\n", 2), 1);
 		else if (tab[i] == ' ')
 			i++;
 		else
 		{
 			if (tab[i] == 'N' || tab[i] == 'S' || tab[i] == 'E'
 				|| tab[i] == 'W' || tab[i] == '0' || tab[i] == 'D'
-				|| tab[i] == 'X') /*bonnus*/
-				return (ft_putstr_fd("Error : invalid map\n", 2), 1);
+				|| tab[i] == 'X')
+				return (ft_putstr_fd("Error: invalid map\n", 2), 1);
 			else
-				return (ft_putstr_fd("Error : invalid character\n", 2), 1);
+				return (ft_putstr_fd("Error: invalid character\n", 2), 1);
 		}
 	}
 	return (0);
@@ -91,8 +91,6 @@ void	floodfill_space_wall(t_map *map, int x, int y, int c)
 	if ((c == '1' && map->temp[x][y] != '1')
 		|| (c == ' ' && map->temp[x][y] == ' '))
 		map->temp[x][y] = '1';
-	else if (c == '2' && map->temp[x][y] == ' ')
-		map->temp[x][y] = '2';
 	else
 		return ;
 	floodfill_space_wall(map, x + 1, y, c);
@@ -121,10 +119,10 @@ void	check_space_in_map(t_var *var, int i, int j)
 			floodfill_space_wall(var->map, i, j, ' ');
 		i++;
 	}
-	while (i > 0 &&var->map->temp[--i])
+	while (i > 0 && var->map->temp[--i])
 	{
 		if (ft_strrchr(var->map->temp[i], ' ') != NULL)
-			return (ft_putstr_fd("Error : invalid character\n", 2),
+			return (ft_putstr_fd("Error: invalid character\n", 2),
 				ft_free_all(var), exit(1));
 	}
 	free_split(var->map->temp);

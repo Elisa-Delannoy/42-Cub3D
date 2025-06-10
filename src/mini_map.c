@@ -1,25 +1,5 @@
 #include "cub3D.h"
 
-// void	draw_player(t_var *var, int color, int y, int i)
-// {
-// 	int save_i;
-// 	int save_y;
-// 	char *ptr;
-	
-// 	save_i = i - MAP_sz / 4;
-// 	save_y = y;
-// 	while (y < save_y + MAP_sz / 2)
-// 	{
-// 		i = save_i;
-// 		while (i++ < save_i + MAP_sz / 2)
-// 		{
-// 			ptr = var->img->data_img + (((int)(y) * var->img->width) + (i * (var->img->height / 8)));
-// 			*(int *)ptr = color;
-// 		}
-// 		y++;
-// 	}
-// }
-
 void	my_put_pixel(t_img *img, int y, int x, int color)
 {
 	char	*ptr;
@@ -33,9 +13,8 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 	int error;
 	int	error_x2;
 	int	count;
-	// int	ratio = var->map->height / (10 * MAP_sz / 3);
 	double	coeff;
-	int	dist;
+	// int	dist;
 	
 	var->minimap->x0 = MAP_sz * 5;
 	var->minimap->y0 = MAP_sz * 5;
@@ -44,7 +23,7 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 	cell.x = (double)var->minimap->x0 + ((cell.x - var->player->pos_x) * (MAP_sz));
 	var->minimap->dist_x = abs((int)cell.x - var->minimap->x0);
 	var->minimap->dist_y = abs((int)cell.y - var->minimap->y0);
-	dist = sqrt(var->minimap->dist_x * var->minimap->dist_x + var->minimap->dist_y *var->minimap->dist_y);
+	// dist = sqrt(var->minimap->dist_x * var->minimap->dist_x + var->minimap->dist_y *var->minimap->dist_y);
 		
 	if (var->minimap->x0 < (int)cell.x)
 		var->minimap->step_x = 1;
@@ -95,7 +74,7 @@ void	draw_map(t_img *img, int color, int i, int y)
 	while (y < save_y +MAP_sz)
 	{
 		i = save_i;
-		while (i < save_i + MAP_sz) /*largeur map*/
+		while (i < save_i + MAP_sz)
 		{
 			ptr = img->data_img + ((y * img->width) + (i * (img->height / 8)));
 			*(int *)ptr = color;
@@ -247,7 +226,6 @@ void	draw_minimap(t_var *var)
 	top_minimap(var);
 	map_border(var);
 	draw_mini_wall(var, 4.5 * MAP_sz, 4.5 * MAP_sz, var->icon);
-	// draw_map(var->img, 0x39201a, 4.5 * MAP_sz, 4.5 * MAP_sz);
 }
 
 void	make_minimap(t_var *var)

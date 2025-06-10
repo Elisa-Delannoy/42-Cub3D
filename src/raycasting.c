@@ -19,7 +19,7 @@ t_img	select_texture(t_var *var, t_cast *cast)
 	else
 	{
 		texture = var->no_t;
-		return (ft_putstr_fd("Error : texture direction", 2), texture); /*VOIR SI FREE*/
+		return (ft_putstr_fd("Error: texture direction", 2), texture); /*VOIR SI FREE*/
 	}
 	return (texture);
 }
@@ -60,10 +60,10 @@ void	find_hit(t_var *var, t_cast *cast)
 			cast->coordinates = 1;
 		}
 		if (check_in_map(var->map, cast->map_y, cast->map_x) != 1)
-			return; /*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
+			return ;/*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
 		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1'
 			|| var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'D'
-			|| var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'X') /*bonus*/
+			|| var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'X')
 		{
 			if (cast->coordinates == 0)
 				cast->dist = cast->dist_x - cast->delta_dist_x;
@@ -71,7 +71,7 @@ void	find_hit(t_var *var, t_cast *cast)
 				cast->dist = cast->dist_y - cast->delta_dist_y;
 			cast->hit.x = var->player->pos_x + cast->dist * cast->ray_dir_x;
 			cast->hit.y = var->player->pos_y + cast->dist * cast->ray_dir_y;
-			break;
+			break ;
 		}
 	}
 }
@@ -126,7 +126,6 @@ void	find_wall_dir(t_cast *cast)
 {
 	if (cast->coordinates == 0)
 	{
-		// cast->dist = cast->dist_x - cast->delta_dist_x;
 		if (cast->step_x > 0)
 			cast->wall_dir = EAST;
 		else
@@ -134,7 +133,6 @@ void	find_wall_dir(t_cast *cast)
 	}
 	else
 	{
-		// cast->dist = cast->dist_y - cast->delta_dist_y;
 		if (cast->step_y > 0)
 			cast->wall_dir = SOUTH;
 		else
@@ -144,14 +142,12 @@ void	find_wall_dir(t_cast *cast)
 
 void	raycasting(t_var *var, t_cast *cast)
 {
-	double 	i;
-	int		hit_w;
+	double	i;
 
 	i = 0;
-	hit_w = 0;
 	while (i < var->width)
 	{
-		init_cast_ray(var, cast, i);	
+		init_cast_ray(var, cast, i);
 		find_hit(var, cast);
 		find_wall_dir(cast);
 		cast->wall_h = (int)var->height / cast->dist;

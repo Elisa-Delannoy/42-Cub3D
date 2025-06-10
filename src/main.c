@@ -1,12 +1,11 @@
 #include "cub3D.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_var	var; 
+	t_var	var;
 
 	ft_bzero(&var, sizeof(t_var));
 	ft_parse(argc, argv, &var);
-	// printf("g to m %f\n", var.map->g_to_m);
 	var.height = 800;
 	var.width = 1200;
 	var.time = 500;

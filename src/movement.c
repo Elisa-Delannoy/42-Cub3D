@@ -1,20 +1,21 @@
 #include "cub3D.h"
 
-void	open_close_d(t_var *var, t_map *map, int speed)
+void	open_close_d(t_var *var, t_map *map)
 {
 	double	anticip_x;
 	double	anticip_y;
-	int		check;
+	// int		check;
 
-	(void)speed;
 	anticip_y = var->player->pos_y + var->player->dir_y;
 	anticip_x = var->player->pos_x + var->player->dir_x;
-	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
+	// check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (var->player->o_c_door == 1)
 	{
 		if (map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'D')
 			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'O';
-		else if (map->tab_map[(int)(var->player->pos_y)][(int)(var->player->pos_x)] != 'O' && map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'O' )
+		else if (map->tab_map[(int)(var->player->pos_y)]
+			[(int)(var->player->pos_x)] != 'O'
+			&& map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'O')
 			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'D';
 	}
 	var->player->o_c_door = 0;
@@ -75,7 +76,6 @@ void	move_left(t_map *map, t_player *player, double speed)
 
 void	move_right(t_map *map, t_player *player, double speed)
 {
-	
 	double	anticip_x;
 	double	anticip_y;
 	int		check;
@@ -94,13 +94,13 @@ void	move_right(t_map *map, t_player *player, double speed)
 void	rotate(t_player *player, double angle)
 {
 	double	previous_dir_x;
-	double	previous_plane_x;
+	double	prev_plane_x;
 
 	previous_dir_x = player->dir_x;
-	previous_plane_x = player->plane_x;
+	prev_plane_x = player->plane_x;
 	player->dir_x = player->dir_x * cos(angle) - player->dir_y * sin(angle);
 	player->dir_y = previous_dir_x * sin(angle) + player->dir_y * cos(angle);
-	player->plane_x = player->plane_x * cos(angle) - player->plane_y * sin(angle);
-	player->plane_y = previous_plane_x * sin(angle) + player->plane_y * cos(angle);
+	player->plane_x = player->plane_x * cos(angle)- player->plane_y
+		* sin(angle);
+	player->plane_y = prev_plane_x * sin(angle) + player->plane_y * cos(angle);
 }
-
