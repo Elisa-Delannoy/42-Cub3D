@@ -75,14 +75,14 @@ int	gameplay(t_var *var)
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 			mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
 		}
-		else if (check_time(var) == 1)
+		else if (var->exit == 1 && check_time(var) == 0)
 		{
-			draw_img_end(var, var->batterie[3], 1, 1);
+			draw_img_in_img(var, var->batterie[4], 1, 1);
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		}	
-		else if (var->exit == 1)
+		else if (check_time(var) == 1 && var->exit == 0)
 		{
-			draw_img_end(var, var->batterie[4], 1, 1);
+			draw_img_in_img(var, var->batterie[3], 1, 1);
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		}	
 		mlx_do_sync(var->mlx);

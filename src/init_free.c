@@ -197,6 +197,8 @@ void	ft_free_all(t_var *var)
 		free(var->player);
 	if (var->cast != NULL)
 		free(var->cast);
+	if (var->light != NULL)
+		free(var->light);
 	if (var->minimap != NULL)
 		free(var->minimap);
 	if (var->img != NULL)
