@@ -151,6 +151,22 @@ void	init_all_textures(t_var *var)
 	}
 }
 
+t_light	*init_light(t_var *var)
+{
+	t_light	*light;
+
+	light = malloc(sizeof(t_light));
+	light->top = 150;
+	light->bottom = var->height - 1;
+	light->center = var->width / 2;
+	light->left_bottom = light->center -30 ;
+	light->left_top = 0;
+	light->right_bottom = light->center + 100;
+	light->right_top = var->width;
+	return (light);
+
+}
+
 void	ft_free_all(t_var *var)
 {
 	if (var->map)

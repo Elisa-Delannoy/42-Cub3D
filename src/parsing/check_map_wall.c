@@ -7,7 +7,6 @@ int	check_wall(t_map *map)
 	int		j;
 
 	i = 0;
-	// map->temp = NULL;
 	map->temp = tab_cpy(map->tab_map, map->height);
 	count = count_empty(map->tab_map);
 	while (map->temp[i])
