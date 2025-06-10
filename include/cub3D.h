@@ -210,7 +210,7 @@ void	rotate(t_player *player, double angle);
 void	raycasting(t_var *var, t_cast *cast);
 
 //torch
-void	draw_img_in_win(t_var *var, t_img image);
+void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y);
 t_img	*init_torch(t_var *var);
 
 

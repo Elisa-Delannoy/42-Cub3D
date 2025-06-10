@@ -59,7 +59,7 @@ int	gameplay(t_var *var)
 		raycasting(var, var->cast);
 		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
 			var->a += var->on_off;
-		draw_img_in_win(var, var->torch[var->a]);
+		draw_img_in_img(var, var->torch[var->a], 550, 650);
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
