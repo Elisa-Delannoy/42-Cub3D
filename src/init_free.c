@@ -128,7 +128,8 @@ t_img	init_texture(t_var *var, int dir)
 		path = var->map->exit; /*bonnus*/
 	new_text.img = mlx_xpm_file_to_image(var->mlx, path, &new_text.width, &new_text.height);
 	if (new_text.img == NULL)
-		return (ft_putstr_fd("Error : invalid texture : ", 2), ft_putendl_fd(path, 2),  exit(2), new_text);
+		return (ft_putstr_fd("Error : invalid texture ->", 2), ft_putendl_fd(path, 2), 
+			ft_free_all(var), exit(2), new_text);
 	new_text.data_img = mlx_get_data_addr(new_text.img, &new_text.bpp, &new_text.line_len, &new_text.endian);
 	return(new_text);
 }
@@ -142,7 +143,12 @@ void	init_all_textures(t_var *var)
 	if (var->map->door != NULL) /*bonnus*/
 		var->door_t = init_texture(var, DOOR); /*bonus*/
 	if (var->map->exit != NULL) /*bonnus*/
+	{
 		var->exit_t = init_texture(var, EXIT); /*bonus*/
+		var->end.img = mlx_xpm_file_to_image(var->mlx, "3", &var->end.width, &var->end.height);
+		var->end.data_img = mlx_get_data_addr(var->end.img,
+		&var->end.bpp, &var->end.line_len, &var->end.endian);
+	}
 }
 
 void	ft_free_all(t_var *var)

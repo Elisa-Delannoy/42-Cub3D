@@ -12,16 +12,10 @@ void	open_close_d(t_var *var, t_map *map, int speed)
 	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (var->player->o_c_door == 1)
 	{
-		// printf("%d\n", var->cast->wall_dir);
-		printf("ay= %f\n", (anticip_y));
-		printf("ax =%f\n", (anticip_x));
-		printf("py =%f\n", (var->player->pos_y));
-		printf("px =%f\n\n", (var->player->pos_x));
 		if (map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'D')
 			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'O';
 		else if (map->tab_map[(int)(var->player->pos_y)][(int)(var->player->pos_x)] != 'O' && map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'O' )
 			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'D';
-		// printf("%c\n", map->tab_map[(int)(anticip_y)][(int)(anticip_x)]);
 	}
 	var->player->o_c_door = 0;
 }

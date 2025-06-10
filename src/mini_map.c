@@ -62,31 +62,10 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 		color = modify_color (color, 1.f - (double)(i - 2 * (var->width / 3)) / (var->width / 3));
 	while (1)
 	{
-		// coeff = expf(-(double)(count + 1) / dist * 0.05f);
-		// coeff = expf(-cast->dist * 0.2f);
-		// printf("%f\n", coeff);
-		// if (count > 5 * MAP_sz)
-		// 	coeff = 0.2;
-		// else if (count > 4 * MAP_sz)
-		// 	coeff = 0.4;
-		// else if (count > 3 * MAP_sz)
-		// 	coeff = 0.6;
-		// else if (count > 2 * MAP_sz)
-		// 	coeff = 0.8;
-		// else
-		// 	coeff = 1;
-		
-		coeff = expf(-(double)count / (7 * MAP_sz) * 0.05);
-		if (count > 7 * MAP_sz)
-			coeff = 0;
-		
-		// int ratio =  / (var->width / 3);
-		// if ((var->minimap->y0 < (10 * MAP_sz / 3 + 10 * MAP_sz / 6)  && i < ((y + var->height / 6) / ratio)) || ((var->width - i) < ((y + var->height / 6) / ratio) && i > (2 * var->width / 6 - var->height / 3)))
-		// coeff = 0.1;
 
+		coeff = expf(-(double)count / (5 * MAP_sz) * 0.045);
 		color = modify_color (color, coeff);
-
-		if (count > (MAP_sz/2)-1 && var->minimap->y0 > MAP_sz && var->minimap->x0 > MAP_sz - 1 && var->minimap->y0 < MAP_sz*10 - MAP_sz && var->minimap->x0 < MAP_sz*10 - MAP_sz)
+		if (var->minimap->y0 > 0 && var->minimap->x0 > 0 && var->minimap->y0 < MAP_sz * 10 - 1 && var->minimap->x0 < MAP_sz * 10 - 1)
 			my_put_pixel(var->img, var->minimap->y0, var->minimap->x0, color);
 		if ((var->minimap->x0 == (int)cell.x && var->minimap->y0 == (int)cell.y))
 			break;
