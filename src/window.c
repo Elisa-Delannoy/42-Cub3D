@@ -10,7 +10,7 @@ int clear_all(t_var *var)
 	return (0);
 }
 
-void	check_end_game(t_var *var, t_player *player)
+int	check_end_game(t_var *var, t_player *player)
 {
 	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
 		var->exit = 1;
@@ -22,8 +22,6 @@ void	movement(t_var *var, t_map *map, t_player *player)
 	double	speed;
 
 	speed = player->speed;
-	if (map->c_x == 1)
-		check_end_game(var, player);
 	if (player->sprint == 1)
 		speed *= 2;
 	if (player->m_up == 1)
@@ -194,6 +192,7 @@ int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
 	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height, "Exit the cavern !");
+	var->light = init_light(var);
 	var->cast = init_cast();
 	var->minimap = init_minimap();
 	var->batterie = set_timer(var);

@@ -28,26 +28,30 @@ t_img	*init_torch(t_var *var)
 	return(torch);
 }
 
-
-
 void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y)
 {
 	int x = 0;
 	int y = 0;
 	int color;
 	int scale = 2;
+	double	coeff;
 
-	while (y < image.height * scale)
+	coeff = 1;
+	if (image.img == var->torch[4].img)
+		coeff = 0.8;
+	while (y + start_y < var->height && y < image.height * scale)
 	{
 		x = 0;
-		while (x < image.width * scale)
+		while (x + start_x < var->width && x < image.width * scale)
 		{
-			int src_x = x / scale;
-			int src_y = y / scale;
-
-			color = *(int *)(image.data_img + (src_y * image.line_len) + (src_x * (image.bpp / 8)));
+			color = *(int *)(image.data_img + (y / scale * image.line_len) + (x / scale * (image.bpp / 8)));
 			if ((color >> 24 & 0xFF) == 0)
+			{
+				if (var->on_off == -1 && (image.img == var->torch[0].img || image.img == var->torch[1].img || image.img == var->torch[2].img))
+					coeff = 0.4;
+				color = modify_color(color, coeff);
 				*(int *)(var->img_g->data_img + (start_y + y) * var->img_g->width + (start_x + x) * (var->img_g->height / 8)) = color;
+			}
 			x++;
 		}
 		y++;

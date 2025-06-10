@@ -83,6 +83,19 @@ typedef struct s_map
 	int		width;
 }	t_map;
 
+typedef struct s_light
+{
+	int		top;
+	int		bottom;
+	int		left_bottom;
+	int		left_top;
+	int		right_bottom;
+	int		right_top;
+	int		center;
+	int		color;
+	double	coeff;
+}	t_light;
+
 typedef struct s_point
 {
 	double	y;
@@ -154,11 +167,13 @@ typedef struct s_var
 	t_img		exit_t; /*bonus*/
 	t_img		end;
 	t_minimap	*minimap;
+	t_light		*light;
 } t_var;
 
 // window
 int		setup_window(t_var *var);
 void	init_all_textures(t_var *var);
+t_light	*init_light(t_var *var);
 
 // utils
 void	ft_print_lst(t_map *map); /*a supp un jour*/
