@@ -54,6 +54,30 @@ void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y)
 	}
 }
 
+void	draw_img_end(t_var *var, t_img image, int start_x, int start_y)
+{
+	int x = 0;
+	int y = 0;
+	int color;
+	int scale = 4;
+
+	while (y < image.height * scale)
+	{
+		x = 0;
+		while (x < image.width * scale)
+		{
+			int src_x = x / scale;
+			int src_y = y / scale;
+
+			color = *(int *)(image.data_img + (src_y * image.line_len) + (src_x * (image.bpp / 8)));
+			if ((color >> 24 & 0xFF) == 0)
+				*(int *)(var->img_g->data_img + (start_y + y) * var->img_g->width + (start_x + x) * (var->img_g->height / 8)) = color;
+			x++;
+		}
+		y++;
+	}
+}
+
 // void	draw_img_in_win(t_var *var, int i)
 // {
 // 	// ynt dest_w = 160;

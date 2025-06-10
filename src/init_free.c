@@ -145,7 +145,7 @@ void	init_all_textures(t_var *var)
 	if (var->map->exit != NULL) /*bonnus*/
 	{
 		var->exit_t = init_texture(var, EXIT); /*bonus*/
-		var->end.img = mlx_xpm_file_to_image(var->mlx, "3", &var->end.width, &var->end.height);
+		var->end.img = mlx_xpm_file_to_image(var->mlx, "end.xpm", &var->end.width, &var->end.height);
 		var->end.data_img = mlx_get_data_addr(var->end.img,
 		&var->end.bpp, &var->end.line_len, &var->end.endian);
 	}

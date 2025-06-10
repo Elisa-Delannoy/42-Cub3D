@@ -12,11 +12,8 @@ int clear_all(t_var *var)
 
 void	check_end_game(t_var *var, t_player *player)
 {
-	
 	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
-	{
-		mlx_put_image_to_window(var->mlx, var->win, var->end.img, 0, 0);
-	}
+		var->exit = 1;
 	return ;
 }
 
@@ -65,22 +62,30 @@ int	gameplay(t_var *var)
 	if (var->count >= var->time)
 	{
 		var->count = 0;
-		movement(var, var->map, var->player);
-		if (var->player->mouse == 0)
-			mlx_mouse_show(var->mlx, var->win);
-		draw_game(var->img_g, var);
-		draw_minimap(var);
-		raycasting(var, var->cast);
-		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
-			var->a += var->on_off;
-		draw_img_in_img(var, var->torch[var->a], 550, 650);
-		if (check_time(var) == 0)
+		if (var->exit == 0 && check_time(var) == 0)
 		{
+			movement(var, var->map, var->player);
+			if (var->player->mouse == 0)
+				mlx_mouse_show(var->mlx, var->win);
+			draw_game(var->img_g, var);
+			draw_minimap(var);
+			raycasting(var, var->cast);
+			if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
+				var->a += var->on_off;
+			draw_img_in_img(var, var->torch[var->a], 550, 650);
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 			mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
 		}
-		else
-			mlx_put_image_to_window(var->mlx, var->win, var->batterie[3].img, 0, 0);
+		else if (check_time(var) == 1)
+		{
+			draw_img_end(var, var->batterie[3], 1, 1);
+			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+		}	
+		else if (var->exit == 1)
+		{
+			draw_img_end(var, var->batterie[3], 1, 1);
+			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+		}	
 		mlx_do_sync(var->mlx);
 	}
 	return(0);
@@ -171,14 +176,17 @@ t_img	*set_timer(t_var* var)
 	
 	gettimeofday(&var->tv, NULL);
 	var->start_t = var->tv.tv_sec;
-	batterie = malloc(sizeof(t_img) * 4);
+	batterie = malloc(sizeof(t_img) * 5);
 	batterie[0].img = mlx_xpm_file_to_image(var->mlx, "batterie3.xpm", &batterie[0].width, &batterie[0].height);
 	batterie[1].img = mlx_xpm_file_to_image(var->mlx, "batterie2.xpm", &batterie[1].width, &batterie[1].height);
 	batterie[2].img = mlx_xpm_file_to_image(var->mlx, "batterie1.xpm", &batterie[2].width, &batterie[2].height);
-	batterie[3].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[3].width, &batterie[3].height);
 	batterie[0].data_img = mlx_get_data_addr(batterie[0].img, &batterie[0].bpp, &batterie[0].line_len, &batterie[0].endian);
 	batterie[1].data_img = mlx_get_data_addr(batterie[1].img, &batterie[1].bpp, &batterie[1].line_len, &batterie[1].endian);
 	batterie[2].data_img = mlx_get_data_addr(batterie[2].img, &batterie[2].bpp, &batterie[2].line_len, &batterie[2].endian);
+	batterie[3].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[3].width, &batterie[3].height);
+	batterie[4].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[4].width, &batterie[4].height);
+	batterie[3].data_img = mlx_get_data_addr(batterie[3].img, &batterie[3].bpp, &batterie[3].line_len, &batterie[3].endian);
+	batterie[4].data_img = mlx_get_data_addr(batterie[4].img, &batterie[4].bpp, &batterie[4].line_len, &batterie[4].endian);
 	return (batterie);
 }
 

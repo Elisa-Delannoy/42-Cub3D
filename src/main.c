@@ -13,6 +13,7 @@ int main(int argc, char **argv)
 	var.count = 0;
 	var.on_off = 1;
 	var.a = 4;
+	var.exit = 0;
 	setup_window(&var);
 	ft_free_all(&var);
 	return (0);

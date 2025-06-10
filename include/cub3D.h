@@ -132,6 +132,7 @@ typedef struct s_var
 	int			time;
 	int			count;
 	int			on_off;
+	int			exit;
 	int			a;
 	struct timeval		tv;
 	long		start_t;
@@ -217,6 +218,7 @@ void	raycasting(t_var *var, t_cast *cast);
 //torch
 void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y);
 t_img	*init_torch(t_var *var);
+void	draw_img_end(t_var *var, t_img image, int start_x, int start_y);
 
 
 // game
