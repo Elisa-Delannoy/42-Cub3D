@@ -2,7 +2,7 @@
 static char * batterie1_xpm[] = {
 "80 80 2 1",
 " 	c None",
-".	c #FFFFFF",
+".	c #FF1010",
 "                                                                                ",
 "                                                                                ",
 "                                                                                ",

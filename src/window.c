@@ -188,7 +188,7 @@ int	setup_window(t_var *var)
 	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height, "Exit the cavern !");
 	var->cast = init_cast();
 	var->minimap = init_minimap();
-	var->batterie = var->batterie = set_timer(var);
+	var->batterie = set_timer(var);
 	var->torch = init_torch(var);
 	make_minimap(var);
 	make_game(var);
