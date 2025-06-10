@@ -33,6 +33,14 @@ void	movement(t_var *var, t_map *map, t_player *player)
 		open_close_d(var, map, speed);
 }
 
+int	check_time(t_var *var)
+{
+	gettimeofday(&var->tv, NULL);
+	if (var->tv.tv_sec - var->start_t < GAME_DURATION / 3)
+		exit(clear_all(var));
+	return (0);
+}
+
 int	gameplay(t_var *var)
 {
 	var->count++;
@@ -51,6 +59,7 @@ int	gameplay(t_var *var)
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
+		check_time(var);
 		mlx_do_sync(var->mlx);
 	}
 	return(0);

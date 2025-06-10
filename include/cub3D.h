@@ -5,12 +5,17 @@
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include <math.h>
+<<<<<<< HEAD
 # include <X11/keysym.h>
 # include <X11/X.h>
+=======
+# include <sys/time.h>
+>>>>>>> noah
 
 # define PI 3.14159265358979323846
 # define GAME_sz 1.0f
 # define MAP_sz 20.0f
+# define GAME_DURATION 20
 
 typedef enum e_dir
 {
@@ -131,6 +136,8 @@ typedef struct s_var
 	int			count;
 	int			on_off;
 	int			a;
+	struct timeval		tv;
+	long		start_t;
 	double		height;
 	double		width;
 	t_cast		*cast;
@@ -140,6 +147,7 @@ typedef struct s_var
 	t_player	*player;
 	t_map		*map;
 	t_img		icon;
+	t_img		*batterie;
 	t_img		no_t;
 	t_img		so_t;
 	t_img		ea_t;
