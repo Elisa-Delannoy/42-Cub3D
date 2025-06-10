@@ -151,6 +151,7 @@ typedef struct s_var
 	t_img		we_t;
 	t_img		door_t; /*bonus*/
 	t_img		exit_t; /*bonus*/
+	t_img		end;
 	t_minimap	*minimap;
 } t_var;
 
@@ -214,7 +215,7 @@ void	rotate(t_player *player, double angle);
 void	raycasting(t_var *var, t_cast *cast);
 
 //torch
-void	draw_torch(t_var *var, int i);
+void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y);
 t_img	*init_torch(t_var *var);
 
 

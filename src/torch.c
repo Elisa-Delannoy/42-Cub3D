@@ -28,26 +28,24 @@ t_img	*init_torch(t_var *var)
 	return(torch);
 }
 
-void	draw_torch(t_var *var, int i)
+
+
+void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y)
 {
-	// ynt dest_w = 160;
-	// ynt dest_h = 160;
-	int start_x = 550; // marge gauche
-	int start_y = 650; // en bas de la fenêtre
 	int x = 0;
 	int y = 0;
 	int color;
 	int scale = 2;
 
-	while (y < var->torch[i].height * scale)
+	while (y < image.height * scale)
 	{
 		x = 0;
-		while (x < var->torch[i].width * scale)
+		while (x < image.width * scale)
 		{
 			int src_x = x / scale;
 			int src_y = y / scale;
 
-			color = *(int *)(var->torch[i].data_img + (src_y * var->torch[i].line_len) + (src_x * (var->torch[i].bpp / 8)));
+			color = *(int *)(image.data_img + (src_y * image.line_len) + (src_x * (image.bpp / 8)));
 			if ((color >> 24 & 0xFF) == 0)
 				*(int *)(var->img_g->data_img + (start_y + y) * var->img_g->width + (start_x + x) * (var->img_g->height / 8)) = color;
 			x++;
@@ -55,3 +53,31 @@ void	draw_torch(t_var *var, int i)
 		y++;
 	}
 }
+
+// void	draw_img_in_win(t_var *var, int i)
+// {
+// 	// ynt dest_w = 160;
+// 	// ynt dest_h = 160;
+// 	int start_x = 550; // marge gauche
+// 	int start_y = 650; // en bas de la fenêtre
+// 	int x = 0;
+// 	int y = 0;
+// 	int color;
+// 	int scale = 2;
+
+// 	while (y < var->torch[i].height * scale)
+// 	{
+// 		x = 0;
+// 		while (x < var->torch[i].width * scale)
+// 		{
+// 			int src_x = x / scale;
+// 			int src_y = y / scale;
+
+// 			color = *(int *)(var->torch[i].data_img + (src_y * var->torch[i].line_len) + (src_x * (var->torch[i].bpp / 8)));
+// 			if ((color >> 24 & 0xFF) == 0)
+// 				*(int *)(var->img_g->data_img + (start_y + y) * var->img_g->width + (start_x + x) * (var->img_g->height / 8)) = color;
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }

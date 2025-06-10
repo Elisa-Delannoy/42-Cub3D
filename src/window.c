@@ -10,11 +10,23 @@ int clear_all(t_var *var)
 	return (0);
 }
 
+void	check_end_game(t_var *var, t_player *player)
+{
+	
+	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
+	{
+		mlx_put_image_to_window(var->mlx, var->win, var->end.img, 0, 0);
+	}
+	return ;
+}
+
 void	movement(t_var *var, t_map *map, t_player *player)
 {
 	double	speed;
 
 	speed = player->speed;
+	if (map->c_x == 1)
+		check_end_game(var, player);
 	if (player->sprint == 1)
 		speed *= 2;
 	if (player->m_up == 1)
@@ -55,7 +67,7 @@ int	gameplay(t_var *var)
 		raycasting(var, var->cast);
 		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
 			var->a += var->on_off;
-		draw_torch(var, var->a);
+		draw_img_in_img(var, var->torch[var->a], 550, 650);
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->torch[0].img, 1000, 900);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));

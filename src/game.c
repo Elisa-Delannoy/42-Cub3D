@@ -1,50 +1,5 @@
 #include "cub3D.h"
 
-// void	draw_game(t_img *img_g, t_var *var)
-// {
-// 	int x;
-// 	int	i;
-// 	double	coeff_f;
-// 	double	coeff_c;
-// 	double	ratio;
-
-// 	ratio =  var->height / (var->width / 2);
-// 	x = 0;
-// 	while (x < var->width)
-// 	{
-// 		i = 0;
-// 		// coeff_f = 1;
-// 		while (i < var->height)
-// 		{
-// 			coeff_c = 1.f - (double)i / (double)((var->height - 1) / 2);
-// 			if (coeff_c > 0.45)
-// 				coeff_c = 0.45;
-// 			coeff_f = ((double)(i - var->height / 2)) / ((var->height / 2) - 1) + 0.45f;
-			
-
-
-			
-// 			if (i < var->height / 2)
-// 			{
-// 				if ((x < ((var->width / 2) -30 + (double)(i - var->height) * (-((var->width / 2) -30)) / (150 - var->height)))
-// 				|| ((var->width - x) < ((i / ratio) - 100) && x > (var->width / 6 - var->height / 2)))
-// 				coeff_c = 0.1;
-// 				my_put_pixel(img_g, i, x, modify_color(var->map->color_c, coeff_c));
-// 			}
-// 			else
-// 			{
-// 				if ((x < ((var->width / 2) -30 + (double)(i - var->height) * (-((var->width / 2) -30)) / (150 - var->height)))
-// 				|| ((var->width - x) < ((i / ratio) - 100) && x > (var->width / 6 - var->height / 2)))
-// 					coeff_f = 0.1;
-// 				my_put_pixel(img_g, i, x, modify_color(var->map->color_f, coeff_f));
-// 			}
-// 			i++;
-// 		}
-// 		x++;
-// 	}
-// }
-
-
 void	draw_game(t_img *img_g, t_var *var)
 {
 	int x;
@@ -108,22 +63,32 @@ void	draw_game(t_img *img_g, t_var *var)
 	}
 }
 
+
+
+
+// void	x_left_draw_win(int top, int bottom)
+// {
+
+// }
+
+// void	y_left_draw_win(int top, int bottom)
+// {
+
+// }
+
+
+
 void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 {
 	int	color;
 	double	coeff;
-	double	ratio;
+	// double	ratio;
 
 	color = *((int *)(cast->texture.data_img + (cast->text_pos_y 
 	* cast->texture.line_len) + (cast->text_pos_x * cast->texture.bpp / 8)));
-	ratio =  var->height / (var->width / 2);
+	// ratio =  var->height / (var->width / 2);
 	
-
-	coeff = expf(-cast->dist * 0.2f);
-	// if ((i < ((var->width / 2) -30 + (double)(y - var->height) * (-((var->width / 2) -30)) / (150 - var->height)))
-	// 			|| ((var->width - i) < ((y / ratio) - 100) && i > (var->width / 6 - var->height / 2)))
-	// 	coeff = 0.1;
-	
+	coeff = expf(-cast->dist * 0.2f);	
 	
 	int top = 150;                 // i où le faisceau s’arrête en haut
 	int bottom = var->height - 1;  // i en bas (le bas de l’écran)
