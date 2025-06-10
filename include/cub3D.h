@@ -5,12 +5,9 @@
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include <math.h>
-<<<<<<< HEAD
 # include <X11/keysym.h>
 # include <X11/X.h>
-=======
 # include <sys/time.h>
->>>>>>> noah
 
 # define PI 3.14159265358979323846
 # define GAME_sz 1.0f
