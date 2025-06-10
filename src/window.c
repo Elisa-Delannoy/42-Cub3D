@@ -10,11 +10,10 @@ int clear_all(t_var *var)
 	return (0);
 }
 
-int	check_end_game(t_var *var, t_player *player)
+void	check_end_game(t_var *var, t_player *player)
 {
 	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
 		var->exit = 1;
-	return ;
 }
 
 void	movement(t_var *var, t_map *map, t_player *player)
@@ -24,6 +23,8 @@ void	movement(t_var *var, t_map *map, t_player *player)
 	speed = player->speed;
 	if (player->sprint == 1)
 		speed *= 2;
+	if (map->c_x == 1)
+		check_end_game(var, player);
 	if (player->m_up == 1)
 		move_up(map, player, speed);
 	if (player->m_down == 1)
@@ -60,8 +61,6 @@ int	gameplay(t_var *var)
 	if (var->count >= var->time)
 	{
 		var->count = 0;
-		if (var->exit == 0 && check_time(var) == 0)
-		{
 			movement(var, var->map, var->player);
 			if (var->player->mouse == 0)
 				mlx_mouse_show(var->mlx, var->win);
@@ -71,6 +70,8 @@ int	gameplay(t_var *var)
 			if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
 				var->a += var->on_off;
 			draw_img_in_img(var, var->torch[var->a], 550, 650);
+		if (var->exit == 0 && check_time(var) == 0)
+		{
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 			mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
 		}
@@ -81,7 +82,7 @@ int	gameplay(t_var *var)
 		}	
 		else if (var->exit == 1)
 		{
-			draw_img_end(var, var->batterie[3], 1, 1);
+			draw_img_end(var, var->batterie[4], 1, 1);
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		}	
 		mlx_do_sync(var->mlx);
@@ -182,7 +183,7 @@ t_img	*set_timer(t_var* var)
 	batterie[1].data_img = mlx_get_data_addr(batterie[1].img, &batterie[1].bpp, &batterie[1].line_len, &batterie[1].endian);
 	batterie[2].data_img = mlx_get_data_addr(batterie[2].img, &batterie[2].bpp, &batterie[2].line_len, &batterie[2].endian);
 	batterie[3].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[3].width, &batterie[3].height);
-	batterie[4].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[4].width, &batterie[4].height);
+	batterie[4].img = mlx_xpm_file_to_image(var->mlx, "victory.xpm", &batterie[4].width, &batterie[4].height);
 	batterie[3].data_img = mlx_get_data_addr(batterie[3].img, &batterie[3].bpp, &batterie[3].line_len, &batterie[3].endian);
 	batterie[4].data_img = mlx_get_data_addr(batterie[4].img, &batterie[4].bpp, &batterie[4].line_len, &batterie[4].endian);
 	return (batterie);
