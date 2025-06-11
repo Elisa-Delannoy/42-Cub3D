@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:54:07 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:54:08 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:40:17 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,21 @@ void	free_img(t_var *var)
 	mlx_destroy_image(var->mlx, var->batterie[0].img);
 	mlx_destroy_image(var->mlx, var->batterie[1].img);
 	mlx_destroy_image(var->mlx, var->batterie[2].img);
-	mlx_destroy_image(var->mlx, var->victory.img);
-	mlx_destroy_image(var->mlx, var->end.img);
-	mlx_destroy_image(var->mlx, var->gameover.img);
+	if (var->victory.img)
+		mlx_destroy_image(var->mlx, var->victory.img);
+	if (var->end.img)
+		mlx_destroy_image(var->mlx, var->end.img);
+	if (var->gameover.img)
+		mlx_destroy_image(var->mlx, var->gameover.img);
 	mlx_destroy_image(var->mlx, var->icon.img);
 	mlx_destroy_image(var->mlx, var->no_t.img);
 	mlx_destroy_image(var->mlx, var->so_t.img);
 	mlx_destroy_image(var->mlx, var->ea_t.img);
 	mlx_destroy_image(var->mlx, var->we_t.img);
-	mlx_destroy_image(var->mlx, var->door_t.img);
-	mlx_destroy_image(var->mlx, var->exit_t.img);
+	if (var->door_t.img)
+		mlx_destroy_image(var->mlx, var->door_t.img);
+	if (var->exit_t.img)
+		mlx_destroy_image(var->mlx, var->exit_t.img);
 	mlx_destroy_image(var->mlx, var->img->img);
 	mlx_destroy_image(var->mlx, var->img_g->img);
 }
@@ -94,7 +99,6 @@ int	ft_free_all(t_var *var)
 		free (var->img);
 	if (var->img_g != NULL)
 		free (var->img_g);
-	
 	exit(1);
 	return (0);
 }

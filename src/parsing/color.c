@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:20 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:21 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:40:47 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,26 @@
 
 int	check_color(char **color)
 {
-	int	i;
-	int	check;
+	int		i;
+	int		j;
+	int		check;
+	char	*test;
 
 	i = 0;
 	check = 0;
 	while (color[i])
 	{
-		check = ft_atoi(color[i]);
-		if (check < 0 || check > 255 || i > 2)
-			return (1);
+		j = 0;
+		while (ft_check_space(color[i][j]) == 0)
+			j++;
+		check = ft_atoi(color[i] + j);
+		test = ft_itoa(check);
+		if (check < 0 || check > 255 || i > 2
+			|| ft_strcmp(test, color[i] + j) != 0)
+			return (free(test), 1);
 		i++;
+		if (test)
+			free(test);
 	}
 	if (i < 3)
 		return (1);
@@ -45,8 +54,8 @@ void	color_f(t_var *var, t_map *map, int i, int *j)
 	tab_f = ft_split(map->tab_file[i] + start, ',');
 	if (map->tab_file[i][*j] || check_color(tab_f) == 1)
 		return (ft_putstr_fd("Error: invalid F color", 2),
-			ft_putendl_fd(map->tab_file[i] + start, 2),
-			ft_free_all(var), free_split(tab_f), exit(1));
+			ft_putendl_fd(map->tab_file[i] + start, 2), free_split(tab_f),
+			ft_free_all(var), exit(1));
 	map->color_f = rgb_to_int(tab_f);
 	free_split(tab_f);
 }
@@ -65,8 +74,8 @@ void	color_c(t_var *var, t_map *map, int i, int *j)
 	tab_c = ft_split(map->tab_file[i] + start, ',');
 	if (map->tab_file[i][*j] || check_color(tab_c) == 1)
 		return (ft_putstr_fd("Error: invalid C color", 2),
-			ft_putendl_fd(map->tab_file[i] + start, 2),
-			ft_free_all(var), free_split(tab_c), exit(1));
+			ft_putendl_fd(map->tab_file[i] + start, 2), free_split(tab_c),
+			ft_free_all(var), exit(1));
 	map->color_c = rgb_to_int(tab_c);
 	free_split(tab_c);
 }

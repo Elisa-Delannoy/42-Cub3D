@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:54:06 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:54:26 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:40:02 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	movement(t_var *var, t_map *map, t_player *player)
 		open_close_d(var, map);
 }
 
-void	select_image_win(t_var *var)
+void	draw_exit_game(t_var *var)
 {
 	if (var->exit == 0 && check_time(var) == 0)
 	{
@@ -55,6 +55,19 @@ void	select_image_win(t_var *var)
 	{
 		draw_img_in_img(var, var->gameover, 1, 1);
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+	}
+}
+
+void	select_image_win(t_var *var)
+{
+	if (var->map->c_x == 1)
+		draw_exit_game(var);
+	else
+	{
+		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+		mlx_put_image_to_window(var->mlx, var->win, var->img->img,
+			((int)(var->width - (MAP_SZ * 10))), (int)(var->height
+				- (MAP_SZ * 10)));
 	}
 }
 
