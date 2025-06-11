@@ -39,11 +39,12 @@ int	shadow(int color, double coeff)
 	int	g;
 	int	b;
 
-	if (coeff < 0.0f) coeff = 0.0f;
-	if (coeff > 1.0f) coeff = 1.0f;
+	if (coeff < 0.0f)
+		coeff = 0.0f;
+	if (coeff > 1.0f)
+		coeff = 1.0f;
 	r = ((color >> 16) & 0xFF) * coeff;
 	g = ((color >> 8) & 0xFF) * coeff;
 	b = (color & 0xFF) * coeff;
-
 	return ((r << 16) + (g << 8) + b);
 }

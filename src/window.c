@@ -1,11 +1,5 @@
 #include "cub3D.h"
 
-void	check_end_game(t_var *var, t_player *player)
-{
-	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
-		var->exit = 1;
-}
-
 void	movement(t_var *var, t_map *map, t_player *player)
 {
 	double	speed;
@@ -31,18 +25,25 @@ void	movement(t_var *var, t_map *map, t_player *player)
 		open_close_d(var, map);
 }
 
-int	check_time(t_var *var)
+void	select_image_win(t_var *var)
 {
-	gettimeofday(&var->tv, NULL);
-	if (var->tv.tv_sec - var->start_t < GAME_DURATION / 3)
-		draw_img_in_img(var, var->batterie[0], var->width - 160, 0);
-	else if (var->tv.tv_sec - var->start_t < ((double)GAME_DURATION * 0.666666))
-		draw_img_in_img(var, var->batterie[1], var->width - 160, 0);
-	else if (var->tv.tv_sec - var->start_t < GAME_DURATION)
-		draw_img_in_img(var, var->batterie[2], var->width - 160, 0);
-	if (var->tv.tv_sec - var->start_t >= GAME_DURATION)
-		return (1);
-	return (0);
+	if (var->exit == 0 && check_time(var) == 0)
+	{
+		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+		mlx_put_image_to_window(var->mlx, var->win, var->img->img,
+			((int)(var->width - (MAP_sz * 10))), (int)(var->height
+				- (MAP_sz * 10)));
+	}
+	else if (var->exit == 1 && check_time(var) == 0)
+	{
+		draw_img_in_img(var, var->victory, 1, 1);
+		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+	}
+	else if (check_time(var) == 1 && var->exit == 0)
+	{
+		draw_img_in_img(var, var->gameover, 1, 1);
+		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
+	}
 }
 
 int	gameplay(t_var *var)
@@ -57,105 +58,21 @@ int	gameplay(t_var *var)
 		draw_game(var, var->img_g, var->light);
 		draw_minimap(var);
 		raycasting(var, var->cast);
-		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
+		if ((var->on_off == -1 && var->a > 0)
+			|| (var->on_off == 1 && var->a < 4))
 			var->a += var->on_off;
 		draw_img_in_img(var, var->torch[var->a], 550, 650);
-		if (var->exit == 0 && check_time(var) == 0)
-		{
-			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-			mlx_put_image_to_window(var->mlx, var->win, var->img->img, ((int)(var->width - (MAP_sz * 10))), (int)(var->height - (MAP_sz * 10)));
-		}
-		else if (var->exit == 1 && check_time(var) == 0)
-		{
-			draw_img_in_img(var, var->victory, 1, 1);
-			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-		}	
-		else if (check_time(var) == 1 && var->exit == 0)
-		{
-			draw_img_in_img(var, var->gameover, 1, 1);
-			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
-		}	
+		select_image_win(var);
 		mlx_do_sync(var->mlx);
 	}
-	return(0);
-}
-
-int select_key(int keycode, t_var *var, int truc)
-{
-	if (keycode == XK_w)
-		var->player->m_up = truc;
-	if (keycode == XK_s)
-		var->player->m_down = truc;
-	if (keycode == XK_a)
-		var->player->m_left = truc;
-	if (keycode == XK_d)
-		var->player->m_right = truc;
-	if (keycode == XK_Shift_L)
-		var->player->sprint = truc;
-	if (keycode == XK_Left)
-		var->player->t_left = truc;
-	if (keycode == XK_Right)
-		var->player->t_right = truc;
-	return (0);
-}
-
-int	key_press(int keycode, t_var *var)
-{
-	if (keycode == XK_Escape)
-		clear_all(var);
-	if (keycode == XK_space)
-		var->on_off *= -1;
-	select_key(keycode, var, 1);
-	if (keycode == XK_BackSpace)
-		var->player->mouse = 0;
-	if (keycode == XK_e)
-		var->player->o_c_door = 1;
-	return (0);
-}
-
-int	key_release(int keycode, t_var *var)
-{
-	select_key(keycode, var, 0);
-	return (0);
-}
-
-int	active_mouse(int button, int x, int y, t_var *var)
-{
-	(void)	x;
-	(void)	y;
-
-	if (button == 1)
-	{
-		var->player->mouse = 1;
-		return (1);
-	}
-	return (0);
-}
-
-int	mouse_movement(int x, int y, t_var *var)
-{
-	static int	last_x = -1;
-	
-	(void) y;
-	if (last_x != - 1 && var->player->mouse == 1)
-	{
-		mlx_mouse_hide(var->mlx, var->win);
-		if (x >= var->width / 4 * 3 || x <= var->width / 4)
-			mlx_mouse_move(var->mlx, var->win, var->width / 2, var->height / 2);
-		if (last_x - x > 0)
-			rotate(var->player, -0.015f);
-		else if (last_x - x < 0)
-			rotate(var->player, +0.015f);
-	}
-
-	last_x = x;
 	return (0);
 }
 
 int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
-	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height, "Exit the cavern !");
+	var->win = mlx_new_window(var->mlx, (int)var->width, (int)var->height,
+			"Exit the cavern !");
 	var->light = init_light(var);
 	var->cast = init_cast();
 	var->minimap = init_minimap();

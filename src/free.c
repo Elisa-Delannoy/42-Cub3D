@@ -1,6 +1,6 @@
 #include "cub3D.h"
 
-int clear_all(t_var *var)
+int	clear_all(t_var *var)
 {
 	mlx_do_key_autorepeaton(var->mlx);
 	mlx_destroy_window(var->mlx, var->win);

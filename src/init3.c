@@ -8,10 +8,10 @@ t_cast	*init_cast(void)
 	return (cast);
 }
 
-t_img	*set_timer(t_var* var)
+t_img	*set_timer(t_var *var)
 {
-	t_img *batterie;
-	
+	t_img	*batterie;
+
 	gettimeofday(&var->tv, NULL);
 	var->start_t = var->tv.tv_sec;
 	batterie = malloc(sizeof(t_img) * 5);
@@ -62,10 +62,19 @@ void	init_img_end(t_var *var)
 {
 	var->gameover.img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm",
 			&var->gameover.width, &var->gameover.height);
-	var->gameover.data_img = mlx_get_data_addr(var->gameover.img, 
-		&var->gameover.bpp,	&var->gameover.line_len, &var->gameover.endian);
+	var->gameover.data_img = mlx_get_data_addr(var->gameover.img,
+			&var->gameover.bpp, &var->gameover.line_len, &var->gameover.endian);
 	var->victory.img = mlx_xpm_file_to_image(var->mlx, "victory.xpm",
 			&var->victory.width, &var->victory.height);
-	var->victory.data_img = mlx_get_data_addr(var->victory.img, 
-		&var->victory.bpp, &var->victory.line_len, &var->victory.endian);
+	var->victory.data_img = mlx_get_data_addr(var->victory.img,
+			&var->victory.bpp, &var->victory.line_len, &var->victory.endian);
+}
+
+void	make_minimap(t_var *var)
+{
+	var->img = init_img();
+	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
+	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height, &var->img->width, &var->img->endian);
+	var->icon.img = mlx_xpm_file_to_image(var->mlx, "icon.xpm", &var->icon.width, &var->icon.height);
+	var->icon.data_img = mlx_get_data_addr(var->icon.img, &var->icon.bpp, &var->icon.line_len, &var->icon.endian);
 }

@@ -12,7 +12,27 @@ int	check_in_map(t_map *map, int y, int x)
 void	my_put_pixel(t_img *img, int y, int x, int color)
 {
 	char	*ptr;
-	
+
 	ptr = img->data_img + ((y * img->width) + (x * (img->height / 8)));
 	*(int *)ptr = color;
+}
+
+void	check_end_game(t_var *var, t_player *player)
+{
+	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
+		var->exit = 1;
+}
+
+int	check_time(t_var *var)
+{
+	gettimeofday(&var->tv, NULL);
+	if (var->tv.tv_sec - var->start_t < GAME_DURATION / 3)
+		draw_img_in_img(var, var->batterie[0], var->width - 160, 0);
+	else if (var->tv.tv_sec - var->start_t < ((double)GAME_DURATION * 0.666666))
+		draw_img_in_img(var, var->batterie[1], var->width - 160, 0);
+	else if (var->tv.tv_sec - var->start_t < GAME_DURATION)
+		draw_img_in_img(var, var->batterie[2], var->width - 160, 0);
+	if (var->tv.tv_sec - var->start_t >= GAME_DURATION)
+		return (1);
+	return (0);
 }

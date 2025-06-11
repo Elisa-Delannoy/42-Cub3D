@@ -200,6 +200,8 @@ char	**tab_cpy(char **tab, int size);
 int		rgb_to_int(char **tab);
 int		shadow(int color, double coeff);
 int		check_in_map(t_map *map, int y, int x);
+int		check_time(t_var *var);
+
 // parse
 void 	ft_parse(int argc, char **argv, t_var *var);
 
@@ -235,10 +237,11 @@ void	empty_for_window(t_map *map);
 
 // mini_map
 void	make_minimap(t_var *var);
-void	draw_player(t_var *var, int color, int i, int y);
 void	draw_dir(t_var *var, t_point cell, int color, int i);
 void	my_put_pixel(t_img *img, int y, int x, int color);
 void	draw_minimap(t_var *var);
+void	check_minimap_texture(t_var *var, int cell_x, int cell_y);
+void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img);
 
 //movement
 void	move_up(t_map *map, t_player *player, double vitesse);
