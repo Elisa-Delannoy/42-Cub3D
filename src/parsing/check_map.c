@@ -12,7 +12,7 @@ int	end_map(t_map *map, int i)
 			if (map->tab_file[i][j] == ' ')
 				j++;
 			else
-				return (ft_putstr_fd("Error : invalid map\n", 2), 1);
+				return (ft_putstr_fd("Error: invalid map\n", 2), 1);
 		}
 		i++;
 	}
@@ -43,35 +43,6 @@ int	stock_map_in_tab(t_map *map, int *i)
 	return (0);
 }
 
-int	check_w_s_d(t_map *map, int i, int j)
-{
-	if (map->c_d == 1)
-	{
-		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
-				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'D')
-			return (1);
-	}
-	if (map->c_d == 0)
-	{
-		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
-				|| map->tab_map[i][j] == '0')
-			return (1);
-	}
-	if (map->c_x == 1)
-	{
-		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
-				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'X')
-			return (1);
-	}
-	if (map->c_d == 0)
-	{
-		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
-				|| map->tab_map[i][j] == '0')
-			return (1);
-	}
-	return (0);
-}
-
 void	ft_check_ascii(t_var *var, t_map *map, int i, int j)
 {
 	while (map->tab_map[++i])
@@ -85,18 +56,18 @@ void	ft_check_ascii(t_var *var, t_map *map, int i, int j)
 				|| map->tab_map[i][j] == 'E' || map->tab_map[i][j] == 'W')
 			{
 				if (var->player != 0)
-					return (ft_putstr_fd("Error : should have only one "
+					return (ft_putstr_fd("Error: should have only one "
 							"player\n", 2), ft_free_all(var), exit(2));
 				var->player = init_player(var, i, j);
 				j++;
 			}
 			else
-				return (ft_putstr_fd("Error : invalid character\n", 2),
+				return (ft_putstr_fd("Error: invalid character\n", 2),
 					ft_free_all(var), exit(2));
 		}
 	}
 	if (var->player == NULL)
-		return (ft_putstr_fd("Error : player is missing\n", 2),
+		return (ft_putstr_fd("Error: player is missing\n", 2),
 			ft_free_all(var), exit(2));
 }
 

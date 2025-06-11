@@ -1,64 +1,26 @@
 #include "cub3D.h"
 
-t_img	select_texture(t_var *var, t_cast *cast)
+void	check_horiz_vert(t_cast *cast)
 {
-	t_img	texture;
-
-	if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'D')
-		texture = var->door_t;
-	else if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'X')
-		texture = var->exit_t;
-	else if (cast->wall_dir == NORTH)
-		texture = var->no_t;
-	else if (cast->wall_dir == SOUTH)
-		texture = var->so_t;
-	else if (cast->wall_dir == EAST)
-		texture = var->ea_t;
-	else if (cast->wall_dir == WEST)
-		texture = var->we_t;
+	if (cast->dist_x < cast->dist_y)
+	{
+		cast->dist_x += cast->delta_dist_x;
+		cast->map_x += cast->step_x;
+		cast->coordinates = 0;
+	}
 	else
 	{
-		texture = var->no_t;
-		return (ft_putstr_fd("Error: texture direction", 2), texture); /*VOIR SI FREE*/
+		cast->dist_y += cast->delta_dist_y;
+		cast->map_y += cast->step_y;
+		cast->coordinates = 1;
 	}
-	return (texture);
-}
-
-void	find_pos_texture(t_var *var, t_cast *cast)
-{
-	double	pos;
-
-	cast->texture = select_texture(var, cast);
-	if (cast->wall_dir == EAST || cast->wall_dir == WEST)
-		pos = var->player->pos_y + cast->dist * cast->ray_dir_y;
-	else
-		pos = var->player->pos_x + cast->dist * cast->ray_dir_x;
-	pos -= floor(pos);
-	cast->text_pos_x = (int)(pos * cast->texture.width);
-	if (cast->wall_dir == SOUTH || cast->wall_dir == WEST)
-		cast->text_pos_x = cast->texture.width - cast->text_pos_x - 1;
-	if (cast->text_pos_x < 0)
-		cast->text_pos_x = 0;
-	if (cast->text_pos_x >= cast->texture.width)
-		cast->text_pos_x = cast->texture.width - 1;
 }
 
 void	find_hit(t_var *var, t_cast *cast)
 {
 	while (1)
 	{
-		if (cast->dist_x < cast->dist_y)
-		{
-			cast->dist_x += cast->delta_dist_x;
-			cast->map_x += cast->step_x;
-			cast->coordinates = 0;
-		}
-		else
-		{
-			cast->dist_y += cast->delta_dist_y;
-			cast->map_y += cast->step_y;
-			cast->coordinates = 1;
-		}
+		check_horiz_vert(cast);
 		if (check_in_map(var->map, cast->map_y, cast->map_x) != 1)
 			return ;/*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
 		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1'
@@ -120,24 +82,6 @@ void	init_cast_ray(t_var *var, t_cast *cast, int i)
 	else
 		cast->delta_dist_y = fabs(1.f / cast->ray_dir_y);
 	init_dist_x_y(var, cast);
-}
-
-void	find_wall_dir(t_cast *cast)
-{
-	if (cast->coordinates == 0)
-	{
-		if (cast->step_x > 0)
-			cast->wall_dir = EAST;
-		else
-			cast->wall_dir = WEST;
-	}
-	else
-	{
-		if (cast->step_y > 0)
-			cast->wall_dir = SOUTH;
-		else
-			cast->wall_dir = NORTH;
-	}
 }
 
 void	raycasting(t_var *var, t_cast *cast)

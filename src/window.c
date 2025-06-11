@@ -1,15 +1,5 @@
 #include "cub3D.h"
 
-int clear_all(t_var *var)
-{
-	mlx_do_key_autorepeaton(var->mlx);
-	mlx_destroy_window(var->mlx, var->win);
-	mlx_destroy_display(var->mlx);
-	free(var->mlx);
-	exit (EXIT_SUCCESS);
-	return (0);
-}
-
 void	check_end_game(t_var *var, t_player *player)
 {
 	if (var->map->tab_map[(int)(player->pos_y)][(int)(player->pos_x)] == 'X')
@@ -46,12 +36,12 @@ int	check_time(t_var *var)
 	gettimeofday(&var->tv, NULL);
 	if (var->tv.tv_sec - var->start_t < GAME_DURATION / 3)
 		draw_img_in_img(var, var->batterie[0], var->width - 160, 0);
-	else if (var->tv.tv_sec - var->start_t < ((double)GAME_DURATION * 0.6666666666666))
+	else if (var->tv.tv_sec - var->start_t < ((double)GAME_DURATION * 0.666666))
 		draw_img_in_img(var, var->batterie[1], var->width - 160, 0);
 	else if (var->tv.tv_sec - var->start_t < GAME_DURATION)
 		draw_img_in_img(var, var->batterie[2], var->width - 160, 0);
 	if (var->tv.tv_sec - var->start_t >= GAME_DURATION)
-		return(1);
+		return (1);
 	return (0);
 }
 
@@ -61,15 +51,15 @@ int	gameplay(t_var *var)
 	if (var->count >= var->time)
 	{
 		var->count = 0;
-			movement(var, var->map, var->player);
-			if (var->player->mouse == 0)
-				mlx_mouse_show(var->mlx, var->win);
-			draw_game(var, var->img_g, var->light);
-			draw_minimap(var);
-			raycasting(var, var->cast);
-			if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
-				var->a += var->on_off;
-			draw_img_in_img(var, var->torch[var->a], 550, 650);
+		movement(var, var->map, var->player);
+		if (var->player->mouse == 0)
+			mlx_mouse_show(var->mlx, var->win);
+		draw_game(var, var->img_g, var->light);
+		draw_minimap(var);
+		raycasting(var, var->cast);
+		if ((var->on_off == -1 && var->a > 0) || (var->on_off == 1 && var->a < 4))
+			var->a += var->on_off;
+		draw_img_in_img(var, var->torch[var->a], 550, 650);
 		if (var->exit == 0 && check_time(var) == 0)
 		{
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
@@ -77,12 +67,12 @@ int	gameplay(t_var *var)
 		}
 		else if (var->exit == 1 && check_time(var) == 0)
 		{
-			draw_img_in_img(var, var->batterie[4], 1, 1);
+			draw_img_in_img(var, var->victory, 1, 1);
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		}	
 		else if (check_time(var) == 1 && var->exit == 0)
 		{
-			draw_img_in_img(var, var->batterie[3], 1, 1);
+			draw_img_in_img(var, var->gameover, 1, 1);
 			mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		}	
 		mlx_do_sync(var->mlx);
@@ -90,7 +80,8 @@ int	gameplay(t_var *var)
 	return(0);
 }
 
-int select_key(int keycode, t_var *var, int truc) {
+int select_key(int keycode, t_var *var, int truc)
+{
 	if (keycode == XK_w)
 		var->player->m_up = truc;
 	if (keycode == XK_s)
@@ -128,14 +119,6 @@ int	key_release(int keycode, t_var *var)
 	return (0);
 }
 
-t_cast	*init_cast(void)
-{
-	t_cast	*cast;
-
-	cast = malloc(sizeof(t_cast));
-	return (cast);
-}
-
 int	active_mouse(int button, int x, int y, t_var *var)
 {
 	(void)	x;
@@ -169,26 +152,6 @@ int	mouse_movement(int x, int y, t_var *var)
 	return (0);
 }
 
-t_img	*set_timer(t_var* var)
-{
-	t_img *batterie;
-	
-	gettimeofday(&var->tv, NULL);
-	var->start_t = var->tv.tv_sec;
-	batterie = malloc(sizeof(t_img) * 5);
-	batterie[0].img = mlx_xpm_file_to_image(var->mlx, "batterie3.xpm", &batterie[0].width, &batterie[0].height);
-	batterie[1].img = mlx_xpm_file_to_image(var->mlx, "batterie2.xpm", &batterie[1].width, &batterie[1].height);
-	batterie[2].img = mlx_xpm_file_to_image(var->mlx, "batterie1.xpm", &batterie[2].width, &batterie[2].height);
-	batterie[0].data_img = mlx_get_data_addr(batterie[0].img, &batterie[0].bpp, &batterie[0].line_len, &batterie[0].endian);
-	batterie[1].data_img = mlx_get_data_addr(batterie[1].img, &batterie[1].bpp, &batterie[1].line_len, &batterie[1].endian);
-	batterie[2].data_img = mlx_get_data_addr(batterie[2].img, &batterie[2].bpp, &batterie[2].line_len, &batterie[2].endian);
-	batterie[3].img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm", &batterie[3].width, &batterie[3].height);
-	batterie[4].img = mlx_xpm_file_to_image(var->mlx, "victory.xpm", &batterie[4].width, &batterie[4].height);
-	batterie[3].data_img = mlx_get_data_addr(batterie[3].img, &batterie[3].bpp, &batterie[3].line_len, &batterie[3].endian);
-	batterie[4].data_img = mlx_get_data_addr(batterie[4].img, &batterie[4].bpp, &batterie[4].line_len, &batterie[4].endian);
-	return (batterie);
-}
-
 int	setup_window(t_var *var)
 {
 	var->mlx = mlx_init();
@@ -198,6 +161,7 @@ int	setup_window(t_var *var)
 	var->minimap = init_minimap();
 	var->batterie = set_timer(var);
 	var->torch = init_torch(var);
+	init_img_end(var);
 	make_minimap(var);
 	make_game(var);
 	init_all_textures(var);

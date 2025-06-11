@@ -67,7 +67,7 @@ int	check_wall_min_max(t_var *var)
 	if (check_horizontal(var->map->tab_map[0], '1', ' ') != 0
 		|| check_horizontal(var->map->tab_map[var->map->height - 1], '1', ' ')
 		|| check_vertical(var->map, 0, ' ') != 0)
-		return (ft_putstr_fd("Error : invalid map (missing wall)\n", 2),
+		return (ft_putstr_fd("Error: invalid map (missing wall)\n", 2),
 			ft_free_all(var), exit(1), 1);
 	return (2);
 }

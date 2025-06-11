@@ -20,8 +20,8 @@ void	door(t_var *var, t_map *map, int i, int *j)
 	}
 	if (fd == -1 || map->door == NULL
 		|| map->door[ft_strlen(map->door) - 1] == '/')
-		return (ft_putstr_fd("Error: invalid door texture\n", 2),
-			ft_free_all(var), exit(1));
+		return (ft_putstr_fd("Error: invalid door texture ", 2),
+			ft_putendl_fd(map->door, 2), ft_free_all(var), exit(1));
 }
 
 int	ft_is_door(t_var *var, t_map *map, int i, int *j)
@@ -58,8 +58,8 @@ void	exit_d(t_var *var, t_map *map, int i, int *j)
 	}
 	if (fd == -1 || map->exit == NULL
 		|| map->exit[ft_strlen(map->exit) - 1] == '/')
-		return (ft_putstr_fd("Error: invalid exit texture\n", 2),
-			ft_free_all(var), exit(1));
+		return (ft_putstr_fd("Error: invalid exit texture ", 2),
+			ft_putendl_fd(map->exit, 2), ft_free_all(var), exit(1));
 }
 
 int	ft_is_exit(t_var *var, t_map *map, int i, int *j)
@@ -74,4 +74,33 @@ int	ft_is_exit(t_var *var, t_map *map, int i, int *j)
 		return (0);
 	}
 	return (2);
+}
+
+int	check_w_s_d(t_map *map, int i, int j)
+{
+	if (map->c_d == 1)
+	{
+		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'D')
+			return (1);
+	}
+	if (map->c_d == 0)
+	{
+		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+				|| map->tab_map[i][j] == '0')
+			return (1);
+	}
+	if (map->c_x == 1)
+	{
+		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'X')
+			return (1);
+	}
+	if (map->c_d == 0)
+	{
+		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+				|| map->tab_map[i][j] == '0')
+			return (1);
+	}
+	return (0);
 }
