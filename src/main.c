@@ -5,14 +5,8 @@ int	main(int argc, char **argv)
 	t_var	var;
 
 	ft_bzero(&var, sizeof(t_var));
-	ft_parse(argc, argv, &var);
-	var.height = 800;
-	var.width = 1200;
-	var.time = 500;
-	var.count = 0;
-	var.on_off = 1;
-	var.a = 4;
-	var.exit = 0;
+	ft_parse(argc, argv, &var);;
+	init_var(&var);
 	setup_window(&var);
 	ft_free_all(&var);
 	return (0);

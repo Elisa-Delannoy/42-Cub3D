@@ -59,7 +59,7 @@ int	rgb_to_int(char **tab)
 	return ((ft_atoi(tab[0]) << 16) + (ft_atoi(tab[1]) << 8) + ft_atoi(tab[2]));
 }
 
-int	modify_color(int color, double coeff)
+int	shadow(int color, double coeff)
 {
 	int	r;
 	int	g;

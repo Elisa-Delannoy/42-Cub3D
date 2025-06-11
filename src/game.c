@@ -39,7 +39,7 @@ void	draw_game(t_var *var, t_img *img_g, t_light *light)
 				light->coeff = 0.15;
 			if (var->on_off == -1)
 				light->coeff = 0;
-			my_put_pixel(img_g, i, x, modify_color(light->colo, light->coeff));
+			my_put_pixel(img_g, i, x, shadow(light->colo, light->coeff));
 			i++;
 		}
 		x++;
@@ -66,7 +66,7 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 		var->light->coeff = 0.1;
 	if (var->on_off == -1)
 		var->light->coeff = 0;
-	var->light->colo = modify_color (var->light->colo, var->light->coeff);
+	var->light->colo = shadow(var->light->colo, var->light->coeff);
 	if ((var->light->colo >> 24 & 0xFF) == 0)
 		my_put_pixel(var->img_g, (int)y, i, var->light->colo);
 }

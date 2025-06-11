@@ -1,26 +1,5 @@
 #include "cub3D.h"
 
-void	open_close_d(t_var *var, t_map *map)
-{
-	double	anticip_x;
-	double	anticip_y;
-	// int		check;
-
-	anticip_y = var->player->pos_y + var->player->dir_y;
-	anticip_x = var->player->pos_x + var->player->dir_x;
-	// check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
-	if (var->player->o_c_door == 1)
-	{
-		if (map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'D')
-			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'O';
-		else if (map->tab_map[(int)(var->player->pos_y)]
-			[(int)(var->player->pos_x)] != 'O'
-			&& map->tab_map[(int)(anticip_y)][(int)(anticip_x)] == 'O')
-			map->tab_map[(int)(anticip_y)][(int)(anticip_x)] = 'D';
-	}
-	var->player->o_c_door = 0;
-}
-
 void	move_up(t_map *map, t_player *player, double speed)
 {
 	double	anticip_x;

@@ -163,9 +163,11 @@ typedef struct s_var
 	t_img		so_t;
 	t_img		ea_t;
 	t_img		we_t;
-	t_img		door_t; /*bonus*/
-	t_img		exit_t; /*bonus*/
+	t_img		door_t;
+	t_img		exit_t;
 	t_img		end;
+	t_img		gameover;
+	t_img		victory;
 	t_minimap	*minimap;
 	t_light		*light;
 } t_var;
@@ -174,6 +176,15 @@ typedef struct s_var
 int		setup_window(t_var *var);
 void	init_all_textures(t_var *var);
 t_light	*init_light(t_var *var);
+void	check_end_game(t_var *var, t_player *player);
+
+int	mouse_movement(int x, int y, t_var *var);
+int	active_mouse(int button, int x, int y, t_var *var);
+int	key_release(int keycode, t_var *var);
+int	key_press(int keycode, t_var *var);
+int select_key(int keycode, t_var *var, int value);
+void	movement(t_var *var, t_map *map, t_player *player);
+
 
 // utils
 void	ft_print_lst(t_map *map); /*a supp un jour*/
@@ -182,7 +193,7 @@ int		ft_check_space(char c);
 double	radian(int degree);
 char	**tab_cpy(char **tab, int size);
 int		rgb_to_int(char **tab);
-int		modify_color(int color, double coeff);
+int		shadow(int color, double coeff);
 int		check_in_map(t_map *map, int y, int x);
 // parse
 void 	ft_parse(int argc, char **argv, t_var *var);
@@ -193,6 +204,10 @@ void		ft_free_all(t_var *var);
 t_img		*init_img(void);
 t_player	*init_player(t_var *var, int x, int y);
 t_minimap	*init_minimap(void);
+void		init_var(t_var *var);
+t_cast		*init_cast(void);
+t_img		*set_timer(t_var* var);
+void		init_img_end(t_var *var);
 
 // check first part
 int		ft_check_instruct(t_var *var);
@@ -229,11 +244,13 @@ void	rotate(t_player *player, double angle);
 
 // raycasting
 void	raycasting(t_var *var, t_cast *cast);
+void	find_wall_dir(t_cast *cast);
+void	find_pos_texture(t_var *var, t_cast *cast);
 
 //torch
 void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y);
 t_img	*init_torch(t_var *var);
-void	draw_img_end(t_var *var, t_img image, int start_x, int start_y);
+// void	draw_img_end(t_var *var, t_img image, int start_x, int start_y);
 
 
 // game
@@ -251,7 +268,9 @@ int	ft_is_color(t_var *var, t_map *map, int i, int *j);
 void	door(t_var *var, t_map *map, int i, int *j);
 int		ft_is_door(t_var *var, t_map *map, int i, int *j);
 int		ft_is_exit(t_var *var, t_map *map, int i, int *j);
+int		check_w_s_d(t_map *map, int i, int j);
 
 void	open_close_d(t_var *var, t_map *map);
+int 	clear_all(t_var *var);
 
 #endif
