@@ -76,4 +76,5 @@ void	init_var(t_var *var)
 	var->on_off = 1;
 	var->a = 4;
 	var->exit = 0;
+	var->end_g = 0;
 }

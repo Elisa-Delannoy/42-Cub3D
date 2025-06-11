@@ -156,6 +156,7 @@ typedef struct s_var
 	long		start_t;
 	double		height;
 	double		width;
+	int			end_g;
 	t_cast		*cast;
 	t_img		*img;
 	t_img		*img_g;

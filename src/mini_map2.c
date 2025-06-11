@@ -121,3 +121,33 @@ void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img)
 		y++;
 	}
 }
+
+
+// void	draw_img_in_img(t_var *var, t_img image, int sx, int sy)
+// {
+// 	int		x;
+// 	int		y;
+// 	int		scl;
+
+// 	y = -1;
+// 	scl = 2;
+// 	if (image.img == var->gameover.img || image.img == var->victory.img)
+// 		scl = 4;
+// 	while (++y + sy < var->height && y < image.height * scl)
+// 	{
+// 		x = -1;
+// 		while (++x + sx < var->width && x < image.width * scl)
+// 		{
+// 			var->light->colo = *(int *)(image.data_img
+// 					+ (y / scl * image.line_len) + (x / scl * (image.bpp / 8)));
+// 			if ((var->light->colo >> 24 & 0xFF) == 0)
+// 			{
+// 				var->light->coeff = find_coeff(var, image);
+// 				var->light->colo = shadow(var->light->colo, var->light->coeff);
+// 				*(int *)(var->img_g->data_img + (sx + x) * (var->img_g->height
+// 							/ 8) + (sy + y) * var->img_g->width)
+// 					= var->light->colo;
+// 			}
+// 		}
+// 	}
+// }

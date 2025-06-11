@@ -23,7 +23,7 @@ int	key_press(int keycode, t_var *var)
 {
 	if (keycode == XK_Escape)
 		clear_all(var);
-	if (keycode == XK_space)
+	if (keycode == XK_space && var->end_g != 1)
 		var->on_off *= -1;
 	select_key(keycode, var, 1);
 	if (keycode == XK_BackSpace)

@@ -33,6 +33,9 @@ int	check_time(t_var *var)
 	else if (var->tv.tv_sec - var->start_t < GAME_DURATION)
 		draw_img_in_img(var, var->batterie[2], var->width - 160, 0);
 	if (var->tv.tv_sec - var->start_t >= GAME_DURATION)
+	{
+		var->end_g = 1;
 		return (1);
+	}
 	return (0);
 }
