@@ -22,8 +22,8 @@ typedef enum e_dir
 	WEST = 180,
 	MAP = 20,
 	GAME = 64,
-	DOOR = 'D', /*bonus*/
-	EXIT = 'X' /*bonus*/
+	DOOR = 'D',
+	EXIT = 'X'
 }	t_dir;
 
 typedef struct s_player
@@ -69,14 +69,14 @@ typedef struct s_map
 	int		c_ea;
 	int		c_f;
 	int		c_c;
-	int		c_d; /*bonus*/
-	int		c_x; /*bonus*/
+	int		c_d;
+	int		c_x;
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
-	char	*door; /*bonus*/
-	char	*exit; /*bonus*/
+	char	*door;
+	char	*exit;
 	int		color_f;
 	int		color_c;
 	int		height;

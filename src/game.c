@@ -7,13 +7,13 @@ void	select_light_coeff(t_var *var, t_light *light, int i)
 		light->coeff = 1.f - (double)i / (double)((var->height - 1) / 2);
 		if (light->coeff > 0.45)
 			light->coeff = 0.45;
-		light->color = var->map->color_c;
+		light->colo = var->map->color_c;
 	}
 	else
 	{
 		light->coeff = ((double)(i - var->height / 2))
 			/ ((var->height / 2) - 1) + 0.1;
-		light->color = var->map->color_f;
+		light->colo = var->map->color_f;
 	}
 }
 
@@ -39,7 +39,7 @@ void	draw_game(t_var *var, t_img *img_g, t_light *light)
 				light->coeff = 0.15;
 			if (var->on_off == -1)
 				light->coeff = 0;
-			my_put_pixel(img_g, i, x, modify_color(light->color, light->coeff));
+			my_put_pixel(img_g, i, x, modify_color(light->colo, light->coeff));
 			i++;
 		}
 		x++;
@@ -52,7 +52,7 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 	double	x_right;
 	double	ratio_y;
 
-	var->light->color = *((int *)(cast->texture.data_img + (cast->text_pos_y
+	var->light->colo = *((int *)(cast->texture.data_img + (cast->text_pos_y
 					* cast->texture.line_len)
 				+ (cast->text_pos_x * cast->texture.bpp / 8)));
 	var->light->coeff = expf(-cast->dist * 0.2f);
@@ -66,9 +66,9 @@ void	draw_one_wall_pixel(t_var *var, t_cast *cast, int i, int y)
 		var->light->coeff = 0.1;
 	if (var->on_off == -1)
 		var->light->coeff = 0;
-	var->light->color = modify_color (var->light->color, var->light->coeff);
-	if ((var->light->color >> 24 & 0xFF) == 0)
-		my_put_pixel(var->img_g, (int)y, i, var->light->color);
+	var->light->colo = modify_color (var->light->colo, var->light->coeff);
+	if ((var->light->colo >> 24 & 0xFF) == 0)
+		my_put_pixel(var->img_g, (int)y, i, var->light->colo);
 }
 
 void	draw_wall(t_var *var, t_cast *cast, int i)

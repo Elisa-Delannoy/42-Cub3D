@@ -62,7 +62,7 @@ void	draw_img_in_img(t_var *var, t_img image, int sx, int sy)
 			if ((var->light->colo >> 24 & 0xFF) == 0)
 			{
 				var->light->coeff = find_coeff(var, image);
-				var->light->colo = modify_color(var->light->colo, coeff);
+				var->light->colo = modify_color(var->light->colo, var->light->coeff);
 				*(int *)(var->img_g->data_img + (sx + x) * (var->img_g->height
 							/ 8) + (sy + y) * var->img_g->width)
 					= var->light->colo;
