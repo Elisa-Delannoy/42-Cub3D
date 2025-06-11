@@ -22,7 +22,7 @@ void	find_hit(t_var *var, t_cast *cast)
 	{
 		check_horiz_vert(cast);
 		if (check_in_map(var->map, cast->map_y, cast->map_x) != 1)
-			return ;/*VOIR POUR FREE OU QUOI FAIRE SI RETURN*/
+			return ;
 		if (var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == '1'
 			|| var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'D'
 			|| var->map->tab_map[(int)cast->map_y][(int)cast->map_x] == 'X')
