@@ -136,6 +136,11 @@ typedef struct s_minimap
 	int	step_y;
 	int	dist_x;
 	int	dist_y;
+	double	rel_x;
+	double	rel_y;
+	int		mini_x;
+	int		mini_y;
+	int		color;
 }	t_minimap;
 
 typedef struct s_var

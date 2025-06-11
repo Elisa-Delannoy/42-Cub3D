@@ -1,20 +1,11 @@
 #include "cub3D.h"
 
-void	my_put_pixel(t_img *img, int y, int x, int color)
-{
-	char	*ptr;
-	
-	ptr = img->data_img + ((y * img->width) + (x * (img->height / 8)));
-	*(int *)ptr = color;
-}
-
 void draw_dir(t_var *var, t_point cell, int color, int i)
 {
 	int error;
 	int	error_x2;
 	int	count;
 	double	coeff;
-	// int	dist;
 	
 	var->minimap->x0 = MAP_sz * 5;
 	var->minimap->y0 = MAP_sz * 5;
@@ -23,7 +14,6 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 	cell.x = (double)var->minimap->x0 + ((cell.x - var->player->pos_x) * (MAP_sz));
 	var->minimap->dist_x = abs((int)cell.x - var->minimap->x0);
 	var->minimap->dist_y = abs((int)cell.y - var->minimap->y0);
-	// dist = sqrt(var->minimap->dist_x * var->minimap->dist_x + var->minimap->dist_y *var->minimap->dist_y);
 		
 	if (var->minimap->x0 < (int)cell.x)
 		var->minimap->step_x = 1;
@@ -36,14 +26,14 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 	error = var->minimap->dist_x - var->minimap->dist_y;
 
 	if (i < var->width / 3)
-		color = modify_color (color, (double)i / (var->width / 3));
+		color = modify_color(color, (double)i / (var->width / 3));
 	if ( i >  2 * var->width / 3)
-		color = modify_color (color, 1.f - (double)(i - 2 * (var->width / 3)) / (var->width / 3));
+		color = modify_color(color, 1.f - (double)(i - 2 * (var->width / 3)) / (var->width / 3));
 	while (1)
 	{
 
 		coeff = expf(-(double)count / (5 * MAP_sz) * 0.045);
-		color = modify_color (color, coeff);
+		color = modify_color(color, coeff);
 		if (var->minimap->y0 > 0 && var->minimap->x0 > 0 && var->minimap->y0 < MAP_sz * 10 - 1 && var->minimap->x0 < MAP_sz * 10 - 1)
 			my_put_pixel(var->img, var->minimap->y0, var->minimap->x0, color);
 		if ((var->minimap->x0 == (int)cell.x && var->minimap->y0 == (int)cell.y))
@@ -61,27 +51,6 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 		}
 		count++;
     }
-}
-
-void	draw_map(t_img *img, int color, int i, int y)
-{
-	int save_i;
-	int save_y;
-	char *ptr;
-
-	save_i = i;
-	save_y = y;
-	while (y < save_y +MAP_sz)
-	{
-		i = save_i;
-		while (i < save_i + MAP_sz)
-		{
-			ptr = img->data_img + ((y * img->width) + (i * (img->height / 8)));
-			*(int *)ptr = color;
-			i++;
-		}
-		y++;
-	}
 }
 
 void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img)
@@ -149,51 +118,55 @@ void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
 	}
 }
 
-void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
+void	check_minimap_texture(t_var *var, int cell_x, int cell_y)
 {
-	int		color;
-	double	rel_x;
-	double	rel_y;
-	int		mini_x;
-	int		mini_y;
 	t_img	texture;
-
-	if (cell_x < 0 || cell_y < 0 || cell_x >= var->map->width
-		|| cell_y >= var->map->height)
-		return ;
-	rel_x = (cell_x * GAME_sz) - var->player->pos_x;
-	rel_y = (cell_y * GAME_sz) - var->player->pos_y;
-	mini_x = MAP_sz * 5 + (int)(rel_x * scale);
-	mini_y = MAP_sz * 5  + (int)(rel_y * scale);
-
+	
 	if (var->map->tab_map[cell_y][cell_x] == '1')
 	{
 		texture = var->no_t;
-		draw_mini_wall(var, mini_x, mini_y, texture);
+		draw_mini_wall(var, var->minimap->mini_x,
+			var->minimap->mini_y, texture);
 	}
 	else if (var->map->tab_map[cell_y][cell_x] == 'D')
 	{
 		texture = var->door_t;
-		draw_mini_wall(var, mini_x, mini_y, texture);
+		draw_mini_wall(var, var->minimap->mini_x,
+			var->minimap->mini_y, texture);
 	}
-	else if (var->map->tab_map[cell_y][cell_x] == 'O')
-	{
-		color = 0x3a003d;
-		draw_minimap_pixel(var, mini_x, mini_y, color);
-	}	
+		
 	else if (var->map->tab_map[cell_y][cell_x] == 'X')
 	{
 		texture = var->exit_t;
-		draw_mini_wall(var, mini_x, mini_y, texture);
-	}
-	else
-	{
-		color = 0x0;
-		draw_minimap_pixel(var, mini_x, mini_y, color);
+		draw_mini_wall(var, var->minimap->mini_x,
+			var->minimap->mini_y, texture);
 	}
 }
 
-void	top_minimap(t_var *var)
+void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
+{
+	int color;
+
+	if (cell_x < 0 || cell_y < 0 || cell_x >= var->map->width
+		|| cell_y >= var->map->height)
+		return ;
+	var->minimap->rel_x = (cell_x * GAME_sz) - var->player->pos_x;
+	var->minimap->rel_y = (cell_y * GAME_sz) - var->player->pos_y;
+	var->minimap->mini_x = MAP_sz * 5 + (int)(var->minimap->rel_x * scale);
+	var->minimap->mini_y = MAP_sz * 5  + (int)(var->minimap->rel_y * scale);
+	color = 0x0;
+	draw_minimap_pixel(var, var->minimap->mini_x,
+		var->minimap->mini_y, color);
+	check_minimap_texture(var, cell_x, cell_y);
+	if (var->map->tab_map[cell_y][cell_x] == 'O')
+	{
+		color = 0x3a003d;
+		draw_minimap_pixel(var, var->minimap->mini_x,
+			var->minimap->mini_y, color);
+	}
+}
+
+void	do_minimap(t_var *var)
 {
 	int		px;
 	int		py;
@@ -223,7 +196,7 @@ void	draw_minimap(t_var *var)
 	if (var->img->data_img != NULL)
 		mlx_destroy_image(var->mlx, var->img->img);
 	make_minimap(var);
-	top_minimap(var);
+	do_minimap(var);
 	map_border(var);
 	draw_mini_wall(var, 4.5 * MAP_sz, 4.5 * MAP_sz, var->icon);
 }
