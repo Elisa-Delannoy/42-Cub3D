@@ -26,14 +26,14 @@ void draw_dir(t_var *var, t_point cell, int color, int i)
 	error = var->minimap->dist_x - var->minimap->dist_y;
 
 	if (i < var->width / 3)
-		color = modify_color(color, (double)i / (var->width / 3));
+		color = shadow(color, (double)i / (var->width / 3));
 	if ( i >  2 * var->width / 3)
-		color = modify_color(color, 1.f - (double)(i - 2 * (var->width / 3)) / (var->width / 3));
+		color = shadow(color, 1.f - (double)(i - 2 * (var->width / 3)) / (var->width / 3));
 	while (1)
 	{
 
 		coeff = expf(-(double)count / (5 * MAP_sz) * 0.045);
-		color = modify_color(color, coeff);
+		color = shadow(color, coeff);
 		if (var->minimap->y0 > 0 && var->minimap->x0 > 0 && var->minimap->y0 < MAP_sz * 10 - 1 && var->minimap->x0 < MAP_sz * 10 - 1)
 			my_put_pixel(var->img, var->minimap->y0, var->minimap->x0, color);
 		if ((var->minimap->x0 == (int)cell.x && var->minimap->y0 == (int)cell.y))
