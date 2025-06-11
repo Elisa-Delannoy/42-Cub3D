@@ -78,6 +78,7 @@ int	setup_window(t_var *var)
 	var->minimap = init_minimap();
 	var->batterie = set_timer(var);
 	var->torch = init_torch(var);
+	var->img = init_img();
 	init_img_end(var);
 	make_minimap(var);
 	make_game(var);

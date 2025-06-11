@@ -26,10 +26,10 @@ void	free_img(t_var *var)
 
 void	clear_all(t_var *var)
 {
+	free_img(var);
 	mlx_do_key_autorepeaton(var->mlx);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
-	free_img(var);
 	free(var->mlx);
 }
 
@@ -64,8 +64,14 @@ void	free_map(t_var *var)
 int	ft_free_all(t_var *var)
 {
 	free_map(var);
+	if (var->mlx)
+		clear_all(var);
 	if (var->player != NULL)
 		free(var->player);
+	if (var->batterie != NULL)
+		free(var->batterie);
+	if (var->torch != NULL)
+		free(var->torch);
 	if (var->cast != NULL)
 		free(var->cast);
 	if (var->light != NULL)
@@ -76,8 +82,7 @@ int	ft_free_all(t_var *var)
 		free (var->img);
 	if (var->img_g != NULL)
 		free (var->img_g);
-	if (var->mlx)
-		clear_all(var);
+	
 	exit(1);
 	return (0);
 }

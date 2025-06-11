@@ -51,6 +51,8 @@ t_player	*init_player(t_var *var, int x, int y)
 	player->sprint = 0;
 	player->mouse = 0;
 	player->o_c_door = 0;
+	player->t_left = 0;
+	player->t_right = 0;
 	return (player);
 }
 

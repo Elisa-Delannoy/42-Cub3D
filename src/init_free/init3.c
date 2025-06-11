@@ -68,16 +68,15 @@ void	init_img_end(t_var *var)
 			&var->victory.width, &var->victory.height);
 	var->victory.data_img = mlx_get_data_addr(var->victory.img,
 			&var->victory.bpp, &var->victory.line_len, &var->victory.endian);
-}
-
-void	make_minimap(t_var *var)
-{
-	var->img = init_img();
-	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
-	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height,
-			&var->img->width, &var->img->endian);
 	var->icon.img = mlx_xpm_file_to_image(var->mlx, "textures/icon.xpm",
 			&var->icon.width, &var->icon.height);
 	var->icon.data_img = mlx_get_data_addr(var->icon.img, &var->icon.bpp,
 			&var->icon.line_len, &var->icon.endian);
+}
+
+void	make_minimap(t_var *var)
+{
+	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
+	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height,
+			&var->img->width, &var->img->endian);
 }

@@ -185,17 +185,15 @@ void	init_all_textures(t_var *var);
 t_light	*init_light(t_var *var);
 void	check_end_game(t_var *var, t_player *player);
 
-int	mouse_movement(int x, int y, t_var *var);
-int	active_mouse(int button, int x, int y, t_var *var);
-int	key_release(int keycode, t_var *var);
-int	key_press(int keycode, t_var *var);
-int select_key(int keycode, t_var *var, int value);
+int		mouse_movement(int x, int y, t_var *var);
+int		active_mouse(int button, int x, int y, t_var *var);
+int		key_release(int keycode, t_var *var);
+int		key_press(int keycode, t_var *var);
+int		select_key(int keycode, t_var *var, int value);
 void	movement(t_var *var, t_map *map, t_player *player);
 
 
 // utils
-void	ft_print_lst(t_map *map); /*a supp un jour*/
-void	ft_print_tab(char **tab); /*a supp un jour*/
 int		ft_check_space(char c);
 double	radian(int degree);
 char	**tab_cpy(char **tab, int size);
@@ -209,7 +207,7 @@ void 	ft_parse(int argc, char **argv, t_var *var);
 
 // init free
 t_map		*ft_init_map(void);
-void		ft_free_all(t_var *var);
+int			ft_free_all(t_var *var);
 t_img		*init_img(void);
 t_player	*init_player(t_var *var, int x, int y);
 t_minimap	*init_minimap(void);
@@ -235,7 +233,6 @@ void	floodfill_space_wall(t_map *map, int x, int y, int c);
 // check map wall
 int		check_wall_min_max(t_var *var);
 int		check_wall(t_map *map);
-void	empty_for_window(t_map *map);
 
 // mini_map
 void	make_minimap(t_var *var);
@@ -260,8 +257,6 @@ void	find_pos_texture(t_var *var, t_cast *cast);
 //torch
 void	draw_img_in_img(t_var *var, t_img image, int start_x, int start_y);
 t_img	*init_torch(t_var *var);
-// void	draw_img_end(t_var *var, t_img image, int start_x, int start_y);
-
 
 // game
 void	make_game(t_var *var);
@@ -281,6 +276,6 @@ int		ft_is_exit(t_var *var, t_map *map, int i, int *j);
 int		check_w_s_d(t_map *map, int i, int j);
 
 void	open_close_d(t_var *var, t_map *map);
-int 	clear_all(t_var *var);
+void 	clear_all(t_var *var);
 
 #endif
