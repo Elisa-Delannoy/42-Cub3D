@@ -108,46 +108,13 @@ void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img)
 		x = 0;
 		while (x < img.width / scale && start_x + x < MAP_sz * 10)
 		{
-			int src_x = x * scale;
-			int src_y = y * scale;
-
-			color = *(int *)(img.data_img
-			 + (src_y * img.line_len) + (src_x * (img.bpp / 8)));
+			color = *(int *)(img.data_img + (y * scale * img.line_len)
+					+ (x * scale * (img.bpp / 8)));
 			if ((color >> 24 & 0xFF) == 0)
 				*(int *)(var->img->data_img + (start_y + y) * var->img->width
-					+ (start_x + x) * (var->img->height / 8)) = color;
+						+ (start_x + x) * (var->img->height / 8)) = color;
 			x++;
 		}
 		y++;
 	}
 }
-
-
-// void	draw_img_in_img(t_var *var, t_img image, int sx, int sy)
-// {
-// 	int		x;
-// 	int		y;
-// 	int		scl;
-
-// 	y = -1;
-// 	scl = 2;
-// 	if (image.img == var->gameover.img || image.img == var->victory.img)
-// 		scl = 4;
-// 	while (++y + sy < var->height && y < image.height * scl)
-// 	{
-// 		x = -1;
-// 		while (++x + sx < var->width && x < image.width * scl)
-// 		{
-// 			var->light->colo = *(int *)(image.data_img
-// 					+ (y / scl * image.line_len) + (x / scl * (image.bpp / 8)));
-// 			if ((var->light->colo >> 24 & 0xFF) == 0)
-// 			{
-// 				var->light->coeff = find_coeff(var, image);
-// 				var->light->colo = shadow(var->light->colo, var->light->coeff);
-// 				*(int *)(var->img_g->data_img + (sx + x) * (var->img_g->height
-// 							/ 8) + (sy + y) * var->img_g->width)
-// 					= var->light->colo;
-// 			}
-// 		}
-// 	}
-// }
