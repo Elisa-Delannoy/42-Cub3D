@@ -24,15 +24,13 @@ void	free_img(t_var *var)
 	mlx_destroy_image(var->mlx, var->img_g->img);
 }
 
-int	clear_all(t_var *var)
+void	clear_all(t_var *var)
 {
 	mlx_do_key_autorepeaton(var->mlx);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
 	free_img(var);
 	free(var->mlx);
-	exit (EXIT_SUCCESS);
-	return (0);
 }
 
 void	free_map(t_var *var)
@@ -63,7 +61,7 @@ void	free_map(t_var *var)
 	}
 }
 
-void	ft_free_all(t_var *var)
+int	ft_free_all(t_var *var)
 {
 	free_map(var);
 	if (var->player != NULL)
@@ -80,4 +78,6 @@ void	ft_free_all(t_var *var)
 		free (var->img_g);
 	if (var->mlx)
 		clear_all(var);
+	exit(1);
+	return (0);
 }
