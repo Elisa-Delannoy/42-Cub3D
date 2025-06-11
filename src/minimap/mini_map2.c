@@ -1,15 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_map2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 15:55:52 by edelanno          #+#    #+#             */
+/*   Updated: 2025/06/11 15:56:03 by edelanno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 int	init_value_dir(t_var *var, t_point *cell, int color, int i)
 {
 	int	error;
 
-	var->minimap->x0 = MAP_sz * 5;
-	var->minimap->y0 = MAP_sz * 5;
+	var->minimap->x0 = MAP_SZ * 5;
+	var->minimap->y0 = MAP_SZ * 5;
 	((*cell).y) = (double)var->minimap->y0 + (((*cell).y - var->player->pos_y)
-			* (MAP_sz));
+			* (MAP_SZ));
 	(*cell).x = (double)var->minimap->x0 + (((*cell).x - var->player->pos_x)
-			* (MAP_sz));
+			* (MAP_SZ));
 	var->minimap->dist_x = abs((int)(*cell).x - var->minimap->x0);
 	var->minimap->dist_y = abs((int)(*cell).y - var->minimap->y0);
 	if (var->minimap->x0 < (int)(*cell).x)
@@ -55,10 +67,10 @@ void	draw_dir(t_var *var, t_point cell, int color, int i)
 	error = init_value_dir(var, &cell, color, i);
 	while (1)
 	{
-		coeff = expf(-(double)count / (5 * MAP_sz) * 0.045);
+		coeff = expf(-(double)count / (5 * MAP_SZ) * 0.045);
 		color = shadow(color, coeff);
 		if (var->minimap->y0 > 0 && var->minimap->x0 > 0 && var->minimap->y0
-			< MAP_sz * 10 - 1 && var->minimap->x0 < MAP_sz * 10 - 1)
+			< MAP_SZ * 10 - 1 && var->minimap->x0 < MAP_SZ * 10 - 1)
 			my_put_pixel(var->img, var->minimap->y0, var->minimap->x0, color);
 		if ((var->minimap->x0 == (int)cell.x
 				&& var->minimap->y0 == (int)cell.y))
@@ -103,10 +115,10 @@ void	draw_mini_wall(t_var *var, int start_x, int start_y, t_img img)
 	x = 0;
 	y = 0;
 	scale = 4;
-	while (y < img.height / scale && start_y + y < MAP_sz * 10)
+	while (y < img.height / scale && start_y + y < MAP_SZ * 10)
 	{
 		x = 0;
-		while (x < img.width / scale && start_x + x < MAP_sz * 10)
+		while (x < img.width / scale && start_x + x < MAP_SZ * 10)
 		{
 			color = *(int *)(img.data_img + (y * scale * img.line_len)
 					+ (x * scale * (img.bpp / 8)));

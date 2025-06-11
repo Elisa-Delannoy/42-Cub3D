@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   window.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 15:54:06 by edelanno          #+#    #+#             */
+/*   Updated: 2025/06/11 15:54:26 by edelanno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void	movement(t_var *var, t_map *map, t_player *player)
@@ -31,8 +43,8 @@ void	select_image_win(t_var *var)
 	{
 		mlx_put_image_to_window(var->mlx, var->win, var->img_g->img, 0, 0);
 		mlx_put_image_to_window(var->mlx, var->win, var->img->img,
-			((int)(var->width - (MAP_sz * 10))), (int)(var->height
-				- (MAP_sz * 10)));
+			((int)(var->width - (MAP_SZ * 10))), (int)(var->height
+				- (MAP_SZ * 10)));
 	}
 	else if (var->exit == 1 && check_time(var) == 0)
 	{

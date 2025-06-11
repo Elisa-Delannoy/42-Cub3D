@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init3.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 15:54:52 by edelanno          #+#    #+#             */
+/*   Updated: 2025/06/11 15:55:06 by edelanno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 t_cast	*init_cast(void)
@@ -76,7 +88,7 @@ void	init_img_end(t_var *var)
 
 void	make_minimap(t_var *var)
 {
-	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
+	var->img->img = mlx_new_image(var->mlx, 10 * MAP_SZ, 10 * MAP_SZ);
 	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height,
 			&var->img->width, &var->img->endian);
 }

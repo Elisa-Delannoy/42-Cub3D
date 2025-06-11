@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 15:55:09 by edelanno          #+#    #+#             */
+/*   Updated: 2025/06/11 15:55:44 by edelanno         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3D.h"
 
 void	map_border(t_var *var)
@@ -7,10 +19,10 @@ void	map_border(t_var *var)
 
 	x = 0;
 	y = 0;
-	while (x < MAP_sz * 10)
+	while (x < MAP_SZ * 10)
 		my_put_pixel(var->img, y, x++, 0xFFFFFF);
 	x--;
-	while (y < MAP_sz * 10)
+	while (y < MAP_SZ * 10)
 		my_put_pixel(var->img, y++, x, 0xFFFFFF);
 	y--;
 	while (x > 0)
@@ -27,14 +39,14 @@ void	draw_minimap_pixel(t_var *var, int mini_x, int mini_y, int color)
 	int	py;
 
 	i = -1;
-	while (++i < MAP_sz)
+	while (++i < MAP_SZ)
 	{
 		j = -1;
-		while (++j < MAP_sz)
+		while (++j < MAP_SZ)
 		{
 			px = mini_x + j;
 			py = mini_y + i;
-			if (px >= 0 && py >= 0 && px < MAP_sz * 10 && py < MAP_sz * 10)
+			if (px >= 0 && py >= 0 && px < MAP_SZ * 10 && py < MAP_SZ * 10)
 				my_put_pixel(var->img, py, px, color);
 		}
 	}
@@ -47,10 +59,10 @@ void	draw_minimap_cell(t_var *var, int cell_x, int cell_y, double scale)
 	if (cell_x < 0 || cell_y < 0 || cell_x >= var->map->width
 		|| cell_y >= var->map->height)
 		return ;
-	var->minimap->rel_x = (cell_x * GAME_sz) - var->player->pos_x;
-	var->minimap->rel_y = (cell_y * GAME_sz) - var->player->pos_y;
-	var->minimap->mini_x = MAP_sz * 5 + (int)(var->minimap->rel_x * scale);
-	var->minimap->mini_y = MAP_sz * 5 + (int)(var->minimap->rel_y * scale);
+	var->minimap->rel_x = cell_x - var->player->pos_x;
+	var->minimap->rel_y = cell_y - var->player->pos_y;
+	var->minimap->mini_x = MAP_SZ * 5 + (int)(var->minimap->rel_x * scale);
+	var->minimap->mini_y = MAP_SZ * 5 + (int)(var->minimap->rel_y * scale);
 	color = 0x0;
 	draw_minimap_pixel(var, var->minimap->mini_x,
 		var->minimap->mini_y, color);
@@ -73,7 +85,7 @@ void	do_minimap(t_var *var)
 
 	px = (int)(var->player->pos_x);
 	py = (int)(var->player->pos_y);
-	scale = (double)MAP_sz;
+	scale = (double)MAP_SZ;
 	delta_y = -5;
 	while (delta_y <= 5)
 	{
@@ -94,5 +106,5 @@ void	draw_minimap(t_var *var)
 	make_minimap(var);
 	do_minimap(var);
 	map_border(var);
-	draw_mini_wall(var, 4.5 * MAP_sz, 4.5 * MAP_sz, var->icon);
+	draw_mini_wall(var, 4.5 * MAP_SZ, 4.5 * MAP_SZ, var->icon);
 }
