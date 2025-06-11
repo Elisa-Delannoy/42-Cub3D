@@ -8,7 +8,7 @@ RESET = \033[0m
 CFLAGS = -Wall -Werror -Wextra -g -Iinclude
 FMLX = -I/usr/include -Iminilibx-linux
 LINKMLX = -Lminilibx-linux -lmlx -lXext -lX11 -lm -lz
-SOURCES = ./free.c ./game.c ./init2.c ./init3.c ./init.c ./key_mouse.c ./main.c ./mini_map2.c ./mini_map.c ./movement.c ./parsing/bonus.c ./parsing/check_first_part_file.c ./parsing/check_map.c ./parsing/check_map_space.c ./parsing/check_map_wall.c ./parsing/color.c ./parsing/coordinates.c ./parsing/parse.c ./raycasting2.c ./raycasting.c ./torch.c ./utils2.c ./utils.c ./window.c 
+SOURCES = ./game/game.c ./game/key_mouse.c ./game/movement.c ./game/torch.c ./game/window.c ./init_free/free.c ./init_free/init2.c ./init_free/init3.c ./init_free/init.c ./main.c ./minimap/mini_map2.c ./minimap/mini_map.c ./parsing/bonus.c ./parsing/check_first_part_file.c ./parsing/check_map.c ./parsing/check_map_space.c ./parsing/check_map_wall.c ./parsing/color.c ./parsing/coordinates.c ./parsing/parse.c ./raycasting/raycasting2.c ./raycasting/raycasting.c ./utils/utils2.c ./utils/utils.c 
 
 LIBFT = libft/libft.a
 MLX = minilibx-linux/libmlx.a

@@ -1,9 +1,9 @@
-NO wall2.xpm
-SO wall2.xpm
-WE wall2.xpm
-EA wall2.xpm
-DO door.xpm
-EX end.xpm
+NO textures/wall2.xpm
+SO textures/wall2.xpm
+WE textures/wall2.xpm
+EA textures/wall2.xpm
+DO textures/door.xpm
+EX textures/end.xpm
 
 F 74,73,72
 C 48,47,46

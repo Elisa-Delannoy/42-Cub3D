@@ -1,10 +1,35 @@
 #include "cub3D.h"
 
+void	free_img(t_var *var)
+{
+	mlx_destroy_image(var->mlx, var->torch[0].img);
+	mlx_destroy_image(var->mlx, var->torch[1].img);
+	mlx_destroy_image(var->mlx, var->torch[2].img);
+	mlx_destroy_image(var->mlx, var->torch[3].img);
+	mlx_destroy_image(var->mlx, var->torch[4].img);
+	mlx_destroy_image(var->mlx, var->batterie[0].img);
+	mlx_destroy_image(var->mlx, var->batterie[1].img);
+	mlx_destroy_image(var->mlx, var->batterie[2].img);
+	mlx_destroy_image(var->mlx, var->victory.img);
+	mlx_destroy_image(var->mlx, var->end.img);
+	mlx_destroy_image(var->mlx, var->gameover.img);
+	mlx_destroy_image(var->mlx, var->icon.img);
+	mlx_destroy_image(var->mlx, var->no_t.img);
+	mlx_destroy_image(var->mlx, var->so_t.img);
+	mlx_destroy_image(var->mlx, var->ea_t.img);
+	mlx_destroy_image(var->mlx, var->we_t.img);
+	mlx_destroy_image(var->mlx, var->door_t.img);
+	mlx_destroy_image(var->mlx, var->exit_t.img);
+	mlx_destroy_image(var->mlx, var->img->img);
+	mlx_destroy_image(var->mlx, var->img_g->img);
+}
+
 int	clear_all(t_var *var)
 {
 	mlx_do_key_autorepeaton(var->mlx);
 	mlx_destroy_window(var->mlx, var->win);
 	mlx_destroy_display(var->mlx);
+	free_img(var);
 	free(var->mlx);
 	exit (EXIT_SUCCESS);
 	return (0);
@@ -53,4 +78,6 @@ void	ft_free_all(t_var *var)
 		free (var->img);
 	if (var->img_g != NULL)
 		free (var->img_g);
+	if (var->mlx)
+		clear_all(var);
 }

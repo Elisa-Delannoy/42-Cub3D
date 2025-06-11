@@ -157,12 +157,10 @@ typedef struct s_var
 	double		height;
 	double		width;
 	int			end_g;
-	t_cast		*cast;
+
 	t_img		*img;
 	t_img		*img_g;
 	t_img		*torch;
-	t_player	*player;
-	t_map		*map;
 	t_img		icon;
 	t_img		*batterie;
 	t_img		no_t;
@@ -174,6 +172,9 @@ typedef struct s_var
 	t_img		end;
 	t_img		gameover;
 	t_img		victory;
+	t_cast		*cast;
+	t_player	*player;
+	t_map		*map;
 	t_minimap	*minimap;
 	t_light		*light;
 } t_var;

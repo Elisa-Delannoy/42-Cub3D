@@ -15,11 +15,11 @@ t_img	*set_timer(t_var *var)
 	gettimeofday(&var->tv, NULL);
 	var->start_t = var->tv.tv_sec;
 	batterie = malloc(sizeof(t_img) * 5);
-	batterie[0].img = mlx_xpm_file_to_image(var->mlx, "batterie3.xpm",
+	batterie[0].img = mlx_xpm_file_to_image(var->mlx, "textures/batterie3.xpm",
 			&batterie[0].width, &batterie[0].height);
-	batterie[1].img = mlx_xpm_file_to_image(var->mlx, "batterie2.xpm",
+	batterie[1].img = mlx_xpm_file_to_image(var->mlx, "textures/batterie2.xpm",
 			&batterie[1].width, &batterie[1].height);
-	batterie[2].img = mlx_xpm_file_to_image(var->mlx, "batterie1.xpm",
+	batterie[2].img = mlx_xpm_file_to_image(var->mlx, "textures/batterie1.xpm",
 			&batterie[2].width, &batterie[2].height);
 	batterie[0].data_img = mlx_get_data_addr(batterie[0].img, &batterie[0].bpp,
 			&batterie[0].line_len, &batterie[0].endian);
@@ -36,15 +36,15 @@ t_img	*init_torch(t_var *var)
 
 	torch = malloc(sizeof(t_img) * 5);
 	torch[4].img = mlx_xpm_file_to_image(var->mlx,
-			"torch1.xpm", &torch[4].width, &torch[4].height);
+			"textures/torch1.xpm", &torch[4].width, &torch[4].height);
 	torch[3].img = mlx_xpm_file_to_image(var->mlx,
-			"torch2.xpm", &torch[3].width, &torch[3].height);
+			"textures/torch2.xpm", &torch[3].width, &torch[3].height);
 	torch[2].img = mlx_xpm_file_to_image(var->mlx,
-			"torch3.xpm", &torch[2].width, &torch[2].height);
+			"textures/torch3.xpm", &torch[2].width, &torch[2].height);
 	torch[1].img = mlx_xpm_file_to_image(var->mlx,
-			"torch5.xpm", &torch[1].width, &torch[1].height);
+			"textures/torch5.xpm", &torch[1].width, &torch[1].height);
 	torch[0].img = mlx_xpm_file_to_image(var->mlx,
-			"torch4.xpm", &torch[0].width, &torch[0].height);
+			"textures/torch4.xpm", &torch[0].width, &torch[0].height);
 	torch[4].data_img = mlx_get_data_addr(torch[4].img,
 			&torch[4].bpp, &torch[4].line_len, &torch[4].endian);
 	torch[3].data_img = mlx_get_data_addr(torch[3].img,
@@ -60,11 +60,11 @@ t_img	*init_torch(t_var *var)
 
 void	init_img_end(t_var *var)
 {
-	var->gameover.img = mlx_xpm_file_to_image(var->mlx, "gameover.xpm",
+	var->gameover.img = mlx_xpm_file_to_image(var->mlx, "textures/gameover.xpm",
 			&var->gameover.width, &var->gameover.height);
 	var->gameover.data_img = mlx_get_data_addr(var->gameover.img,
 			&var->gameover.bpp, &var->gameover.line_len, &var->gameover.endian);
-	var->victory.img = mlx_xpm_file_to_image(var->mlx, "victory.xpm",
+	var->victory.img = mlx_xpm_file_to_image(var->mlx, "textures/victory.xpm",
 			&var->victory.width, &var->victory.height);
 	var->victory.data_img = mlx_get_data_addr(var->victory.img,
 			&var->victory.bpp, &var->victory.line_len, &var->victory.endian);
@@ -74,7 +74,10 @@ void	make_minimap(t_var *var)
 {
 	var->img = init_img();
 	var->img->img = mlx_new_image(var->mlx, 10 * MAP_sz, 10 * MAP_sz);
-	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height, &var->img->width, &var->img->endian);
-	var->icon.img = mlx_xpm_file_to_image(var->mlx, "icon.xpm", &var->icon.width, &var->icon.height);
-	var->icon.data_img = mlx_get_data_addr(var->icon.img, &var->icon.bpp, &var->icon.line_len, &var->icon.endian);
+	var->img->data_img = mlx_get_data_addr(var->img->img, &var->img->height,
+			&var->img->width, &var->img->endian);
+	var->icon.img = mlx_xpm_file_to_image(var->mlx, "textures/icon.xpm",
+			&var->icon.width, &var->icon.height);
+	var->icon.data_img = mlx_get_data_addr(var->icon.img, &var->icon.bpp,
+			&var->icon.line_len, &var->icon.endian);
 }
