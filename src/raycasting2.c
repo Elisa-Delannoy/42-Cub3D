@@ -19,7 +19,7 @@ t_img	select_texture(t_var *var, t_cast *cast)
 	else
 	{
 		texture = var->no_t;
-		return (ft_putstr_fd("Error: texture direction", 2), texture); /*VOIR SI FREE*/
+		return (ft_putstr_fd("Error: texture direction", 2), texture);
 	}
 	return (texture);
 }
