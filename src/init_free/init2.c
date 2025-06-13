@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:54:50 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:54:51 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:33:29 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ t_img	init_texture(t_var *var, int dir)
 	new_text.img = mlx_xpm_file_to_image(var->mlx, path, &new_text.width,
 			&new_text.height);
 	if (new_text.img == NULL)
-		return (ft_putstr_fd("Error : invalid texture ", 2),
-			ft_putendl_fd(path, 2), ft_free_all(var), exit(2), new_text);
+		return (ft_putstr_fd("Error : invaliiiiid texture ", 2),
+			ft_free_all(var), exit(2), new_text);
 	new_text.data_img = mlx_get_data_addr(new_text.img, &new_text.bpp,
 			&new_text.line_len, &new_text.endian);
 	return (new_text);

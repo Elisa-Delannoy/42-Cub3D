@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:20 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 17:40:47 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:47:06 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,24 @@ int	check_color(char **color)
 	int		i;
 	int		j;
 	int		check;
-	char	*test;
+	char	**test;
 
 	i = 0;
 	check = 0;
 	while (color[i])
 	{
 		j = 0;
-		while (ft_check_space(color[i][j]) == 0)
-			j++;
-		check = ft_atoi(color[i] + j);
-		test = ft_itoa(check);
-		if (check < 0 || check > 255 || i > 2
-			|| ft_strcmp(test, color[i] + j) != 0)
-			return (free(test), 1);
+		test = ft_split(color[i], ' ');
+		if (test[0])
+			check = ft_atoi(test[0]);
+		else
+			return (free_split(test), 1);
+		if (test[1])
+			return (free_split(test), 1);
+		if (check < 0 || check > 255 || i > 2)
+			return (free_split(test), 1);
 		i++;
-		if (test)
-			free(test);
+		free_split(test);
 	}
 	if (i < 3)
 		return (1);
@@ -53,9 +54,8 @@ void	color_f(t_var *var, t_map *map, int i, int *j)
 		(*j)++;
 	tab_f = ft_split(map->tab_file[i] + start, ',');
 	if (map->tab_file[i][*j] || check_color(tab_f) == 1)
-		return (ft_putstr_fd("Error: invalid F color", 2),
-			ft_putendl_fd(map->tab_file[i] + start, 2), free_split(tab_f),
-			ft_free_all(var), exit(1));
+		return (ft_putstr_fd("Error: invalid F color\n", 2),
+			free_split(tab_f), ft_free_all(var), exit(1));
 	map->color_f = rgb_to_int(tab_f);
 	free_split(tab_f);
 }
@@ -73,9 +73,8 @@ void	color_c(t_var *var, t_map *map, int i, int *j)
 		(*j)++;
 	tab_c = ft_split(map->tab_file[i] + start, ',');
 	if (map->tab_file[i][*j] || check_color(tab_c) == 1)
-		return (ft_putstr_fd("Error: invalid C color", 2),
-			ft_putendl_fd(map->tab_file[i] + start, 2), free_split(tab_c),
-			ft_free_all(var), exit(1));
+		return (ft_putstr_fd("Error: invalid C color\n", 2),
+			free_split(tab_c), ft_free_all(var), exit(1));
 	map->color_c = rgb_to_int(tab_c);
 	free_split(tab_c);
 }

@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:21 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:22 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:57:24 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,14 @@ void	check_coordinate(t_var *var, char **dir, int i, int *j)
 		fd = open(*dir, O_RDONLY);
 	}
 	if (fd == -1 || *dir == NULL || (*dir)[ft_strlen(*dir) - 1] == '/')
-		return (ft_putstr_fd("Error: invalid texture ", 2),
-			ft_putendl_fd(*dir, 2), ft_free_all(var), exit(1));
+	{
+		ft_putstr_fd("Error: invalid texture ", 2);
+		if (*dir != NULL)
+			ft_putendl_fd(*dir, 2);
+		else
+			ft_putstr_fd("\n", 2);
+		return (ft_free_all(var), exit(1));
+	}
 }
 
 int	ft_is_coordinates(t_var *var, t_map *map, int i, int *j)

@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:54:02 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:54:03 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:03:05 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,17 @@ void	move_down(t_map *map, t_player *player, double speed)
 	double	anticip_y;
 	int		check;
 
-	anticip_y = player->pos_y + (player->dir_y * speed) * 10.0F;
-	anticip_x = player->pos_x + (player->dir_x * speed) * 10.0F;
+	anticip_y = player->pos_y - (player->dir_y * speed) * 10.0F;
+	anticip_x = player->pos_x - (player->dir_x * speed) * 10.0F;
 	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (check != 0 && map->tab_map[(int)(anticip_y)]
-		[(int)(player->pos_x)] != '1')
-		player->pos_x -= player->dir_x * speed;
-	if (check != 2 && map->tab_map[(int)(player->pos_y)]
-		[(int)(anticip_x)] != '1')
+		[(int)(player->pos_x)] != '1' && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != 'D')
 		player->pos_y -= player->dir_y * speed;
+	if (check != 2 && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != '1' && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != 'D')
+		player->pos_x -= player->dir_x * speed;
 }
 
 void	move_left(t_map *map, t_player *player, double speed)
@@ -58,10 +60,12 @@ void	move_left(t_map *map, t_player *player, double speed)
 	anticip_x = player->pos_x - player->plane_x * (speed * 10.0f);
 	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (check != 0 && map->tab_map[(int)(anticip_y)]
-		[(int)(player->pos_x)] != '1')
+		[(int)(player->pos_x)] != '1' && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != 'D')
 		player->pos_y -= player->plane_y * speed;
 	if (check != 2 && map->tab_map[(int)(player->pos_y)]
-		[(int)(anticip_x)] != '1')
+		[(int)(anticip_x)] != '1' && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != 'D')
 		player->pos_x -= player->plane_x * speed;
 }
 
@@ -75,10 +79,12 @@ void	move_right(t_map *map, t_player *player, double speed)
 	anticip_x = player->pos_x + player->plane_x * (speed * 10.0f);
 	check = check_in_map(map, (int)(anticip_y), (int)(anticip_x));
 	if (check != 0 && map->tab_map[(int)(anticip_y)]
-		[(int)(player->pos_x)] != '1')
+		[(int)(player->pos_x)] != '1' && map->tab_map[(int)(anticip_y)]
+		[(int)(player->pos_x)] != 'D')
 		player->pos_y += player->plane_y * speed;
 	if (check != 2 && map->tab_map[(int)(player->pos_y)]
-		[(int)(anticip_x)] != '1')
+		[(int)(anticip_x)] != '1' && map->tab_map[(int)(player->pos_y)]
+		[(int)(anticip_x)] != 'D')
 		player->pos_x += player->plane_x * speed;
 }
 
