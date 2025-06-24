@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:07 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 18:48:40 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:56:51 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,27 +92,24 @@ int	check_w_s_d(t_map *map, int i, int j)
 {
 	if (map->c_d == 1)
 	{
+		if (map->tab_map[i][j] == 'D')
+			map->nb_door++;
 		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
 				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'D')
 			return (1);
 	}
-	if (map->c_d == 0)
-	{
-		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
-				|| map->tab_map[i][j] == '0')
-			return (1);
-	}
 	if (map->c_x == 1)
 	{
+		if (map->tab_map[i][j] == 'X')
+			map->nb_exit++;
+		if (map->nb_exit > 1)
+			return (0);
 		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
 				|| map->tab_map[i][j] == '0' || map->tab_map[i][j] == 'X')
 			return (1);
 	}
-	if (map->c_d == 0)
-	{
-		if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
-				|| map->tab_map[i][j] == '0')
-			return (1);
-	}
+	if (map->tab_map[i][j] == ' ' || map->tab_map[i][j] == '1'
+			|| map->tab_map[i][j] == '0')
+		return (1);
 	return (0);
 }

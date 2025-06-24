@@ -6,21 +6,38 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:16 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:17 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:03:31 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+int	check_character(t_map *map)
+{
+	int		count_empty;
+
+	count_empty = count_character(map->tab_map, '0');
+	if (count_empty != count_character(map->temp, '0'))
+		return (ft_putstr_fd("Error: invalid map (missing wall)\n", 2), 1);
+	if (map->nb_door != count_character(map->temp, 'D'))
+		return (ft_putstr_fd("Error: invalid map\n", 2), 1);
+	if (0 == count_character(map->temp, 'N')
+		&& 0 == count_character(map->temp, 'S')
+		&& 0 == count_character(map->temp, 'E')
+		&& 0 == count_character(map->temp, 'W'))
+		return (ft_putstr_fd("Error: player should be in map\n", 2), 1);
+	if (map->c_x && 1 != count_character(map->temp, 'X'))
+		return (ft_putstr_fd("Error: invalid map\n", 2), 1);
+	return (0);
+}
+
 int	check_wall(t_map *map)
 {
-	int		count;
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
-	i = 0;
 	map->temp = tab_cpy(map->tab_map, map->height);
-	count = count_empty(map->tab_map);
+	i = 0;
 	while (map->temp[i])
 	{
 		j = 0;
@@ -32,8 +49,8 @@ int	check_wall(t_map *map)
 		}
 		i++;
 	}
-	if (count != count_empty(map->temp))
-		return (ft_putstr_fd("Error: invalid map (missing wall)\n", 2), 1);
+	if (check_character(map) == 1)
+		return (1);
 	return (0);
 }
 
@@ -70,16 +87,28 @@ int	check_vertical(t_map *map, int j, char c)
 	return (0);
 }
 
-int	check_wall_min_max(t_var *var)
+int	check_outside_wall(t_map *map)
 {
-	if (check_horizontal(var->map->tab_map[0], '1', '1') == 0
-		&& !check_horizontal(var->map->tab_map[var->map->height - 1], '1', '1')
-		&& check_vertical(var->map, 0, '1') == 0)
-		return (0);
-	if (check_horizontal(var->map->tab_map[0], '1', ' ') != 0
-		|| check_horizontal(var->map->tab_map[var->map->height - 1], '1', ' ')
-		|| check_vertical(var->map, 0, ' ') != 0)
-		return (ft_putstr_fd("Error: invalid map (missing wall)\n", 2),
-			ft_free_all(var), exit(1), 1);
-	return (2);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map->tab_map[i])
+	{
+		j = 0;
+		while (map->tab_map[i][j])
+		{
+			if (map->tab_map[i][j] != '1')
+				j++;
+			else if ((i > 0 && map->tab_map[i - 1][j] != ' ')
+				|| (i < map->height - 1 && map->tab_map[i + 1][j] != ' ')
+				|| (j > 0 && map->tab_map[i][j - 1] != ' ')
+				|| (j < map->width - 1 && map->tab_map[i][j + 1] != ' '))
+				j++;
+			else
+				return (0);
+		}
+		i++;
+	}
+	return (1);
 }

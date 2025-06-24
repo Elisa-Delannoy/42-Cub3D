@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:14 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:15 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:58:13 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,14 @@ int	delete_space(t_map *map)
 		line = ft_strrchr(map->tab_map[i], '1');
 		if (check_ok_delete(line) == 1)
 			return (1);
+		len = ft_strlen(map->tab_map[i]);
 		if (ft_strlen(line) > 1 && map->tab_map[i] != NULL)
 		{
 			temp = ft_strdup(map->tab_map[i]);
 			len = (int)ft_strlen(temp) - (int)ft_strlen(line) + 1;
-			free (map->tab_map[i]);
-			map->tab_map[i] = ft_substr(temp, 0, len);
 			free (temp);
 		}
-		if ((int)ft_strlen(map->tab_map[i]) > map->width)
+		if (len > map->width)
 			map->width = ft_strlen(map->tab_map[i]);
 		i++;
 	}
@@ -127,15 +126,15 @@ void	check_space_in_map(t_var *var, int i, int j)
 					j++;
 			}
 		}
-		else if (j == 0 && var->map->temp[i][j] == ' ')
-			floodfill_space_wall(var->map, i, j, ' ');
+		else
+		{
+			if (var->map->temp[i][0] == ' ')
+				floodfill_space_wall(var->map, i, 0, ' ');
+			if (var->map->temp[i][ft_strlen(var->map->temp[i]) - 1] == ' ')
+				floodfill_space_wall(var->map, i,
+					ft_strlen(var->map->temp[i]) - 1, ' ');
+		}
 		i++;
-	}
-	while (i > 0 && var->map->temp[--i])
-	{
-		if (ft_strrchr(var->map->temp[i], ' ') != NULL)
-			return (ft_putstr_fd("Error: invalid character\n", 2),
-				ft_free_all(var), exit(1));
 	}
 	free_split(var->map->temp);
 }

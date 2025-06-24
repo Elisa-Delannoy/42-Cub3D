@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:18 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 15:56:19 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:00:50 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_check_ascii(t_var *var, t_map *map, int i, int j)
 			ft_free_all(var), exit(2));
 }
 
-int	count_empty(char **tab)
+int	count_character(char **tab, char c)
 {
 	int	i;
 	int	j;
@@ -96,7 +96,7 @@ int	count_empty(char **tab)
 		j = 0;
 		while (tab[i][j])
 		{
-			if (tab[i][j] == '0')
+			if (tab[i][j] == c)
 				count++;
 			j++;
 		}
@@ -112,13 +112,13 @@ int	check_map(t_var *var, int *i)
 	if (delete_space(var->map) == 1)
 		return (1);
 	ft_check_ascii(var, var->map, -1, 0);
+	add_space_end(var->map);
 	check_space_in_map(var, 0, 0);
 	var->map->temp = NULL;
-	if (check_wall_min_max(var) != 0)
-	{
-		add_space_end(var->map);
-		if (check_wall(var->map) == 1)
-			return (1);
-	}
+	if (check_wall(var->map) == 1)
+		return (1);
+	if (check_outside_wall(var->map) == 0)
+		return (ft_putstr_fd("Error: invalid maap\n", 2),
+			ft_free_all(var), exit(2), 1);
 	return (0);
 }

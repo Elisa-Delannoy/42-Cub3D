@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:53:43 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/11 17:15:45 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/24 14:03:06 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct s_map
 	int		color_c;
 	int		height;
 	int		width;
+	int		nb_door;
+	int		nb_exit;
 }	t_map;
 
 typedef struct s_light
@@ -188,6 +190,7 @@ typedef struct s_var
 	t_light			*light;
 }	t_var;
 
+
 double		radian(int degree);
 void		init_all_textures(t_var *var);
 void		check_end_game(t_var *var, t_player *player);
@@ -221,8 +224,8 @@ void		open_close_d(t_var *var, t_map *map);
 void		clear_all(t_var *var);
 char		*check_texture(t_map *map, int i, int *j);
 char		**tab_cpy(char **tab, int size);
+int			check_outside_wall(t_map *map);
 int			ft_check_space(char c);
-int			check_wall_min_max(t_var *var);
 int			check_wall(t_map *map);
 int			ft_free_all(t_var *var);
 int			delete_space(t_map *map);
@@ -242,7 +245,7 @@ int			shadow(int color, double coeff);
 int			check_in_map(t_map *map, int y, int x);
 int			check_time(t_var *var);
 int			check_map(t_var *var, int *i);
-int			count_empty(char **tab);
+int			count_character(char **tab, char c);
 int			ft_check_instruct(t_var *var);
 t_img		*init_torch(t_var *var);
 t_light		*init_light(t_var *var);
