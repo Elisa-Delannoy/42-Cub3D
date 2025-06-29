@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_wall.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: edelanno <edelanno@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:16 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/24 14:03:31 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:58:25 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ int	check_wall(t_map *map)
 		j = 0;
 		while (map->temp[i][j])
 		{
+			if ((i == 0 || i == map->height - 1)
+				&& !(map->temp[i][j] == '1' || map->temp[i][j] == ' '))
+				return (ft_putstr_fd("Error: invalid map\n", 2), 1);
+			if ((j == 0 || j == map->width - 1)
+				&& !(map->temp[i][j] == '1' || map->temp[i][j] == ' '))
+				return (ft_putstr_fd("Error: invalid map\n", 2), 1);
 			if (ft_check_space(map->temp[i][j]) == 0)
 				floodfill_space_wall(map, i, j, '1');
 			j++;

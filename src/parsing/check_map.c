@@ -6,7 +6,7 @@
 /*   By: edelanno <edelanno@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 15:56:18 by edelanno          #+#    #+#             */
-/*   Updated: 2025/06/24 14:00:50 by edelanno         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:14:43 by edelanno         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	check_map(t_var *var, int *i)
 	if (check_wall(var->map) == 1)
 		return (1);
 	if (check_outside_wall(var->map) == 0)
-		return (ft_putstr_fd("Error: invalid maap\n", 2),
+		return (ft_putstr_fd("Error: invalid map\n", 2),
 			ft_free_all(var), exit(2), 1);
 	return (0);
 }
